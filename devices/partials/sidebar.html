@@ -1,0 +1,69 @@
+<!-- partial:partials/_sidebar.html -->
+<aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
+	<div class="mdc-drawer__header">
+		<a href="<?php echo $iotURL?>devices/home.php" class="brand-logo">
+			<img src="<?php echo $iotURL?>/assets/images/iot_logo.png" alt="logo">
+		</a>
+	</div>
+	<div class="mdc-drawer__content">
+		<div class="mdc-list-group">
+			<nav class="mdc-list mdc-drawer-menu">
+				<div class="mdc-list-item mdc-drawer-item">
+					<a class="mdc-drawer-link" href="<?php echo $iotURL?>devices/home.php">
+						<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
+						   aria-hidden="true">home</i>
+						Dashboard
+					</a>
+				</div>
+				<div class="mdc-list-item mdc-drawer-item">
+					<a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel"
+					   data-target="ui-sub-menu">
+						<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
+						   aria-hidden="true">dashboard</i>
+						Device Config
+						<i class="mdc-drawer-arrow material-icons">chevron_right</i>
+					</a>
+					<div class="mdc-expansion-panel" id="ui-sub-menu">
+						<nav class="mdc-list mdc-drawer-submenu">
+							<div class="mdc-list-item mdc-drawer-item">
+								<a class="mdc-drawer-link" href="<?php echo $iotURL?>devices/pages/devices/addDevice.php">
+									Add Device
+								</a>
+							</div>
+							<div class="mdc-list-item mdc-drawer-item">
+								<a class="mdc-drawer-link" href="<?php echo $iotURL?>devices/pages/devices/manageDeviceType.php">
+									Device Type
+								</a>
+							</div>
+							<div class="mdc-list-item mdc-drawer-item">
+								<a class="mdc-drawer-link" href="<?php echo $iotURL?>devices/pages/devices/manageDeviceParameterType.php">
+									Device Parameter
+								</a>
+							</div>
+							<div class="mdc-list-item mdc-drawer-item">
+								<a class="mdc-drawer-link" href="<?php echo $iotURL?>devices/pages/devices/manageDevParameterConfig.php">
+									Parameter Config
+								</a>
+							</div>
+						</nav>
+					</div>
+				</div>
+				<div class="mdc-list-item mdc-drawer-item">
+					<a class="mdc-drawer-link" href="pages/tables/basic-tables.html">
+						<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
+						   aria-hidden="true">grid_on</i>
+						Users
+					</a>
+				</div>
+				<div class="mdc-list-item mdc-drawer-item">
+					<a class="mdc-drawer-link" href="pages/charts/chartjs.html">
+						<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
+						   aria-hidden="true">pie_chart_outlined</i>
+						Logs
+					</a>
+				</div>
+			</nav>
+		</div>
+	</div>
+</aside>
+<!-- partial -->

@@ -1,0 +1,27 @@
+.mdc-notched-outline{
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 5px;
+}
+
+.form_bg{
+    background: #fff;
+    padding: 5%;
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+    font-size: small !important;
+}
+
+.fm-item-disabled{
+    pointer-events: none;
+    color: #898989;
+}
+
+.template-demo > .mdc-select {
+     margin-top: 0px !important;
+     margin-right: 0px !important;
+}
+
+.w100{
+    width: 100%;
+}
