@@ -17,20 +17,20 @@
 		$temperature_upp_tolerance = $_POST["temp_upper_tolerance"];
 		$temperature_low_tolerance = $_POST["temp_lower_tolerance"];
 		
-		$humidity_upp_tolerance = $_POST["humidity_upp_tolerance"];
-		$humidity_low_tolerance = $_POST["humidity_low_tolerance"];
+		$humidity_upp_tolerance = $_POST["hum_upper_tolerance"];
+		$humidity_low_tolerance = $_POST["hum_lower_tolerance"];
 		
-		$pressure_upp_tolerance = $_POST["pressure_upp_tolerance"];
-		$pressure_low_tolerance = $_POST["pressure_low_tolerance"];
+		$pressure_upp_tolerance = $_POST["pressure_upper_tolerance"];
+		$pressure_low_tolerance = $_POST["pressure_lower_tolerance"];
 		
-		$iaq_upp_tolerance = $_POST["iaq_upp_tolerance"];
-		$iaq_low_tolerance = $_POST["iaq_low_tolerance"];
+		$iaq_upp_tolerance = $_POST["iaq_upper_tolerance"];
+		$iaq_low_tolerance = $_POST["iaq_lower_tolerance"];
 		
-		$voc_upp_tolerance = $_POST["voc_upp_tolerance"];
-		$voc_low_tolerance = $_POST["voc_low_tolerance"];
+		$voc_upp_tolerance = $_POST["voc_upper_tolerance"];
+		$voc_low_tolerance = $_POST["voc_lower_tolerance"];
 		
-		$co2_upp_tolerance = $_POST["co2_upp_tolerance"];
-		$co2_low_tolerance = $_POST["co2_low_tolerance"];
+		$co2_upp_tolerance = $_POST["co2_upper_tolerance"];
+		$co2_low_tolerance = $_POST["co2_lower_tolerance"];
 		$is_active = 1;
 		$service_url = $rest_api_uri . "devices/iot_device.php";
 		$curl = curl_init($service_url);
@@ -344,6 +344,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="check_humidity_enabled"
+                                   name="check_humidity_enabled"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -364,6 +365,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="check_hum_email_alert"
+                                   name="check_hum_email_alert"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -384,6 +386,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="check_hum_sms_alert"
+                                   name="check_hum_sms_alert"
                                    class="mdc-checkbox__native-control"
                                    disabled/>
                             <div class="mdc-checkbox__background">
@@ -401,7 +404,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="hum_upper_tolerance">
+                        <input class="mdc-text-field__input" id="hum_upper_tolerance" name="hum_upper_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -413,7 +416,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="hum_lower_tolerance">
+                        <input class="mdc-text-field__input" id="hum_lower_tolerance" name="hum_lower_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -429,6 +432,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="checkbox_pressure_enabled"
+                                   name="checkbox_pressure_enabled"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -449,6 +453,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="pressure_email_tolerance_alert"
+                                   name="pressure_email_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -469,6 +474,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="pressure_sms_tolerance_alert"
+                                   name="pressure_sms_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    disabled/>
                             <div class="mdc-checkbox__background">
@@ -486,7 +492,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="pressure_upper_tolerance">
+                        <input class="mdc-text-field__input" id="pressure_upper_tolerance" name="pressure_upper_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -498,7 +504,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="pressure_lower_tolerance">
+                        <input class="mdc-text-field__input" id="pressure_lower_tolerance" name="pressure_lower_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -514,6 +520,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="check_IAQ_enabled"
+                                   name="check_IAQ_enabled"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -534,6 +541,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="iaq_email_tolerance_alert"
+                                   name="iaq_email_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -554,6 +562,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="iaq_sms_tolerance_alert"
+                                   name="iaq_sms_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    disabled/>
                             <div class="mdc-checkbox__background">
@@ -571,7 +580,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="iaq_upper_tolerance">
+                        <input class="mdc-text-field__input" id="iaq_upper_tolerance" name="iaq_upper_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -583,7 +592,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="iaq_lower_tolerance">
+                        <input class="mdc-text-field__input" id="iaq_lower_tolerance" name="iaq_lower_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -599,6 +608,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="check_voc_enabled"
+                                   name="check_voc_enabled"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -619,6 +629,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="voc_email_tolerance_alert"
+                                   name="voc_email_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -639,6 +650,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="voc_sms_tolerance_alert"
+                                   name="voc_sms_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    disabled/>
                             <div class="mdc-checkbox__background">
@@ -656,7 +668,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="voc_upper_tolerance">
+                        <input class="mdc-text-field__input" id="voc_upper_tolerance" name="voc_upper_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -668,7 +680,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="voc_lower_tolerance">
+                        <input class="mdc-text-field__input" id="voc_lower_tolerance" name="voc_lower_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -684,6 +696,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="check_co2_enabled"
+                                   name="check_co2_enabled"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -704,6 +717,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="co2_email_tolerance_alert"
+                                   name="co2_email_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    checked />
                             <div class="mdc-checkbox__background">
@@ -724,6 +738,7 @@
                         <div class="mdc-checkbox">
                             <input type="checkbox"
                                    id="co2_sms_tolerance_alert"
+                                   name="co2_sms_tolerance_alert"
                                    class="mdc-checkbox__native-control"
                                    disabled/>
                             <div class="mdc-checkbox__background">
@@ -741,7 +756,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="co2_upper_tolerance">
+                        <input class="mdc-text-field__input" id="co2_upper_tolerance" name="co2_upper_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">
@@ -753,7 +768,7 @@
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                        <input class="mdc-text-field__input" id="co2_lower_tolerance">
+                        <input class="mdc-text-field__input" id="co2_lower_tolerance" name="co2_lower_tolerance">
                         <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch" style="">

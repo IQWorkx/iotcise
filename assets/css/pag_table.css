@@ -1,0 +1,187 @@
+.panel{
+    font-family: monospace;
+    padding: 0;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+}
+.panel .panel-heading{
+    /*background: #535353;*/
+    /*background: #1F5D96;*/
+    padding: 8px 15px;
+    border-radius: 0;
+    background: linear-gradient(
+            45deg,
+            var(--col-secondary) 0%,
+            var(--col-dark) 100%
+    );
+    color: white;
+    text-shadow: 0 4px 0 var(--col-dark);
+}
+.panel .panel-heading .btn{
+    color: #fff;
+    background: var(--col-primary);
+    /*background-color: #000;*/
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px;
+    border: none;
+    border-radius: 0;
+    transition: all 0.3s ease 0s;
+}
+
+.panel .panel-heading .btn:hover{ box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+.panel .panel-heading .form-horizontal .form-group{ margin: 0; }
+.panel .panel-heading .form-horizontal label{
+    color: #fff;
+    margin-right: 10px;
+}
+.panel .panel-heading .form-horizontal .form-control{
+    display: inline-block;
+    width: 80px;
+    border: none;
+    border-radius: 0;
+}
+.panel .panel-heading .form-horizontal .form-control:focus{
+    box-shadow: none;
+    border: none;
+}
+.panel .panel-body{
+    padding: 0;
+    border-radius: 0;
+}
+.panel .panel-body .table thead tr th{
+    color: #fff;
+    /*background: #8D8D8D;*/
+    /*background: #4980bec9;*/
+    background: var(--col-primary);
+    font-size: 17px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-bottom: none;
+    text-transform: uppercase;
+    vertical-align: inherit;
+}
+/*.panel .panel-body .table thead tr th:nth-of-type(1){ width: 120px; }*/
+/*.panel .panel-body .table thead tr th:nth-of-type(3){ width: 50%; }*/
+.panel .panel-body .table tbody tr td{
+    color: #555;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px;
+    vertical-align: middle;
+    border-color: #e7e7e7;
+}
+.panel .panel-body .table tbody tr:nth-child(odd) td{ background: #f5f5f5; }
+.panel .panel-body .table tbody .action-list{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.panel .panel-body .table tbody .action-list li{ display: inline-block; }
+.panel .panel-body .table tbody .action-list li a{
+    color: #fff;
+    font-size: 13px;
+    line-height: 28px;
+    height: 28px;
+    width: 33px;
+    padding: 0;
+    border-radius: 0;
+    transition: all 0.3s ease 0s;
+}
+.panel .panel-body .table tbody .action-list li a:hover{ box-shadow: 0 0 5px #ddd; }
+.panel .panel-footer{
+    color: #fff;
+    /*background: #535353;*/
+    background: #1F5D96;
+    font-size: 16px;
+    line-height: 33px;
+    padding: 10px 15px;
+    border-radius: 0;
+}
+.pagination{ margin: 0; }
+.pagination li a{
+    color: #fff;
+    background-color: rgba(0,0,0,0.3);
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 2px;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease 0s;
+}
+.pagination li a:hover,
+.pagination li a:focus,
+.pagination li.active a{
+    color: #fff;
+    background-color: #000;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+}
+.pull-right {
+    float: right!important;
+    display: contents;
+}
+
+label {
+    vertical-align: inherit !important;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #fc424a !important;
+    border-color: #fc424a !important;
+    border-radius: 5px !important;
+    margin-top: 5px;
+}
+
+.pText{
+    color: #007bff;
+}
+
+.edit-btn{
+    border: 1px solid var(--col-primary) !important;
+    color: var(--col-primary) !important;
+    border-radius: 5px;
+    padding: 8px 4px 2px 4px;
+}
+
+.li_active{
+    border-radius: 5px;
+    border: 1px solid var(--col-light) !important;
+
+}
+.ptab_search {
+    font-size: 15px;
+    padding: 5px;
+}
+.ptab_goto_num{
+    font-size: 15px;
+    width: 20%;
+    padding: 0px 5px;
+    height: 90%;
+}
+
+#addDevice{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --col-primary: #296eb3;
+    --col-secondary: #003b81;
+    --col-background: #e8e8e8;
+    --col-light: #e8e8e8;
+    --col-dark: #022f64;
+
+    --col-free: #7dbaff;
+    --col-bronze: #b85a24;
+    --col-silver: #8a8a8a;
+    --col-gold: #e2a922;
+}
+label.ckbox{
+    margin: 0.5rem;
+}
+
+ul{
+    list-style-type: none;
+}
