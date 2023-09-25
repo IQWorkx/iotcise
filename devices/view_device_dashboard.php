@@ -167,7 +167,7 @@ $co2[] = $co2_data;
                                         <div id="myChartDiv">
                                             <canvas id="myChart"></canvas>
                                         </div>
-                                        <a href="javascript:;" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
+                                        <a href="../devices/pages/logs/temperature_dashboard.php" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;" target="_blank">
                                             <i class="material-icons mdc-button__icon">trending_up</i>
                                         </a>
                                     </div>
@@ -180,7 +180,7 @@ $co2[] = $co2_data;
                                         <div id="myChartDiv">
                                             <canvas id="myChart1"></canvas>
                                         </div>
-                                        <a href="javascript:;" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
+                                        <a  href="../devices/pages/logs/humidity_dashboard.php" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;" target="_blank">
                                             <i class="material-icons mdc-button__icon">trending_up</i>
                                         </a>
                                     </div>
@@ -193,7 +193,7 @@ $co2[] = $co2_data;
                                         <div id="myChartDiv">
                                             <canvas id="myChart2"></canvas>
                                         </div>
-                                        <a href="javascript:;" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
+                                        <a  href="../devices/pages/logs/pressure_dashboard.php" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;" target="_blank">
                                             <i class="material-icons mdc-button__icon">trending_up</i>
                                         </a>
                                     </div>
@@ -207,7 +207,7 @@ $co2[] = $co2_data;
                                         <div id="myChartDiv">
                                             <canvas id="myChart3"></canvas>
                                         </div>
-                                        <a href="javascript:;" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
+                                        <a  href="../devices/pages/logs/iaq_dashboard.php" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;" target="_blank">
                                             <i class="material-icons mdc-button__icon">trending_up</i>
                                         </a>
                                     </div>
@@ -220,7 +220,7 @@ $co2[] = $co2_data;
                                         <div id="myChartDiv">
                                             <canvas id="myChart4"></canvas>
                                         </div>
-                                        <a href="javascript:;" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
+                                        <a  href="../devices/pages/logs/voc_dashboard.php" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;" target="_blank">
                                             <i class="material-icons mdc-button__icon">trending_up</i>
                                         </a>
                                     </div>
@@ -233,7 +233,7 @@ $co2[] = $co2_data;
                                         <div id="myChartDiv">
                                             <canvas id="myChart5"></canvas>
                                         </div>
-                                        <a href="javascript:;" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
+                                        <a  href="../devices/pages/logs/co2_dashboard.php" class="mdc-button mdc-button--raised icon-button mdc-ripple-upgraded" style="z-index: 1;float:right;--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 5.09375px, 11.25px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;" target="_blank">
                                             <i class="material-icons mdc-button__icon">trending_up</i>
                                         </a>
                                     </div>

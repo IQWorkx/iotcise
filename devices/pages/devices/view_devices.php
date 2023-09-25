@@ -62,6 +62,16 @@
                     <form action="" id="up-iot-device" method="post" class="form-horizontal"
                           enctype="multipart/form-data">
                         <!--                        <div class="col-md-offset-1 col-md-12">-->
+                        <?php
+                        if (!empty($import_status_message)) {
+                        echo '<div class="alert ' . $message_stauts_class . '">' . $import_status_message . '</div>';
+                        }
+                        if (!empty($_SESSION['import_status_message'])) {
+                        echo '<div><div class="alert ' . $_SESSION['message_stauts_class'] . '">' . $_SESSION['import_status_message'] . '</div></div>';
+                        unset($_SESSION['message_stauts_class']);
+                        unset($_SESSION['import_status_message']);
+                        }
+                        ?>
                         <div class="panel">
                             <div class="panel-heading">
                                 <div class="mdc-layout-grid__inner form_bg">

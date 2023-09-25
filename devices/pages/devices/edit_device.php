@@ -84,19 +84,15 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     curl_close($curl);
     $decoded = json_decode($curl_response);
     if (isset($decoded->status) && $decoded->status == 'ERROR') {
-        $_SESSION["alert_danger_class"] = 'Device Not Added Please Try Again!..';
-        $_SESSION["error_1"] = 'Device Not Added Please Try Again!..';
-        $message_stauts_class = $_SESSION["alert_danger_class"];
-        $import_status_message = $_SESSION["error_1"];
-        header("Location:addDevice.php");
-        exit();
+        $_SESSION['mType'] = mTypeError;
+        $_SESSION['dispMessage'] = $decoded->message;
+        echo json_encode(array("status" => "error", "message" => $decoded->message));
+        exit;
     } else {
-        $_SESSION["alert_success_class"] = 'Device created Successfully';
-        $_SESSION["error_2"] = 'Device created Successfully';
-        $message_stauts_class = $_SESSION["alert_success_class"];
-        $import_status_message = $_SESSION["error_2"];
-        header("Location:view_devices.php");
-        exit();
+        $_SESSION['mType'] = mTypeSucess;
+        $_SESSION['dispMessage'] = 'Device created Successfully';
+        echo json_encode(array("status" => "success", "message" => 'Device created Successfully'));
+        exit;
     }
 }
 
@@ -150,8 +146,7 @@ $assign_by = $_SESSION["id"];
         $title = "Add an IOT Device";
         include('./../../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
-           <!-- <form action="" method="" id="addDeviceForm">-->
-            <form action="" method="post" id="addDeviceForm" enctype="multipart/form-data">
+            <form action="" method="" id="addDeviceForm">
                 <div class="mdc-layout-grid__inner form_bg">
                     <!--     Device type and Customer           -->
                     <div style="margin-top: 10px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
@@ -170,12 +165,13 @@ $assign_by = $_SESSION["id"];
                         <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
                             <div class="w100 template-demo">
                                 <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
-                                    <input type="hidden" name="select_dev_type">
+                                    <input type="hidden" name="dev_type" id="dev_type">
                                     <i class="mdc-select__dropdown-icon"></i>
-                                    <div class="mdc-select__selected-text"></div>
-                                    <div class="mdc-select__menu mdc-menu-surface demo-width-class">
-                                        <ul class="mdc-list">
+                                    <div class="mdc-select__selected-text">
+                                        <select name="dev_type" id="dev_type" class="form-control " data-placeholder="Select Device Type">
+                                            <option value='' selected> Select Device Type </option>
                                             <?php
+
                                             $st_dashboard1 = $_POST['dev_type'];
                                             $sql1 = "SELECT * FROM `iot_device_type` where is_deleted != 1";
                                             $result1 = mysqli_query($iot_db,$sql1);
@@ -189,15 +185,12 @@ $assign_by = $_SESSION["id"];
                                                     $entry = '';
 
                                                 }
-                                                ?>
-                                                <li class="mdc-list-item" data-value="<?php  echo $row1['type_id']; ?>">
-                                                    <?php  echo $row1['dev_type_name']; ?>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
+                                                echo "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";
+                                            }
+                                            ?>
+
+                                        </select>
                                     </div>
-                                    <span class="mdc-floating-label">Select Device Type *</span>
-                                    <div class="mdc-line-ripple"></div>
                                 </div>
                             </div>
                         </div>
@@ -211,28 +204,17 @@ $assign_by = $_SESSION["id"];
                                     <div class="mdc-select__selected-text"></div>
                                     <div class="mdc-select__menu mdc-menu-surface demo-width-class">
                                         <ul class="mdc-list">
-                                            <?php
-                                            $st_dashboard = $_POST['customer'];
-                                            $sql1 = "SELECT * FROM `cus_account` where is_deleted != 1";
-                                            $result1 = mysqli_query($db,$sql1);
-                                            while ($row1 = $result1->fetch_assoc()) {
-                                                if($st_dashboard == $row1['c_id'])
-                                                {
-                                                    $entry = 'selected';
-                                                }
-                                                else
-                                                {
-                                                    $entry = '';
-                                                }
-                                                ?>
-                                                <li class="mdc-list-item" data-value="<?php  echo $row1['c_id']; ?>">
-                                                    <?php  echo $row1['c_name']; ?>
-                                                </li>
-                                            <?php } ?>
+                                            <li class="mdc-list-item" data-value="grains">
+                                                Bread, Cereal, Rice, and Pasta
+                                            </li>
+                                            <li class="mdc-list-item" data-value="vegetables">
+                                                Vegetables
+                                            </li>
+                                            <li class="mdc-list-item" data-value="fruit">
+                                                Fruit
+                                            </li>
                                         </ul>
                                     </div>
-                                    <span class="mdc-floating-label">Select Customer</span>
-                                    <div class="mdc-line-ripple"></div>
                                 </div>
                             </div>
                         </div>
@@ -808,8 +790,6 @@ $assign_by = $_SESSION["id"];
                         <hr style="width: 100%"/>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
-
-                        <!--<button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Submit</button>-->
                         <button class="mdc-button mdc-button--raised" id="submit_btn">
                             Submit
                         </button>
