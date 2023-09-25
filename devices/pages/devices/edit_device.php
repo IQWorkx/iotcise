@@ -6,65 +6,60 @@ include("../../config.php");
 //include("../sup_config.php");
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
-$user_id = $_SESSION["id"];
-if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
-    $c_id = $_POST["select_customer"];
-    $device_id = $_POST["add_dev_id"];
-    $device_name = $_POST["add_dev_name"];
-    $device_desc = $_POST["add_dev_desc"];
-    $type_id = $_POST["select_dev_type"];
-    $device_loc = $_POST["add_dev_location"];
-    $temperature_upp_tolerance = $_POST["temp_upper_tolerance"];
-    $temperature_low_tolerance = $_POST["temp_lower_tolerance"];
-
-    $humidity_upp_tolerance = $_POST["hum_upper_tolerance"];
-    $humidity_low_tolerance = $_POST["hum_lower_tolerance"];
-
-    $pressure_upp_tolerance = $_POST["pressure_upper_tolerance"];
-    $pressure_low_tolerance = $_POST["pressure_lower_tolerance"];
-
-    $iaq_upp_tolerance = $_POST["iaq_upper_tolerance"];
-    $iaq_low_tolerance = $_POST["iaq_lower_tolerance"];
-
-    $voc_upp_tolerance = $_POST["voc_upper_tolerance"];
-    $voc_low_tolerance = $_POST["voc_lower_tolerance"];
-
-    $co2_upp_tolerance = $_POST["co2_upper_tolerance"];
-    $co2_low_tolerance = $_POST["co2_lower_tolerance"];
-    $is_active = 1;
-    $service_url = $rest_api_uri . "devices/iot_device.php";
+$modified_by = $_SESSION["id"];
+if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
+    $edit_cust_id = $_POST['edit_cust_id'];
+    $edit_d_id = $_POST['edit_d_id'];
+    $dd_id = $_POST['edit_device_id'];
+    $edit_dev_id = $_POST["edit_dev_id"];
+    $edit_dev_desc = $_POST["edit_dev_desc"];
+    $edit_type_id = $_POST["edit_type_id"];
+    $edit_dev_loc = $_POST["edit_dev_loc"];
+    $edit_temperature_upp_tolerance = $_POST["edit_temperature_upp_tolerance"];
+    $edit_temperature_low_tolerance = $_POST["edit_temperature_low_tolerance"];
+    $edit_humidity_upp_tolerance = $_POST["edit_humidity_upp_tolerance"];
+    $edit_humidity_low_tolerance = $_POST["edit_humidity_low_tolerance"];
+    $edit_pressure_upp_tolerance = $_POST["edit_pressure_upp_tolerance"];
+    $edit_pressure_low_tolerance = $_POST["edit_pressure_low_tolerance"];
+    $edit_iaq_upp_tolerance = $_POST["edit_iaq_upp_tolerance"];
+    $edit_iaq_low_tolerance = $_POST["edit_iaq_low_tolerance"];
+    $edit_voc_upp_tolerance = $_POST["edit_voc_upp_tolerance"];
+    $edit_voc_low_tolerance = $_POST["edit_voc_low_tolerance"];
+    $edit_co2_upp_tolerance = $_POST["edit_co2_upp_tolerance"];
+    $edit_co2_low_tolerance = $_POST["edit_co2_low_tolerance"];
+    $service_url = $rest_api_uri . "devices/edit_iot_device.php";
     $curl = curl_init($service_url);
     $curl_post_data = array(
-        'c_id' => $c_id,
-        'device_id' => $device_id,
-        'device_name' => $device_name,
-        'device_description' => $device_desc,
-        'type_id' => $type_id,
-        'device_location' => $device_loc,
-        'temperature_upp_tolerance' => $temperature_upp_tolerance,
-        'temperature_low_tolerance' => $temperature_low_tolerance,
-        'humidity_upp_tolerance' => $humidity_upp_tolerance,
-        'humidity_low_tolerance' => $humidity_low_tolerance,
-        'pressure_upp_tolerance' => $pressure_upp_tolerance,
-        'pressure_low_tolerance' => $pressure_low_tolerance,
-        'iaq_upp_tolerance' => $iaq_upp_tolerance,
-        'iaq_low_tolerance' => $iaq_low_tolerance,
-        'voc_upp_tolerance' => $voc_upp_tolerance,
-        'voc_low_tolerance' => $voc_low_tolerance,
-        'co2_upp_tolerance' => $co2_upp_tolerance,
-        'co2_low_tolerance' => $co2_low_tolerance,
-        'is_active' => $is_active,
-        'created_by' => $user_id,
-        'created_on' => $chicagotime
+        'device_id' => $dd_id,
+        'c_id' => $edit_cust_id,
+        'device_description' => $edit_dev_desc,
+        'device_location' => $edit_dev_loc,
+        'type_id' => $edit_type_id,
+        'd_id' => $edit_d_id,
+        'temperature_upp_tolerance' => $edit_temperature_upp_tolerance,
+        'temperature_low_tolerance' => $edit_temperature_low_tolerance,
+        'humidity_upp_tolerance' => $edit_humidity_upp_tolerance,
+        'humidity_low_tolerance' => $edit_humidity_low_tolerance,
+        'pressure_upp_tolerance' => $edit_pressure_upp_tolerance,
+        'pressure_low_tolerance' => $edit_pressure_low_tolerance,
+        'iaq_upp_tolerance' => $edit_iaq_upp_tolerance,
+        'iaq_low_tolerance' => $edit_iaq_low_tolerance,
+        'voc_upp_tolerance' => $edit_voc_upp_tolerance,
+        'voc_low_tolerance' => $edit_voc_low_tolerance,
+        'co2_upp_tolerance' => $edit_co2_upp_tolerance,
+        'co2_low_tolerance' => $edit_co2_low_tolerance,
+        'modified_by' => $modified_by,
+        'modified_on' => $chicagotime,
+        'updated_at' => $chicagotime
     );
     $secretkey = "SupportPassHTSSgmmi";
     $payload = array(
         "author" => "Saargummi to HTS",
-        "exp" => time() + 1000
+        "exp" => time()+1000
     );
-    try {
-        $jwt = JWT::encode($payload, $secretkey, 'HS256');
-    } catch (UnexpectedValueException $e) {
+    try{
+        $jwt = JWT::encode($payload, $secretkey , 'HS256');
+    }catch (UnexpectedValueException $e) {
         echo $e->getMessage();
     }
     $headers = array(
@@ -84,37 +79,17 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     curl_close($curl);
     $decoded = json_decode($curl_response);
     if (isset($decoded->status) && $decoded->status == 'ERROR') {
-        $_SESSION['mType'] = mTypeError;
-        $_SESSION['dispMessage'] = $decoded->message;
-        echo json_encode(array("status" => "error", "message" => $decoded->message));
-        exit;
-    } else {
-        $_SESSION['mType'] = mTypeSucess;
-        $_SESSION['dispMessage'] = 'Device created Successfully';
-        echo json_encode(array("status" => "success", "message" => 'Device created Successfully'));
-        exit;
+        die('error occured: ' . $decoded->errormessage);
+        $errors[] = "Iot Device Not Updated.";
+        $message_stauts_class = 'alert-danger';
+        $import_status_message = 'Iot Device Not Updated.';
     }
-}
-
-//Set the session duration for 10800 seconds - 3 hours
-$duration = auto_logout_duration;
-//Read the request time of the user
-$time = $_SERVER['REQUEST_TIME'];
-//Check the user's session exist or not
-if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > $duration) {
-    //Unset the session variables
-    session_unset();
-    //Destroy the session
-    session_destroy();
-    header('location:index.php');
+    $errors[] = "Iot Device Updated Successfully.";
+    $message_stauts_class = 'alert-success';
+    $import_status_message = 'Iot Device Updated Successfully.';
+    header('Location: create_device.php');
     exit;
 }
-//Set the time of the user's last activity
-$_SESSION['LAST_ACTIVITY'] = $time;
-$i = $_SESSION["role_id"];
-
-$assign_by = $_SESSION["id"];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,7 +97,7 @@ $assign_by = $_SESSION["id"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IOT Add Device</title>
+    <title>Edit IOT Device</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -143,15 +118,65 @@ $assign_by = $_SESSION["id"];
     <?php include('./../../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "Add an IOT Device";
+        $title = "Edit an IOT Device";
         include('./../../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
-            <form action="" method="" id="addDeviceForm">
+            <form action="" method="" id="EditDeviceForm">
+                <?php
+                $device_id = $_GET['device_id'];
+                $sql = "select * from iot_devices where device_id = '$device_id' and is_deleted != 1";
+                $res = mysqli_query($iot_db, $sql);
+                $row = mysqli_fetch_array($res);
+                $customer = $row['c_id'];
+                $dev_id = $row['device_id'];
+                $dev_name = $row['device_name'];
+                $dev_desc = $row['device_description'];
+                $dev_type = $row['type_id'];
+                $dev_loc = $row['device_location'];
+                $is_active = $row['is_active'];
+                $sqlv1 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '1' and is_deleted != 1";
+                $resv1 = mysqli_query($iot_db, $sqlv1);
+                $rowv1 = mysqli_fetch_array($resv1);
+                $e_d_id1 = $rowv1["d_id"];
+                $temperature_upp_tolerance = $rowv1["upper_tolerance"];
+                $temperature_low_tolerance = $rowv1["lower_tolerance"];
+                $sqlv2 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '2' and is_deleted != 1";
+                $resv2 = mysqli_query($iot_db, $sqlv2);
+                $rowv2 = mysqli_fetch_array($resv2);
+                $e_d_id2 = $rowv2["d_id"];
+                $humidity_upp_tolerance = $rowv2["upper_tolerance"];
+                $humidity_low_tolerance = $rowv2["lower_tolerance"];
+                $sqlv3 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '3' and is_deleted != 1";
+                $resv3 = mysqli_query($iot_db, $sqlv3);
+                $rowv3 = mysqli_fetch_array($resv3);
+                $e_d_id3 = $rowv3["d_id"];
+                $pressure_upp_tolerance = $rowv3["upper_tolerance"];
+                $pressure_low_tolerance = $rowv3["lower_tolerance"];
+                $sqlv4 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '4' and is_deleted != 1";
+                $resv4 = mysqli_query($iot_db, $sqlv4);
+                $rowv4 = mysqli_fetch_array($resv4);
+                $e_d_id4 = $rowv4["d_id"];
+                $iaq_upp_tolerance = $rowv4["upper_tolerance"];
+                $iaq_low_tolerance = $rowv4["lower_tolerance"];
+                $sqlv5 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '5' and is_deleted != 1";
+                $resv5 = mysqli_query($iot_db, $sqlv5);
+                $rowv5 = mysqli_fetch_array($resv5);
+                $e_d_id5 = $rowv5["d_id"];
+                $voc_upp_tolerance = $rowv5["upper_tolerance"];
+                $voc_low_tolerance = $rowv5["lower_tolerance"];
+                $sqlv6 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '6' and is_deleted != 1";
+                $resv6 = mysqli_query($iot_db, $sqlv6);
+                $rowv6 = mysqli_fetch_array($resv6);
+                $e_d_id6 = $rowv6["d_id"];
+                $co2_upp_tolerance = $rowv6["upper_tolerance"];
+                $co2_low_tolerance = $rowv6["lower_tolerance"];
+                ?>
                 <div class="mdc-layout-grid__inner form_bg">
                     <!--     Device type and Customer           -->
                     <div style="margin-top: 10px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="add_dev_id" name="add_dev_id" required>
+                            <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $dev_id; ?>">
+                            <input class="mdc-text-field__input" value="<?php echo $dev_id; ?>" id="edit_dev_id" name="edit_dev_id">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -165,18 +190,17 @@ $assign_by = $_SESSION["id"];
                         <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
                             <div class="w100 template-demo">
                                 <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
-                                    <input type="hidden" name="dev_type" id="dev_type">
+                                    <input type="hidden" name="edit_type_id" id="edit_type_id">
                                     <i class="mdc-select__dropdown-icon"></i>
-                                    <div class="mdc-select__selected-text">
-                                        <select name="dev_type" id="dev_type" class="form-control " data-placeholder="Select Device Type">
-                                            <option value='' selected> Select Device Type </option>
+                                    <div class="mdc-select__selected-text"></div>
+                                    <div class="mdc-select__menu mdc-menu-surface demo-width-class">
+                                        <ul class="mdc-list">
                                             <?php
-
                                             $st_dashboard1 = $_POST['dev_type'];
                                             $sql1 = "SELECT * FROM `iot_device_type` where is_deleted != 1";
                                             $result1 = mysqli_query($iot_db,$sql1);
                                             while ($row1 = $result1->fetch_assoc()) {
-                                                if($st_dashboard1 == $row1['type_id'])
+                                                if($dev_type == $row1['type_id'])
                                                 {
                                                     $entry = 'selected';
                                                 }
@@ -185,12 +209,15 @@ $assign_by = $_SESSION["id"];
                                                     $entry = '';
 
                                                 }
-                                                echo "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";
-                                            }
-                                            ?>
-
-                                        </select>
+                                                ?>
+                                                <li class="mdc-list-item" data-value="<?php  echo $row1['type_id']; ?>">
+                                                    <?php  echo $row1['dev_type_name']; ?>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
                                     </div>
+                                    <span class="mdc-floating-label">Select Device Type *</span>
+                                    <div class="mdc-line-ripple"></div>
                                 </div>
                             </div>
                         </div>
@@ -199,29 +226,40 @@ $assign_by = $_SESSION["id"];
                         <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
                             <div class="w100 template-demo">
                                 <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
-                                    <input type="hidden" name="select_customer">
+                                    <input type="hidden" name="edit_cust_id" id="edit_cust_id">
                                     <i class="mdc-select__dropdown-icon"></i>
                                     <div class="mdc-select__selected-text"></div>
                                     <div class="mdc-select__menu mdc-menu-surface demo-width-class">
                                         <ul class="mdc-list">
-                                            <li class="mdc-list-item" data-value="grains">
-                                                Bread, Cereal, Rice, and Pasta
-                                            </li>
-                                            <li class="mdc-list-item" data-value="vegetables">
-                                                Vegetables
-                                            </li>
-                                            <li class="mdc-list-item" data-value="fruit">
-                                                Fruit
-                                            </li>
+                                            <?php
+                                            $st_dashboard = $_POST['customer'];
+                                            $sql1 = "SELECT * FROM `cus_account` where is_deleted != 1";
+                                            $result1 = mysqli_query($db,$sql1);
+                                            while ($row1 = $result1->fetch_assoc()) {
+                                                if($st_dashboard == $row1['c_id'])
+                                                {
+                                                    $entry = 'selected';
+                                                }
+                                                else
+                                                {
+                                                    $entry = '';
+                                                }
+                                                ?>
+                                                <li class="mdc-list-item" data-value="<?php  echo $row1['c_id']; ?>">
+                                                    <?php  echo $row1['c_name']; ?>
+                                                </li>
+                                            <?php } ?>
                                         </ul>
                                     </div>
+                                    <span class="mdc-floating-label">Select Customer *</span>
+                                    <div class="mdc-line-ripple"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="add_dev_name"  name="add_dev_name" required>
+                            <input class="mdc-text-field__input" id="edit_dev_name"  name="edit_dev_name" value="<?php echo $dev_name; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -233,7 +271,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="add_dev_location" name="add_dev_location">
+                            <input class="mdc-text-field__input" id="edit_dev_loc" name="edit_dev_loc" value="<?php echo $dev_loc; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -245,7 +283,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="add_dev_desc"  name="add_dev_desc">
+                            <input class="mdc-text-field__input" id="edit_dev_desc"  name="edit_dev_desc" value="<?php echo $dev_desc; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -322,7 +360,8 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="temp_upper_tolerance" name="temp_upper_tolerance">
+                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id1; ?>">
+                            <input class="mdc-text-field__input" id="edit_temperature_upp_tolerance" name="edit_temperature_upp_tolerance"  value="<?php echo $temperature_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -334,7 +373,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="temp_lower_tolerance" name="temp_lower_tolerance">
+                            <input class="mdc-text-field__input" id="edit_temperature_low_tolerance" name="edit_temperature_low_tolerance" value="<?php echo $temperature_low_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -410,7 +449,8 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="hum_upper_tolerance" name="hum_upper_tolerance">
+                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id2; ?>">
+                            <input class="mdc-text-field__input" id="edit_humidity_upp_tolerance" name="edit_humidity_upp_tolerance" value="<?php echo $humidity_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -422,7 +462,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="hum_lower_tolerance" name="hum_lower_tolerance">
+                            <input class="mdc-text-field__input" id="edit_humidity_low_tolerance" name="edit_humidity_low_tolerance" value="<?php echo $humidity_low_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -498,7 +538,8 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="pressure_upper_tolerance" name="pressure_upper_tolerance">
+                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id3; ?>">
+                            <input class="mdc-text-field__input" id="edit_pressure_upp_tolerance" name="edit_pressure_upp_tolerance" value="<?php echo $pressure_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -510,7 +551,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="pressure_lower_tolerance" name="pressure_lower_tolerance">
+                            <input class="mdc-text-field__input" id="edit_pressure_low_tolerance" name="edit_pressure_low_tolerance" value="<?php echo $pressure_low_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -586,7 +627,8 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="iaq_upper_tolerance" name="iaq_upper_tolerance">
+                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id4; ?>">
+                            <input class="mdc-text-field__input" id="edit_iaq_upp_tolerance" name="edit_iaq_upp_tolerance" value="<?php echo $iaq_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -598,7 +640,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="iaq_lower_tolerance" name="iaq_lower_tolerance">
+                            <input class="mdc-text-field__input" id="edit_iaq_low_tolerance" name="edit_iaq_low_tolerance" value="<?php echo $iaq_low_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -674,7 +716,8 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="voc_upper_tolerance" name="voc_upper_tolerance">
+                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id5; ?>">
+                            <input class="mdc-text-field__input" id="edit_voc_upp_tolerance" name="edit_voc_upp_tolerance" value="<?php echo $voc_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -686,7 +729,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="voc_lower_tolerance" name="voc_lower_tolerance">
+                            <input class="mdc-text-field__input" id="edit_voc_low_tolerance" name="edit_voc_low_tolerance" value="<?php echo $voc_low_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -762,7 +805,8 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="co2_upper_tolerance" name="co2_upper_tolerance">
+                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id6; ?>">
+                            <input class="mdc-text-field__input" id="edit_co2_upp_tolerance" name="edit_co2_upp_tolerance"  value="<?php echo $co2_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -774,7 +818,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="co2_lower_tolerance" name="co2_lower_tolerance">
+                            <input class="mdc-text-field__input" id="edit_co2_low_tolerance" name="edit_co2_low_tolerance" value="<?php echo $co2_low_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -791,7 +835,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
                         <button class="mdc-button mdc-button--raised" id="submit_btn">
-                            Submit
+                            Update
                         </button>
                     </div>
                 </div>
@@ -814,10 +858,10 @@ $assign_by = $_SESSION["id"];
     $( "#submit_btn" ).click(function (e){
         e.preventDefault();
         $(':input[type="button"]').prop('disabled', true);
-        var data = $("#addDeviceForm").serialize();
+        var data = $("#EditDeviceForm").serialize();
         $.ajax({
             type: 'POST',
-            url: 'addDevice.php',
+            url: 'edit_device.php',
             data: "fSubmit=1&" + data,
             success: function (data) {
                 // window.location.href = window.location.href + "?aa=Line 1";
@@ -833,7 +877,7 @@ $assign_by = $_SESSION["id"];
                 }else if(st == 'success'){
                     document.getElementById('dp_suc_msg').innerText = message_text;
                     document.getElementById('aSucc').style.display = 'block';
-                    document.getElementById('addDevice').style.display = 'none';
+                    document.getElementById('edit_device').style.display = 'none';
                     document.getElementById('aFail').style.display = 'none';
                     window.scrollTo(0, 0);
                 }

@@ -150,8 +150,8 @@ $assign_by = $_SESSION["id"];
         $title = "Add an IOT Device";
         include('./../../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
-           <!-- <form action="" method="" id="addDeviceForm">-->
-            <form action="" method="post" id="addDeviceForm" enctype="multipart/form-data">
+            <form action="" method="" id="addDeviceForm">
+
                 <div class="mdc-layout-grid__inner form_bg">
                     <!--     Device type and Customer           -->
                     <div style="margin-top: 10px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
@@ -808,11 +808,10 @@ $assign_by = $_SESSION["id"];
                         <hr style="width: 100%"/>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
-
-                        <!--<button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Submit</button>-->
-                        <button class="mdc-button mdc-button--raised" id="submit_btn">
+                        <button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Submit</button>
+                       <!-- <button class="mdc-button mdc-button--raised" id="submit_btn">
                             Submit
-                        </button>
+                        </button>-->
                     </div>
                 </div>
             </form>
