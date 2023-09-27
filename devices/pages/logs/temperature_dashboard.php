@@ -100,8 +100,6 @@
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
                                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-<!--                                        <label class="col-sm-3 col-form-label">Date From <i class="fa fa-asterisk" style="font-size:8px;color:red;"></i></label>-->
-                                        
                                         <span style="padding: 10px 20px 0px 0px;">Date From</span>
                                             <span><input type="date" class="form-control mdc-text-field__input"
                                                    name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
@@ -109,16 +107,12 @@
                                                    required></span>
                                     </div>
                                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                                        <label class="col-sm-3 col-form-label">Date To <i class="fa fa-asterisk"
-                                                                                          style="font-size:8px;color:red;"></i>
-                                        </label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control mdc-text-field__input"
+                                        <span style="padding: 10px 20px 0px 0px;">Date To</span>
+                                        <span><input type="date" class="form-control mdc-text-field__input"
                                                    name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
                                                    value="<?php echo $dateto; ?>" placeholder="Enter Device Name"
-                                                   required>
+                                                     required></span>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -242,7 +236,7 @@
 <!-- Custom js for this page-->
 <script>
     $.ajax({
-        url: "../../../devices/schedular/livedata.php",
+        url: "../../../devices/schedular/livedata.php?p_id=1",
         type: "GET",
         async: false,
         success: function (data) {
@@ -319,7 +313,6 @@
                     }
                 }
             });
-            document.getElementById('sales-legend').innerHTML = salesChart.generateLegend();
         },
         error: function (data) {
 
