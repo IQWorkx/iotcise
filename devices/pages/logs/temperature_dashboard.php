@@ -61,7 +61,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IOT Add Device</title>
+    <title>Temperature Trend</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -77,7 +77,7 @@
     <!--	-->
     <!--    <script type="text/javascript" src="-->
 	<?php //echo $iotURL?><!--/assets/js/linegraph_js/jquery.min.js"></script>-->
-    <script type="text/javascript" src="<?php echo $iotURL ?>/assets/js/linegraph_js/Chart.min.js"></script>
+<!--    <script type="text/javascript" src="--><?php //echo $iotURL ?><!--/assets/js/linegraph_js/Chart.min.js"></script>-->
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -125,18 +125,7 @@
 									 Submit
 								 </button>-->
                             </div>
-                            <div class="form-group row">
-                                <div>
-                                    <button type="submit" name="submit_btn" id="submit_btn" class="btn btn-blue">
-                                        Submit
-                                    </button>
-                                </div>&ensp;
-                                <div>
-                                    <button type="button" class="btn btn-red" onclick="window.location.reload();">
-                                        Reset
-                                    </button>
-                                </div>
-                            </div>
+
 
                         </form>
                     </div>
@@ -151,8 +140,8 @@
                         <div class="mdc-card">
                             <div class="d-flex d-lg-block d-xl-flex justify-content-between">
                                 <div>
-                                    <h4 class="card-title">Order Statistics</h4>
-                                    <h6 class="card-sub-title">Customers 58.39k</h6>
+                                    <h4 class="card-title">Temperature Graph</h4>
+<!--                                    <h6 class="card-sub-title">Customers 58.39k</h6>-->
                                 </div>
                                 <div id="sales-legend" class="d-flex flex-wrap"></div>
                             </div>
@@ -161,66 +150,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <form action="" method="post" id="device_settings" enctype="multipart/form-data">
-							<?php
-								$date_from = $_GET['date_from'];
-								$date_to = $_GET['date_to'];
-							?>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Date From <i class="fa fa-asterisk"
-                                                                                            style="font-size:8px;color:red;"></i></label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control" name="date_from" id="date_from"
-                                                   value="<?php echo $datefrom; ?>" placeholder="Enter Device Name"
-                                                   required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Date To <i class="fa fa-asterisk"
-                                                                                          style="font-size:8px;color:red;"></i>
-                                        </label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control" name="date_from" id="date_from"
-                                                   value="<?php echo $dateto; ?>" placeholder="Enter Device Name"
-                                                   required>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div>
-                                    <button type="submit" name="submit_btn" id="submit_btn" class="btn btn-blue">
-                                        Submit
-                                    </button>
-                                </div>&ensp;
-                                <div>
-                                    <button type="button" class="btn btn-red" onclick="window.location.reload();">
-                                        Reset
-                                    </button>
-                                </div>
-                            </div>
-
-                        </form>
-
-
-                        <hr>
-                        <br>
-                        <div class="chart-container">
-                            <canvas id="mycanvas"></canvas>
-                        </div>
-                    </div>
                 </div>
             </main>
-			<?php include('./../../partials/footer.html') ?>
         </div>
     </div>
 </div>
+
+
+	<?php include('./../../partials/footer.html') ?>
+
+
 <!-- plugins:js -->
 <script src="<?php echo $iotURL ?>assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -319,6 +258,5 @@
         }
     });
 </script>
-<!-- End custom js for this page-->
 </body>
 </html>

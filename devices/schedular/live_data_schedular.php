@@ -5,7 +5,7 @@ use Firebase\JWT\JWT;
 
 $status = '0';
 $message = "";
-include("config.php");
+include("../config.php");
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 

@@ -23,6 +23,20 @@ if($p_id == 1){
 }else if($p_id == 2){
 	$query = ("SELECT live_data.dev_id, live_data.humidity,DATE_FORMAT(live_data.datetime, '%d-%M-%Y %H:%i') as dTime,device_parameter_config.upper_tolerance,device_parameter_config.lower_tolerance FROM live_data INNER JOIN iot_devices ON live_data.device_id =iot_devices.device_id INNER JOIN device_parameter_config on iot_devices.device_id = device_parameter_config.device_id where device_parameter_config.p_id = ".$p_id);
 	
+}else if($p_id == 3){
+    $query = ("SELECT live_data.dev_id, live_data.pressure,DATE_FORMAT(live_data.datetime, '%d-%M-%Y %H:%i') as dTime,device_parameter_config.upper_tolerance,device_parameter_config.lower_tolerance FROM live_data INNER JOIN iot_devices ON live_data.device_id =iot_devices.device_id INNER JOIN device_parameter_config on iot_devices.device_id = device_parameter_config.device_id where device_parameter_config.p_id = ".$p_id);
+
+}
+else if($p_id == 4){
+    $query = ("SELECT live_data.dev_id, live_data.iaq,DATE_FORMAT(live_data.datetime, '%d-%M-%Y %H:%i') as dTime,device_parameter_config.upper_tolerance,device_parameter_config.lower_tolerance FROM live_data INNER JOIN iot_devices ON live_data.device_id =iot_devices.device_id INNER JOIN device_parameter_config on iot_devices.device_id = device_parameter_config.device_id where device_parameter_config.p_id = ".$p_id);
+
+}else if($p_id == 5){
+    $query = ("SELECT live_data.dev_id, live_data.voc,DATE_FORMAT(live_data.datetime, '%d-%M-%Y %H:%i') as dTime,device_parameter_config.upper_tolerance,device_parameter_config.lower_tolerance FROM live_data INNER JOIN iot_devices ON live_data.device_id =iot_devices.device_id INNER JOIN device_parameter_config on iot_devices.device_id = device_parameter_config.device_id where device_parameter_config.p_id = ".$p_id);
+
+}
+else if($p_id == 6){
+    $query = ("SELECT live_data.dev_id, live_data.co2,DATE_FORMAT(live_data.datetime, '%d-%M-%Y %H:%i') as dTime,device_parameter_config.upper_tolerance,device_parameter_config.lower_tolerance FROM live_data INNER JOIN iot_devices ON live_data.device_id =iot_devices.device_id INNER JOIN device_parameter_config on iot_devices.device_id = device_parameter_config.device_id where device_parameter_config.p_id = ".$p_id);
+
 }
 
 //execute query
