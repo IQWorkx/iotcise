@@ -1,4 +1,5 @@
-<?php require "../../../assets/vendors/autoload.php";
+<?php  session_start();
+    require "../../../assets/vendors/autoload.php";
 use Firebase\JWT\JWT;
 $status = '0';
 $message = "";
@@ -83,8 +84,9 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
     $import_status_message = 'Iot Device Updated Successfully.';
-    header('Location: view_devices.php');
-//    exit;
+	$_SESSION['import_status_message'] =  $import_status_message;
+    $_SESSION['message_stauts_class'] = $message_stauts_class;
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -861,22 +863,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
             data: "fSubmit=1&" + data,
             success: function (data) {
                 // window.location.href = window.location.href + "?aa=Line 1";
-                $(':input[type="button"]').prop('disabled', false);
-                var st_val =  data.split("}",2);
-                var st = JSON.parse(st_val[0]+'}')['status'];
-                var message_text = JSON.parse(st_val[0]+'}')['message'];
-                if(st == 'error'){
-                    document.getElementById('dp_fail_msg').innerText = message_text;
-                    document.getElementById('aFail').style.display = 'block';
-                    document.getElementById('aSucc').style.display = 'none';
-                    window.scrollTo(0, 0);
-                }else if(st == 'success'){
-                    document.getElementById('dp_suc_msg').innerText = message_text;
-                    document.getElementById('aSucc').style.display = 'block';
-                    document.getElementById('edit_device').style.display = 'none';
-                    document.getElementById('aFail').style.display = 'none';
-                    window.scrollTo(0, 0);
-                }
+                window.location.replace("view_devices.php");
             }
         });
     });
