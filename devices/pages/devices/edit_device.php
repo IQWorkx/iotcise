@@ -9,7 +9,6 @@ $temp = "";
 $modified_by = $_SESSION["id"];
 if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $edit_cust_id = $_POST['edit_cust_id'];
-    $edit_d_id = $_POST['edit_d_id'];
     $dd_id = $_POST['edit_device_id'];
     $edit_dev_id = $_POST["edit_dev_id"];
     $edit_dev_desc = $_POST["edit_dev_desc"];
@@ -31,11 +30,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $curl = curl_init($service_url);
     $curl_post_data = array(
         'device_id' => $dd_id,
-        'c_id' => $edit_cust_id,
         'device_description' => $edit_dev_desc,
         'device_location' => $edit_dev_loc,
-        'type_id' => $edit_type_id,
-        'd_id' => $edit_d_id,
         'temperature_upp_tolerance' => $edit_temperature_upp_tolerance,
         'temperature_low_tolerance' => $edit_temperature_low_tolerance,
         'humidity_upp_tolerance' => $edit_humidity_upp_tolerance,
