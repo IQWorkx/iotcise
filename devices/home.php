@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="<?php echo $iotURL?>/assets/css/demo/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo $iotURL?>/assets/images/favicon.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 <script src="../assets/js/preloader.js"></script>
@@ -53,9 +54,8 @@
 							$created_date = new DateTime(explode(' ',$row['created_on'])[0]);
 							$current_date = new DateTime(date("Y-m-d"));
 							$period = get_period_ago($current_date,$created_date);
-							$edit_dev_loc = $iotURL .'device/edit_device.php?device_id='.$row['device_id'];
+							$edit_dev_loc = $iotURL .'devices/pages/devices/edit_device.php?device_id='.$row['device_id'];
 							$view_dev_loc = $iotURL .'devices/view_device_dashboard.php?device_id='.$row['device_id'];
-							$del_dev_loc = $iotURL .'device/delete_device.php?device_id='.$row['device_id'];
 							$d_type_id=$row['type_id'];
 							$d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
 							$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));
@@ -70,12 +70,15 @@
                                     <div class="d-flex justify-content-between install" style=" padding-top: 15px">
                                                 <span style="width: 50%">
                                                     <a style="padding: 0% 5%;" href="<?php echo $edit_dev_loc?>"><i class="material-icons settings_gear">settings</i></a>
-                                                    <a id="del_device" name="del_device" href="#" data-value="<?php echo $del_dev_loc?>" class="d_Id"><i class="material-icons del_icon">delete</i></a>
+                                                    <a id="del_device" name="del_device" href="pages/devices/delete_device.php?device_id=<?php echo $row['device_id']?>"><i class="material-icons del_icon">delete</i></a>
                                                 </span>
                                         <span style="width: 35%">
                                         </span>
                                         <span style="width: 25%" id="view_link" class="text-primary">
-                                            <a style="" href="<?php echo $view_dev_loc?>"><span style="margin: 1% 0% 1% 1%;position: absolute;">View</span><i class="material-icons" style="float: right">chevron_right</a></i></span>
+                                            <a style="" href="<?php echo $view_dev_loc?>">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                        </span>
                                     </div>
                                     <div class="card-icon-wrapper">
                                         <i class="material-icons">settings_remote</i>

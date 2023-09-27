@@ -1,5 +1,4 @@
-<?php  session_start();
-    require "../../../assets/vendors/autoload.php";
+<?php require "../../../assets/vendors/autoload.php";
 use Firebase\JWT\JWT;
 $status = '0';
 $message = "";
