@@ -83,8 +83,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
     $import_status_message = 'Iot Device Updated Successfully.';
-    header('Location: create_device.php');
-    exit;
+    header('Location: view_devices.php');
+//    exit;
 }
 ?>
 <!DOCTYPE html>
