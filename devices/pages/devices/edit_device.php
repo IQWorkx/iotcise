@@ -13,7 +13,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $dd_id = $_POST['edit_device_id'];
     $edit_dev_id = $_POST["edit_dev_id"];
     $edit_dev_desc = $_POST["edit_dev_desc"];
-    $edit_type_id = $_POST["edit_type_id"];
     $edit_dev_loc = $_POST["edit_dev_loc"];
     $edit_temperature_upp_tolerance = $_POST["edit_temperature_upp_tolerance"];
     $edit_temperature_low_tolerance = $_POST["edit_temperature_low_tolerance"];
@@ -135,37 +134,31 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $sqlv1 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '1' and is_deleted != 1";
                 $resv1 = mysqli_query($iot_db, $sqlv1);
                 $rowv1 = mysqli_fetch_array($resv1);
-                $e_d_id1 = $rowv1["d_id"];
                 $temperature_upp_tolerance = $rowv1["upper_tolerance"];
                 $temperature_low_tolerance = $rowv1["lower_tolerance"];
                 $sqlv2 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '2' and is_deleted != 1";
                 $resv2 = mysqli_query($iot_db, $sqlv2);
                 $rowv2 = mysqli_fetch_array($resv2);
-                $e_d_id2 = $rowv2["d_id"];
                 $humidity_upp_tolerance = $rowv2["upper_tolerance"];
                 $humidity_low_tolerance = $rowv2["lower_tolerance"];
                 $sqlv3 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '3' and is_deleted != 1";
                 $resv3 = mysqli_query($iot_db, $sqlv3);
                 $rowv3 = mysqli_fetch_array($resv3);
-                $e_d_id3 = $rowv3["d_id"];
                 $pressure_upp_tolerance = $rowv3["upper_tolerance"];
                 $pressure_low_tolerance = $rowv3["lower_tolerance"];
                 $sqlv4 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '4' and is_deleted != 1";
                 $resv4 = mysqli_query($iot_db, $sqlv4);
                 $rowv4 = mysqli_fetch_array($resv4);
-                $e_d_id4 = $rowv4["d_id"];
                 $iaq_upp_tolerance = $rowv4["upper_tolerance"];
                 $iaq_low_tolerance = $rowv4["lower_tolerance"];
                 $sqlv5 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '5' and is_deleted != 1";
                 $resv5 = mysqli_query($iot_db, $sqlv5);
                 $rowv5 = mysqli_fetch_array($resv5);
-                $e_d_id5 = $rowv5["d_id"];
                 $voc_upp_tolerance = $rowv5["upper_tolerance"];
                 $voc_low_tolerance = $rowv5["lower_tolerance"];
                 $sqlv6 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '6' and is_deleted != 1";
                 $resv6 = mysqli_query($iot_db, $sqlv6);
                 $rowv6 = mysqli_fetch_array($resv6);
-                $e_d_id6 = $rowv6["d_id"];
                 $co2_upp_tolerance = $rowv6["upper_tolerance"];
                 $co2_low_tolerance = $rowv6["lower_tolerance"];
                 ?>
@@ -358,7 +351,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id1; ?>">
                             <input class="mdc-text-field__input" id="edit_temperature_upp_tolerance" name="edit_temperature_upp_tolerance"  value="<?php echo $temperature_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
@@ -447,7 +439,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id2; ?>">
                             <input class="mdc-text-field__input" id="edit_humidity_upp_tolerance" name="edit_humidity_upp_tolerance" value="<?php echo $humidity_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
@@ -536,7 +527,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id3; ?>">
                             <input class="mdc-text-field__input" id="edit_pressure_upp_tolerance" name="edit_pressure_upp_tolerance" value="<?php echo $pressure_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
@@ -625,7 +615,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id4; ?>">
                             <input class="mdc-text-field__input" id="edit_iaq_upp_tolerance" name="edit_iaq_upp_tolerance" value="<?php echo $iaq_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
@@ -714,7 +703,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id5; ?>">
                             <input class="mdc-text-field__input" id="edit_voc_upp_tolerance" name="edit_voc_upp_tolerance" value="<?php echo $voc_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
@@ -803,7 +791,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input type="hidden" name="edit_d_id" id="edit_d_id" value="<?php echo $e_d_id6; ?>">
                             <input class="mdc-text-field__input" id="edit_co2_upp_tolerance" name="edit_co2_upp_tolerance"  value="<?php echo $co2_upp_tolerance; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
