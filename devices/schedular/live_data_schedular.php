@@ -85,5 +85,6 @@ if (isset($decoded->status) && $decoded->status == 'ERROR') {
     die('error occured: ' . $decoded->errormessage);
 }
 
-
+//Run this page in interval of 60 seconds
+header("refresh: 60;");
 ?>
