@@ -78,7 +78,6 @@
     <!--    <script type="text/javascript" src="-->
 	<?php //echo $iotURL?><!--/assets/js/linegraph_js/jquery.min.js"></script>-->
     <script type="text/javascript" src="<?php echo $iotURL ?>/assets/js/linegraph_js/Chart.min.js"></script>
-    <script type="text/javascript" src="<?php echo $iotURL ?>/assets/js/linegraph_js/temperature_linegraph.js"></script>
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -101,13 +100,13 @@
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
                                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                                        <label class="col-sm-3 col-form-label">Date From <i class="fa fa-asterisk" style="font-size:8px;color:red;"></i></label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control mdc-text-field__input"
-                                                   name="date_from" id="date_from"
+<!--                                        <label class="col-sm-3 col-form-label">Date From <i class="fa fa-asterisk" style="font-size:8px;color:red;"></i></label>-->
+                                        
+                                        <span style="padding: 10px 20px 0px 0px;">Date From</span>
+                                            <span><input type="date" class="form-control mdc-text-field__input"
+                                                   name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
                                                    value="<?php echo $datefrom; ?>" placeholder="Enter Device Name"
-                                                   required>
-                                        </div>
+                                                   required></span>
                                     </div>
                                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                         <label class="col-sm-3 col-form-label">Date To <i class="fa fa-asterisk"
@@ -115,7 +114,7 @@
                                         </label>
                                         <div class="col-sm-8">
                                             <input type="date" class="form-control mdc-text-field__input"
-                                                   name="date_from" id="date_from"
+                                                   name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
                                                    value="<?php echo $dateto; ?>" placeholder="Enter Device Name"
                                                    required>
 
