@@ -10,6 +10,9 @@ $status = '0';
 $message = "";
 include("../../config.php");
 $user_id = $_SESSION["id"];
+$chicagotime = date("Y-m-d H:i:s");
+$temp = "";
+$user_id = $_SESSION["id"];
 if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['dev_type_name']))){
     $dev_type_name = $_POST['dev_type_name'];
     $service_url = $rest_api_uri . "iot_device_type/create_type.php";
@@ -46,16 +49,17 @@ if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['dev_type_name']))){
     curl_close($curl);
     $decoded = json_decode($curl_response);
     if (isset($decoded->status) && $decoded->status == 'ERROR') {
-        $_SESSION['mType'] = mTypeError;
-        $_SESSION['dispMessage'] = $decoded->message;
-        echo json_encode(array("status" => "error" , "message" => $decoded->message));
-        exit;
-    }else{
-        $_SESSION['mType'] = mTypeSucess;
-        $_SESSION['dispMessage'] = 'Device Type created Successfully';
-        echo json_encode(array("status" => "success" , "message" => 'Device Type created Successfully'));
-        exit;
+        die('error occured: ' . $decoded->errormessage);
+        $errors[] = "Iot Device Not Updated.";
+        $message_stauts_class = 'alert-danger';
+        $import_status_message = 'Iot Device Not Updated.';
     }
+    $errors[] = "Iot Device Updated Successfully.";
+    $message_stauts_class = 'alert-success';
+    $import_status_message = 'Iot Device Updated Successfully.';
+    $_SESSION['import_status_message'] =  $import_status_message;
+    $_SESSION['message_stauts_class'] = $message_stauts_class;
+    exit;
 }
 
 //Set the session duration for 10800 seconds - 3 hours
@@ -107,6 +111,24 @@ $assign_by = $_SESSION["id"];
         <?php
         $title = "Add an IOT Device";
         include('./../../partials/navbar.html') ?>
+
+
+        <?php
+        if (!empty($_SESSION['import_status_message']) && ($_SESSION['message_stauts_class'] == 'alert-success')) {
+            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--success">'.$_SESSION['import_status_message'].'</p>
+                      </div>';
+        }else if(!empty($import_status_message) && ($import_status_message == 'alert-danger')){
+            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--secondary">' . $_SESSION['import_status_message'] . '</p>
+                      </div>';
+        }else{
+            echo '<div class='.$_SESSION['message_stauts_class'].'>' . $_SESSION['import_status_message'] . '</div>';
+        }
+        unset($_SESSION['message_stauts_class']);
+        unset($_SESSION['import_status_message']);
+        ?>
+
         <div class="mdc-layout-grid">
             <form action="" method="" id="device_settings">
 
@@ -157,29 +179,15 @@ $assign_by = $_SESSION["id"];
         var data = $("#device_settings").serialize();
         $.ajax({
             type: 'POST',
-            url: 'addDevice.php',
+            url: 'create_dev_type.php',
             data: "fSubmit=1&" + data,
             success: function (data) {
                 // window.location.href = window.location.href + "?aa=Line 1";
-                $(':input[type="button"]').prop('disabled', false);
-                var st_val =  data.split("}",2);
-                var st = JSON.parse(st_val[0]+'}')['status'];
-                var message_text = JSON.parse(st_val[0]+'}')['message'];
-                if(st == 'error'){
-                    document.getElementById('dp_fail_msg').innerText = message_text;
-                    document.getElementById('aFail').style.display = 'block';
-                    document.getElementById('aSucc').style.display = 'none';
-                    window.scrollTo(0, 0);
-                }else if(st == 'success'){
-                    document.getElementById('dp_suc_msg').innerText = message_text;
-                    document.getElementById('aSucc').style.display = 'block';
-                    document.getElementById('addDevice').style.display = 'none';
-                    document.getElementById('aFail').style.display = 'none';
-                    window.scrollTo(0, 0);
-                }
+                window.location.replace("create_dev_type.php");
             }
         });
     });
+
 </script>
 </body>
 </html>
