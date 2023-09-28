@@ -178,7 +178,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     </div>
                     <div class="w100 mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
                         <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
-                            <div class="w100 template-demo">
+                            <div class="w100 template-demo" style="pointer-events: none;">
                                 <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
                                     <input type="hidden" name="edit_type_id" id="edit_type_id">
                                     <i class="mdc-select__dropdown-icon"></i>
@@ -186,35 +186,34 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                                     <div class="mdc-select__menu mdc-menu-surface demo-width-class">
                                         <ul class="mdc-list">
                                             <?php
-                                            $st_dashboard1 = $_POST['dev_type'];
+                                            $st_dashboard1 = $dev_type;
                                             $sql1 = "SELECT * FROM `iot_device_type` where is_deleted != 1";
                                             $result1 = mysqli_query($iot_db,$sql1);
                                             while ($row1 = $result1->fetch_assoc()) {
-                                                if($dev_type == $row1['type_id'])
+                                                if($st_dashboard1 == $row1['type_id'])
                                                 {
                                                     $entry = 'selected';
                                                 }
                                                 else
                                                 {
                                                     $entry = '';
-
                                                 }
-                                                ?>
-                                                <li class="mdc-list-item" data-value="<?php  echo $row1['type_id']; ?>">
-                                                    <?php  echo $row1['dev_type_name']; ?>
-                                                </li>
+                                            ?>
+                                            <li class="mdc-list-item" data-value="<?php echo $row1['type_id'];?>">
+                                                <?php echo $row1['dev_type_name']; ?>
+                                                <input type="hidden" value="  <?php echo $_SESSION['device_type_namee'] = "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";?>">
+                                            </li>
                                             <?php } ?>
-                                        </ul>
-                                    </div>
-                                    <span class="mdc-floating-label">Select Device Type *</span>
-                                    <div class="mdc-line-ripple"></div>
+                                            </ul>
+                                           </div>
+                                    <span class="mdc-floating-label"><?php echo $display = $_SESSION['device_type_namee']; ?></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="w100 mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
                         <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
-                            <div class="w100 template-demo">
+                            <div class="w100 template-demo" style="pointer-events: none;">
                                 <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
                                     <input type="hidden" name="edit_cust_id" id="edit_cust_id">
                                     <i class="mdc-select__dropdown-icon"></i>
@@ -237,12 +236,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                                                 ?>
                                                 <li class="mdc-list-item" data-value="<?php  echo $row1['c_id']; ?>">
                                                     <?php  echo $row1['c_name']; ?>
+                                                    <input type="hidden" value="  <?php echo $_SESSION['c_namee'] = "<option value='" . $row1['c_id'] . "' $entry>" . $row1['c_name'];"</option>";?>">
                                                 </li>
                                             <?php } ?>
                                         </ul>
                                     </div>
-                                    <span class="mdc-floating-label">Select Customer *</span>
-                                    <div class="mdc-line-ripple"></div>
+                                    <span class="mdc-floating-label"><?php echo $display = $_SESSION['c_namee']; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -827,6 +826,13 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
         </div>
     </div>
 </div>
+<script>
+    var select = document.getElementById('cmbitems');
+    var input = document.getElementById('txtprice');
+    select.onchange = function() {
+        input.value = select.value;
+    }
+</script>
 <!-- plugins:js -->
 <script src="<?php echo $iotURL ?>/assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
