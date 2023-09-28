@@ -168,7 +168,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     <div style="margin-top: 10px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
                             <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $dev_id; ?>">
-                            <input class="mdc-text-field__input" value="<?php echo $dev_id; ?>" id="edit_dev_id" name="edit_dev_id">
+                            <input class="mdc-text-field__input" value="<?php echo $dev_id; ?>" id="edit_dev_id" name="edit_dev_id" disabled>
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -203,12 +203,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                                             ?>
                                             <li class="mdc-list-item" data-value="<?php echo $row1['type_id'];?>">
                                                 <?php echo $row1['dev_type_name']; ?>
-                                                <input type="hidden" value="  <?php echo $_SESSION['device_type_namee'] = "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";?>">
+                                                <input type="hidden" value="  <?php echo $_SESSION['device_type_name'] = "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";?>">
                                             </li>
                                             <?php } ?>
                                             </ul>
                                            </div>
-                                    <span class="mdc-floating-label"><?php echo $display = $_SESSION['device_type_namee']; ?></span>
+                                    <span class="mdc-floating-label"><?php echo $display = $_SESSION['device_type_name']; ?></span>
                                 </div>
                             </div>
                         </div>
