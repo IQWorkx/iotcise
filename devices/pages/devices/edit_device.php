@@ -11,6 +11,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $edit_cust_id = $_POST['edit_cust_id'];
     $dd_id = $_POST['edit_device_id'];
     $edit_dev_id = $_POST["edit_dev_id"];
+    $edit_dev_name = $_POST["edit_dev_name"];
     $edit_dev_desc = $_POST["edit_dev_desc"];
     $edit_dev_loc = $_POST["edit_dev_loc"];
     $edit_temperature_upp_tolerance = $_POST["edit_temperature_upp_tolerance"];
@@ -30,6 +31,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $curl_post_data = array(
         'device_id' => $dd_id,
         'device_description' => $edit_dev_desc,
+        'device_name' => $edit_dev_name,
         'device_location' => $edit_dev_loc,
         'temperature_upp_tolerance' => $edit_temperature_upp_tolerance,
         'temperature_low_tolerance' => $edit_temperature_low_tolerance,
