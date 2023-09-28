@@ -1,59 +1,33 @@
-<?php
-	require "../../../assets/vendors/autoload.php";
-	
+<?php require "../../../assets/vendors/autoload.php";
 	use Firebase\JWT\JWT;
-	
 	$status = '0';
 	$message = "";
 	include("../../config.php");
 	//include("../sup_config.php");
 	$chicagotime = date("Y-m-d H:i:s");
-	$temp = "";
-	$device_id = $_GET['device_id'];
-	$temperature_data = '';
-	$humidity_data = '';
-	$pressure_data = '';
-	$iaq_data = '';
-	$voc_data = '';
-	$co2_data = '';
-	$datetime = '';
-	
-	$timestamp = date('H:i:s');
-	$message = date("Y-m-d H:i:s");
-	$chicagotime = date("d-m-Y");
-	
-	if (empty($dateto)) {
-		$curdate = date('Y-m-d');
-		$dateto = $curdate;
-	}
-	
-	if (empty($datefrom)) {
-		$yesdate = date('Y-m-d', strtotime("-1 days"));
-		$datefrom = $yesdate;
-	}
-	
-	
-	$tab_line = $_SESSION['tab_station'];
-	$is_tab_login = $_SESSION['is_tab_user'];
-	//Set the session duration for 10800 seconds - 3 hours
-	$duration = auto_logout_duration;
-	//Read the request time of the user
-	$time = $_SERVER['REQUEST_TIME'];
-	//Check the user's session exist or not
-	if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > $duration) {
-//Unset the session variables
-		session_unset();
-//Destroy the session
-		session_destroy();
-		if ($_SESSION['is_tab_user'] || $_SESSION['is_cell_login']) {
-			header($redirect_tab_logout_path);
-		} else {
-			header($redirect_logout_path);
-		}
+    $timestamp = date('H:i:s');
+    $message = date("Y-m-d H:i:s");
+    $temp = "";
+    if (empty($dateto)) {
+        $curdate = date('Y-m-d');
+        $dateto = $curdate;
+    }
+    
+    if (empty($datefrom)) {
+        $yesdate = date('Y-m-d', strtotime("-1 days"));
+        $datefrom = $yesdate;
+    }
+    $_SESSION['date_from'] = "";
+    $_SESSION['date_to'] = "";
+    if (count($_POST) > 0) {
+        $_SESSION['date_from'] = $_POST['date_from'];
+        $_SESSION['date_to'] = $_POST['date_to'];
+        $_SESSION['timezone'] = $_POST['timezone'];
 
-//	header('location: ../logout.php');
-		exit;
-	}
+        $dateto = $_POST['date_to'];
+        $datefrom = $_POST['date_from'];
+        $timezone = $_POST['timezone'];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,11 +84,7 @@
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
                     <div class="mdc-card">
-                        <form action="" method="post" id="device_settings" enctype="multipart/form-data">
-							<?php
-								$date_from = $_GET['date_from'];
-								$date_to = $_GET['date_to'];
-							?>
+                        <form action="" method="post" id="device_settings">
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
                                     <div class="mdc-layout-grid__inner">
@@ -128,11 +98,11 @@
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                         <span style="padding: 10px 20px 0px 0px;">Date To</span>
                                         <span><input type="date" class="form-control mdc-text-field__input"
-                                                   name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
+                                                   name="date_to" id="date_to" style="float:left;padding: 0px;height: 40px;"
                                                    value="<?php echo $dateto; ?>" placeholder="Enter Device Name"
                                                      required></span>
 
-                                    </div>
+                                        </div>
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                             <button type="submit" name="submit_btn" id="submit_btn"
                                                     class="mdc-button mdc-button--raised">Submit
@@ -169,7 +139,20 @@
 
 	<?php include('./../../partials/footer.html') ?>
 
-
+<script>
+    $(function () {
+        $('input:radio').change(function () {
+            var abc = $(this).val()
+            //alert(abc)
+            if (abc == "button1")
+            {
+                $('#date_from').prop('disabled', false);
+                $('#date_to').prop('disabled', false);
+                $('#timezone').prop('disabled', true);
+            }
+        });
+    });
+</script>
 <!-- plugins:js -->
 <script src="<?php echo $iotURL ?>assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -184,107 +167,108 @@
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script>
-    $.ajax({
-        url: "../../../devices/schedular/livedata.php?p_id=1",
-        type: "GET",
-        async: false,
-        success: function (data) {
-            console.log(data);
-            var dev_id = [];
-            var datetime = [];
-            var temperature_upp = [];
-            var temperature_low = [];
+    var data = $("#device_settings").serialize();
+            $.ajax({
+                type: "POST",
+                url: "../../../devices/schedular/livedata.php?p_id=1",
+                data: data,
+                success: function (data) {
+                    console.log(data);
+                    var dev_id = [];
+                    var datetime = [];
+                    var temperature_upp = [];
+                    var temperature_low = [];
 
-            var temperature_follower = [];
+                    var temperature_follower = [];
 
 
-            for (var i in data) {
-                dev_id.push("" + data[i].dev_id);
-                temperature_follower.push(data[i].temperature);
-                temperature_upp.push(data[i].upper_tolerance);
-                temperature_low.push(data[i].lower_tolerance);
-                datetime.push(data[i].dTime);
-            }
-            var dPointWidth = datetime.length *50;
-            var chartdata = {
-                labels: datetime,
-                datasets: [
-                    {
-                        label: "temperature",
-                        fill: false,
-                        lineTension: 0.1,
-                        backgroundColor: "rgba(59, 89, 152, 0.75)",
-                        borderColor: "rgba(59, 89, 152, 1)",
-                        pointHoverBackgroundColor: "rgba(59, 89, 152, 1)",
-                        pointHoverBorderColor: "rgba(59, 89, 152, 1)",
-                        data: temperature_follower
-                    },
-                    {
-                        label: "upper_tolerance",
-                        fill: false,
-                        lineTension: 0.1,
-                        backgroundColor: "rgba(143, 0, 12, 0.75)",
-                        borderColor: "rgba(143, 0, 12, 1)",
-                        // borderDash: [5, 5],
-                        pointHoverBackgroundColor: "rgba(143, 0, 12, 1)",
-                        pointHoverBorderColor: "rgba(143, 0, 12, 1)",
-                        data: temperature_upp
-                    },
-                    {
-                        label: "lower_tolerance",
-                        fill: false,
-                        lineTension: 0.1,
-                        backgroundColor: "rgba(206,38,15,0.75)",
-                        borderColor: "rgba(206,38,15, 1)",
-                        borderDash: [5, 5],
-                        pointHoverBackgroundColor: "rgba(206,38,15, 1)",
-                        pointHoverBorderColor: "rgba(206,38,15, 1)",
-                        data: temperature_low
-                    },
+                    for (var i in data) {
+                        dev_id.push("" + data[i].dev_id);
+                        temperature_follower.push(data[i].temperature);
+                        temperature_upp.push(data[i].upper_tolerance);
+                        temperature_low.push(data[i].lower_tolerance);
+                        datetime.push(data[i].dTime);
+                    }
+                    var dPointWidth = datetime.length * 50;
+                    var chartdata = {
+                        labels: datetime,
+                        datasets: [
+                            {
+                                label: "temperature",
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: "rgba(59, 89, 152, 0.75)",
+                                borderColor: "rgba(59, 89, 152, 1)",
+                                pointHoverBackgroundColor: "rgba(59, 89, 152, 1)",
+                                pointHoverBorderColor: "rgba(59, 89, 152, 1)",
+                                data: temperature_follower
+                            },
+                            {
+                                label: "upper_tolerance",
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: "rgba(143, 0, 12, 0.75)",
+                                borderColor: "rgba(143, 0, 12, 1)",
+                                // borderDash: [5, 5],
+                                pointHoverBackgroundColor: "rgba(143, 0, 12, 1)",
+                                pointHoverBorderColor: "rgba(143, 0, 12, 1)",
+                                data: temperature_upp
+                            },
+                            {
+                                label: "lower_tolerance",
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: "rgba(206,38,15,0.75)",
+                                borderColor: "rgba(206,38,15, 1)",
+                                borderDash: [5, 5],
+                                pointHoverBackgroundColor: "rgba(206,38,15, 1)",
+                                pointHoverBorderColor: "rgba(206,38,15, 1)",
+                                data: temperature_low
+                            },
 
-                ]
-            };
+                        ]
+                    };
 
-            var ctx = $("#mycanvas");
-            var rectangleSet = false;
-            var LineGraph = new Chart(ctx, {
-                type: 'line',
-                data: chartdata,
-                // maintainAspectRatio: false,
-                responsive: true,
-                options: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        align: 'center',
-                    },
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                fontSize: 12,
-                                // display: false,
-                                autoSkip: false,
-                                maxRotation: 90,
-                                minRotation: 90
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                fontSize: 12,
-                                beginAtZero: true
-                            }
-                        }]
-                    },maintainAspectRatio: false,
-                   
+                    var ctx = $("#mycanvas");
+                    var rectangleSet = false;
+                    var LineGraph = new Chart(ctx, {
+                        type: 'line',
+                        data: chartdata,
+                        // maintainAspectRatio: false,
+                        responsive: true,
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                align: 'center',
+                            },
+                            scales: {
+                                xAxes: [{
+                                    ticks: {
+                                        fontSize: 12,
+                                        // display: false,
+                                        autoSkip: false,
+                                        maxRotation: 90,
+                                        minRotation: 90
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        fontSize: 12,
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }, maintainAspectRatio: false,
+
+                        }
+                    });
+                    // LineGraph.canvas.parentNode.style.height = '480px';
+                    LineGraph.canvas.parentNode.style.width = dPointWidth + 'px';
+                },
+                error: function (data) {
+
                 }
             });
-            // LineGraph.canvas.parentNode.style.height = '480px';
-            LineGraph.canvas.parentNode.style.width = dPointWidth+'px';
-        },
-        error: function (data) {
-
-        }
-    });
 </script>
 </body>
 </html>

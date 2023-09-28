@@ -1,27 +1,13 @@
-<?php
-require "../../../assets/vendors/autoload.php";
-
+<?php require "../../../assets/vendors/autoload.php";
 use Firebase\JWT\JWT;
-
 $status = '0';
 $message = "";
 include("../../config.php");
 //include("../sup_config.php");
 $chicagotime = date("Y-m-d H:i:s");
-$temp = "";
-$device_id = $_GET['device_id'];
-$temperature_data = '';
-$humidity_data = '';
-$pressure_data = '';
-$iaq_data = '';
-$voc_data = '';
-$co2_data = '';
-$datetime = '';
-
 $timestamp = date('H:i:s');
 $message = date("Y-m-d H:i:s");
-$chicagotime = date("d-m-Y");
-
+$temp = "";
 if (empty($dateto)) {
     $curdate = date('Y-m-d');
     $dateto = $curdate;
@@ -31,31 +17,18 @@ if (empty($datefrom)) {
     $yesdate = date('Y-m-d', strtotime("-1 days"));
     $datefrom = $yesdate;
 }
+$_SESSION['date_from'] = "";
+$_SESSION['date_to'] = "";
+if (count($_POST) > 0) {
+    $_SESSION['date_from'] = $_POST['date_from'];
+    $_SESSION['date_to'] = $_POST['date_to'];
+    $_SESSION['timezone'] = $_POST['timezone'];
 
-
-$tab_line = $_SESSION['tab_station'];
-$is_tab_login = $_SESSION['is_tab_user'];
-//Set the session duration for 10800 seconds - 3 hours
-$duration = auto_logout_duration;
-//Read the request time of the user
-$time = $_SERVER['REQUEST_TIME'];
-//Check the user's session exist or not
-if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > $duration) {
-//Unset the session variables
-    session_unset();
-//Destroy the session
-    session_destroy();
-    if ($_SESSION['is_tab_user'] || $_SESSION['is_cell_login']) {
-        header($redirect_tab_logout_path);
-    } else {
-        header($redirect_logout_path);
-    }
-
-//	header('location: ../logout.php');
-    exit;
+    $dateto = $_POST['date_to'];
+    $datefrom = $_POST['date_from'];
+    $timezone = $_POST['timezone'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,10 +66,6 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
     </style>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
-    <!--	-->
-    <!--    <script type="text/javascript" src="-->
-    <?php //echo $iotURL?><!--/assets/js/linegraph_js/jquery.min.js"></script>-->
-    <!--    <script type="text/javascript" src="--><?php //echo $iotURL ?><!--/assets/js/linegraph_js/Chart.min.js"></script>-->
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -112,10 +81,6 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
                     <div class="mdc-card">
                         <form action="" method="post" id="device_settings" enctype="multipart/form-data">
-                            <?php
-                            $date_from = $_GET['date_from'];
-                            $date_to = $_GET['date_to'];
-                            ?>
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
                                     <div class="mdc-layout-grid__inner">
@@ -123,14 +88,14 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                             <span style="padding: 10px 20px 0px 0px;">Date From</span>
                                             <span><input type="date" class="form-control mdc-text-field__input"
                                                          name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
-                                                         value="<?php echo $datefrom; ?>" placeholder="Enter Date From"
+                                                         value="<?php echo $datefrom; ?>" placeholder="Enter Device Name"
                                                          required></span>
                                         </div>
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                             <span style="padding: 10px 20px 0px 0px;">Date To</span>
                                             <span><input type="date" class="form-control mdc-text-field__input"
-                                                         name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
-                                                         value="<?php echo $dateto; ?>" placeholder="Enter Date To"
+                                                         name="date_to" id="date_to" style="float:left;padding: 0px;height: 40px;"
+                                                         value="<?php echo $dateto; ?>" placeholder="Enter Device Name"
                                                          required></span>
 
                                         </div>
@@ -166,6 +131,20 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        $('input:radio').change(function () {
+            var abc = $(this).val()
+            //alert(abc)
+            if (abc == "button1")
+            {
+                $('#date_from').prop('disabled', false);
+                $('#date_to').prop('disabled', false);
+                $('#timezone').prop('disabled', true);
+            }
+        });
+    });
+</script>
 <!-- plugins:js -->
 <script src="<?php echo $iotURL ?>assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -180,10 +159,11 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script>
+    var data = $("#device_settings").serialize();
     $.ajax({
+        type: "POST",
         url: "../../../devices/schedular/livedata.php?p_id=6",
-        type: "GET",
-        async: false,
+        data: data,
         success : function(data){
             console.log(data);
 
