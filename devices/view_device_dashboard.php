@@ -117,7 +117,7 @@ $co2[] = $co2_data;
                 <div class="mdc-layout-grid">
                     <div class="mdc-layout-grid__inner">
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                            <div class="mdc-card bg-c-lite-green text-center text-white">
+                            <div class="mdc-card bg-c-lite-green text-center text-white" style="position: relative;">
                                 <div class="row">
                                 <div class="bio-row" style="width: 75%!important;text-align: center;margin-bottom: 30px;">
                                     <img src="<?php $iotURL ?>../assets/images/iot_sensor_icon.png"
@@ -125,7 +125,6 @@ $co2[] = $co2_data;
                                 </div>
                                 </div>
                                 <div class="row">
-                                    
                                     <div class="bio-row">
                                         <p><span>Name </span>: <?php echo $row['device_name'] ?></p>
                                     </div>
@@ -133,15 +132,10 @@ $co2[] = $co2_data;
                                         <p><span>Type </span>: <?php echo $d_type_res['dev_type_name'] ?></p>
                                     </div>
                                     <div class="bio-row">
-                                        <p>
-                                            <span>Location </span>: <?php echo $row['device_location'] ?>
-                                        </p>
+                                        <p><span>Location </span>: <?php echo $row['device_location'] ?></p>
                                     </div>
-
                                     <div class="bio-row">
-                                        <p>
-                                            <span>Description </span>: <?php echo $row['device_description'] ?>
-                                        </p>
+                                        <p><span>Description </span>: <?php echo $row['device_description'] ?></p>
                                     </div>
                                     <div class="bio-row">
                                         <hr style="border-top: 1px solid rgb(255 255 255 / 40%) !important;width: 100%;"/>
@@ -154,7 +148,7 @@ $co2[] = $co2_data;
                                     </div>
 
                                 </div>
-                                <p style="text-align: center;"><?php echo 'Time : ' . dateReadFormat($datetime) ?></p>
+                                <div class="time_det"><p><?php echo 'Time : ' . dateReadFormat($datetime) ?></p></div>
                             </div>
                         </div>
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-9-desktop mdc-layout-grid__cell--span-4-tablet">

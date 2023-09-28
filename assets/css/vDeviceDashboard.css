@@ -248,7 +248,7 @@ h6 {
 
 img {
     height: 60px;
-    width: 60px;
+    /*width: 60px;*/
     margin-right: 6%;
     margin-left: 2%;
 }
@@ -316,4 +316,11 @@ div.d-flex.flex-row.mb-3 {
 
 .mdc-card{
     padding: 32px 0px !important;
+}
+
+.time_det{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
 }
