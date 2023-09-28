@@ -36,15 +36,20 @@ function dateReadFormat($datetime) {
 	return date("d-M-Y H:i:s" , strtotime($datetime));
 }
 	
-	function dPMessage(){
-		echo ' <div id="aSucc" class="alert alert-success" style="display: none">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                    ×</button>
-                <p id="dp_suc_msg"></p>
-            </div>
-            <div id="aFail"  class="alert alert-danger" style="display: none">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-			×</button>
-                <p id="dp_fail_msg"></p>
-            </div>';
-	}
+function dPMessage()
+{
+	echo ' <div id="aSucc" class="alert alert-success" style="display: none">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+				×</button>
+			<p id="dp_suc_msg"></p>
+		</div>
+		<div id="aFail"  class="alert alert-danger" style="display: none">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+		×</button>
+			<p id="dp_fail_msg"></p>
+		</div>';
+}
+
+function getFarenheit($temp){
+	return $temp*(9/5) + 32;
+}

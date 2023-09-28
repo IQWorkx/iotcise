@@ -30,6 +30,8 @@ $decoded = json_decode($curl_response);
 if (!empty($decoded ->Temperature)) {
     $device_id =  $decoded ->DeviceID;
     $temperature = $decoded ->Temperature;
+	//Conversion to farenheit
+	$temperature = getFarenheit($temperature);
     $humidity = $decoded ->Humidity;
     $pressure = $decoded ->Pressure;
     $iaq = $decoded ->IAQ;

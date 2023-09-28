@@ -50,6 +50,7 @@ if (!empty($device_id)) {
     if (!empty($decoded->Temperature)) {
 //			$device_id = $decoded->DeviceID;
         $temperature_data = $decoded->Temperature;
+		$temperature_data = getFarenheit($temperature_data);
         $humidity_data = $decoded->Humidity;
         $pressure_data = $decoded->Pressure;
         $iaq_data = $decoded->IAQ;
