@@ -55,7 +55,7 @@ if (!empty($device_id)) {
         $iaq_data = $decoded->IAQ;
         $voc_data = $decoded->VOC;
         $co2_data = $decoded->CO2;
-        $datetime = $decoded->Date_Time;
+        $datetime = $chicagotime;
     }
 
 }

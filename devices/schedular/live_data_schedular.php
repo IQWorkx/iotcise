@@ -35,7 +35,7 @@ if (!empty($decoded ->Temperature)) {
     $iaq = $decoded ->IAQ;
     $voc = $decoded ->VOC;
     $co2 = $decoded ->CO2;
-    $datetime = $decoded ->Date_Time;
+    $datetime = $chicagotime;
 }
 
 //TODO POST api
