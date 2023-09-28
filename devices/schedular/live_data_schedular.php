@@ -86,5 +86,5 @@ if (isset($decoded->status) && $decoded->status == 'ERROR') {
 }
 
 //Run this page in interval of 60 seconds
-header("refresh: 60;");
+//header("refresh: 60;");
 ?>
