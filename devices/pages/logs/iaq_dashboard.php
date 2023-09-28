@@ -55,6 +55,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,12 +73,30 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
     <!-- End plugin css for this page -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/demo/style.css">
+    <style>
+        .chartWrapper {
+            position: relative;
+            background-color: #ffffff;
+        }
+
+        .chartWrapper > canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+        }
+
+        .chartAreaWrapper {
+            width: 98%;
+            overflow-x: scroll;
+        }
+    </style>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
     <!--	-->
     <!--    <script type="text/javascript" src="-->
     <?php //echo $iotURL?><!--/assets/js/linegraph_js/jquery.min.js"></script>-->
-    <script type="text/javascript" src="<?php echo $iotURL ?>/assets/js/linegraph_js/Chart.min.js"></script>
+    <!--    <script type="text/javascript" src="--><?php //echo $iotURL ?><!--/assets/js/linegraph_js/Chart.min.js"></script>-->
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -99,34 +118,30 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                             ?>
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                                        <span style="padding: 10px 20px 0px 0px;">Date From</span>
-                                        <span><input type="date" class="form-control mdc-text-field__input"
-                                                     name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
-                                                     value="<?php echo $datefrom; ?>" placeholder="Enter Device Name"
-                                                     required></span>
-                                    </div>
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                                        <span style="padding: 10px 20px 0px 0px;">Date To</span>
-                                        <span><input type="date" class="form-control mdc-text-field__input"
-                                                     name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
-                                                     value="<?php echo $dateto; ?>" placeholder="Enter Device Name"
-                                                     required></span>
+                                    <div class="mdc-layout-grid__inner">
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                            <span style="padding: 10px 20px 0px 0px;">Date From</span>
+                                            <span><input type="date" class="form-control mdc-text-field__input"
+                                                         name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
+                                                         value="<?php echo $datefrom; ?>" placeholder="Enter Date From"
+                                                         required></span>
+                                        </div>
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                            <span style="padding: 10px 20px 0px 0px;">Date To</span>
+                                            <span><input type="date" class="form-control mdc-text-field__input"
+                                                         name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
+                                                         value="<?php echo $dateto; ?>" placeholder="Enter Date To"
+                                                         required></span>
 
+                                        </div>
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                            <button type="submit" name="submit_btn" id="submit_btn"
+                                                    class="mdc-button mdc-button--raised">Submit
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
-                                <button type="submit" name="submit_btn" id="submit_btn"
-                                        class="mdc-button mdc-button--raised">Submit
-                                </button>
-                                <!-- <button class="mdc-button mdc-button--raised" id="submit_btn">
-									 Submit
-								 </button>-->
-                            </div>
-
-
                         </form>
                     </div>
                 </div>
@@ -136,24 +151,18 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
         <div class="mdc-toolbar-fixed-adjust">
             <main class="content-wrapper">
                 <div class="mdc-layout-grid">
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
-                        <div class="mdc-card">
+                    <div class="chartWrapper mdc-layout-grid__cell mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
+                        <div class="mdc-card chartAreaWrapper">
                             <div class="d-flex d-lg-block d-xl-flex justify-content-between">
-                                <div>
-                                    <h4 class="card-title">IAQ Graph</h4>
-                                    <!--                                    <h6 class="card-sub-title">Customers 58.39k</h6>-->
-                                </div>
-                                <div id="sales-legend" class="d-flex flex-wrap"></div>
+                                <h4 class="card-title">IAQ Graph</h4>
                             </div>
                             <div class="chart-container mt-4">
-                                <canvas id="mycanvas" height="260"></canvas>
+                                <canvas id="mycanvas" height="500" ></canvas>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </main>
-            <?php include('./../../partials/footer.html') ?>
         </div>
     </div>
 </div>
@@ -192,6 +201,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                 iaq_low.push(data[i].lower_tolerance);
                 datetime.push(data[i].dTime);
             }
+            var dPointWidth = datetime.length *50;
 
             var chartdata = {
                 labels: datetime,
@@ -222,7 +232,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                         fill: false,
                         backgroundColor: "rgba(206,38,15,0.75)",
                         borderColor: "rgba(206,38,15, 1)",
-                        borderDash: [5, 5],
+                        //borderDash: [5, 5],
                         pointHoverBackgroundColor: "rgba(206,38,15, 1)",
                         pointHoverBorderColor: "rgba(206,38,15, 1)",
                         data: iaq_low
@@ -232,11 +242,40 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
             };
 
             var ctx = $("#mycanvas");
-
+            var rectangleSet = false;
             var LineGraph = new Chart(ctx, {
                 type: 'line',
-                data: chartdata
+                data: chartdata,
+                // maintainAspectRatio: false,
+                responsive: true,
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        align: 'center',
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontSize: 12,
+                                // display: false,
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 90
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                fontSize: 12,
+                                beginAtZero: true
+                            }
+                        }]
+                    },maintainAspectRatio: false,
+
+                }
             });
+            // LineGraph.canvas.parentNode.style.height = '480px';
+            LineGraph.canvas.parentNode.style.width = dPointWidth+'px';
         },
         error : function(data) {
 
