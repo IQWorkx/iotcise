@@ -209,7 +209,7 @@ header("Location:home.php");
 </div>
 <form method="post">
     <div class="logo">
-        <img class="user" src="./assets/images/site_logo.png"  width="120px">
+        <img class="user" src="../assets/images/site_logo.png"  width="120px">
     </div>
     <?php
     if (!empty($import_status_message)) {
