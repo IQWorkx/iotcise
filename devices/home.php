@@ -60,7 +60,7 @@
 							$d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
 							$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));
 						?>
-                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-4-tablet">
                             <div class="mdc-card info-card info-card--success">
                                 <div class="card-inner">
                                     <h5 class="card-title"><?php echo $row['device_name']?></h5>
@@ -72,11 +72,11 @@
                                                     <a style="padding: 0% 5%;" href="<?php echo $edit_dev_loc?>"><i class="material-icons settings_gear">settings</i></a>
                                                     <a id="del_device" name="del_device" href="pages/devices/delete_device.php?device_id=<?php echo $row['device_id']?>"><i class="material-icons del_icon">delete</i></a>
                                                 </span>
-                                        <span style="width: 35%">
-                                        </span>
+<!--                                        <span style="width: 35%"></span>-->
                                         <span style="width: 25%" id="view_link" class="text-primary">
                                             <a style="" href="<?php echo $view_dev_loc?>">
-                                                <i class="fa-solid fa-eye"></i>
+<!--                                                <i class="fa-solid fa-eye"></i>-->
+                                                <i class="material-icons">visibility</i>
                                             </a>
                                         </span>
                                     </div>

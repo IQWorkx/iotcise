@@ -99,7 +99,7 @@ p{
  }
 
 .bio-row p span {
-    width: 100px;
+    /*width: 100px;*/
     display: inline-block;
 }
 
@@ -312,4 +312,8 @@ div.d-flex.flex-row.mb-3 {
 
 .mdc-card.info-card {
     padding: 17px 0px !important;
+}
+
+.mdc-card{
+    padding: 32px 0px !important;
 }

@@ -109,7 +109,7 @@ $co2[] = $co2_data;
 					$created_date = new DateTime(explode(' ', $row['created_on'])[0]);
 					$current_date = new DateTime(date("Y-m-d"));
 					$period = get_period_ago($current_date, $created_date);
-					$edit_dev_loc = $iotURL . '/device/edit_device.php?device_id=' . $row['device_id'];
+					$edit_dev_loc = $iotURL . 'devices/pages/devices/edit_device.php?device_id=' . $row['device_id'];
 					$d_type_id = $row['type_id'];
 					$d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
 					$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));
