@@ -45,6 +45,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/demo/style.css">
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/pag_table.css"/>
+    <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/common.css"/>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
 </head>
@@ -63,14 +64,20 @@
                           enctype="multipart/form-data">
                         <!--                        <div class="col-md-offset-1 col-md-12">-->
                         <?php
-                        if (!empty($import_status_message)) {
-                        echo '<div class="alert ' . $message_stauts_class . '">' . $import_status_message . '</div>';
+                        
+                        if (!empty($_SESSION['import_status_message']) && ($_SESSION['message_stauts_class'] == 'alert-success')) {
+                            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--success">'.$_SESSION['import_status_message'].'</p>
+                      </div>';
+                        }else if(!empty($import_status_message) && ($import_status_message == 'alert-danger')){
+                            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--secondary">' . $_SESSION['import_status_message'] . '</p>
+                      </div>';
+                        }else{
+							echo '<div class='.$_SESSION['message_stauts_class'].'>' . $_SESSION['import_status_message'] . '</div>';
                         }
-                        if (!empty($_SESSION['import_status_message'])) {
-                        echo '<div><div class="alert ' . $_SESSION['message_stauts_class'] . '">' . $_SESSION['import_status_message'] . '</div></div>';
-                        unset($_SESSION['message_stauts_class']);
-                        unset($_SESSION['import_status_message']);
-                        }
+							unset($_SESSION['message_stauts_class']);
+							unset($_SESSION['import_status_message']);
                         ?>
                         <div class="panel">
                             <div class="panel-heading">

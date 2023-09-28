@@ -72,6 +72,24 @@
     <!-- End plugin css for this page -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/demo/style.css">
+    <style>
+        .chartWrapper {
+            position: relative;
+            background-color: #ffffff;
+        }
+        
+        .chartWrapper > canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+        }
+
+        .chartAreaWrapper {
+            width: 98%;
+            overflow-x: scroll;
+        }
+    </style>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
     <!--	-->
@@ -99,14 +117,15 @@
 							?>
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                    <div class="mdc-layout-grid__inner">
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                         <span style="padding: 10px 20px 0px 0px;">Date From</span>
                                             <span><input type="date" class="form-control mdc-text-field__input"
                                                    name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
                                                    value="<?php echo $datefrom; ?>" placeholder="Enter Device Name"
                                                    required></span>
                                     </div>
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                         <span style="padding: 10px 20px 0px 0px;">Date To</span>
                                         <span><input type="date" class="form-control mdc-text-field__input"
                                                    name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
@@ -114,19 +133,14 @@
                                                      required></span>
 
                                     </div>
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                            <button type="submit" name="submit_btn" id="submit_btn"
+                                                    class="mdc-button mdc-button--raised">Submit
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
-                                <button type="submit" name="submit_btn" id="submit_btn"
-                                        class="mdc-button mdc-button--raised">Submit
-                                </button>
-                                <!-- <button class="mdc-button mdc-button--raised" id="submit_btn">
-									 Submit
-								 </button>-->
-                            </div>
-
-
                         </form>
                     </div>
                 </div>
@@ -136,17 +150,13 @@
         <div class="mdc-toolbar-fixed-adjust">
             <main class="content-wrapper">
                 <div class="mdc-layout-grid">
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
-                        <div class="mdc-card">
+                    <div class="chartWrapper mdc-layout-grid__cell mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
+                        <div class="mdc-card chartAreaWrapper">
                             <div class="d-flex d-lg-block d-xl-flex justify-content-between">
-                                <div>
                                     <h4 class="card-title">Temperature Graph</h4>
-<!--                                    <h6 class="card-sub-title">Customers 58.39k</h6>-->
-                                </div>
-                                <div id="sales-legend" class="d-flex flex-wrap"></div>
                             </div>
                             <div class="chart-container mt-4">
-                                <canvas id="mycanvas" height="260"></canvas>
+                                <canvas id="mycanvas" height="500" ></canvas>
                             </div>
                         </div>
                     </div>
@@ -195,7 +205,7 @@
                 temperature_low.push(data[i].lower_tolerance);
                 datetime.push(data[i].dTime);
             }
-
+            var dPointWidth = datetime.length *50;
             var chartdata = {
                 labels: datetime,
                 datasets: [
@@ -215,7 +225,7 @@
                         lineTension: 0.1,
                         backgroundColor: "rgba(143, 0, 12, 0.75)",
                         borderColor: "rgba(143, 0, 12, 1)",
-                        borderDash: [5, 5],
+                        // borderDash: [5, 5],
                         pointHoverBackgroundColor: "rgba(143, 0, 12, 1)",
                         pointHoverBorderColor: "rgba(143, 0, 12, 1)",
                         data: temperature_upp
@@ -236,22 +246,40 @@
             };
 
             var ctx = $("#mycanvas");
-
+            var rectangleSet = false;
             var LineGraph = new Chart(ctx, {
                 type: 'line',
                 data: chartdata,
+                // maintainAspectRatio: false,
+                responsive: true,
                 options: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        align: 'center',
+                    },
                     scales: {
                         xAxes: [{
                             ticks: {
+                                fontSize: 12,
+                                // display: false,
                                 autoSkip: false,
                                 maxRotation: 90,
                                 minRotation: 90
                             }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                fontSize: 12,
+                                beginAtZero: true
+                            }
                         }]
-                    }
+                    },maintainAspectRatio: false,
+                   
                 }
             });
+            // LineGraph.canvas.parentNode.style.height = '480px';
+            LineGraph.canvas.parentNode.style.width = dPointWidth+'px';
         },
         error: function (data) {
 
