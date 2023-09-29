@@ -188,7 +188,7 @@ if (count($_POST) > 0) {
 
                 datetime.push(data[i].dTime);
             }
-            var dPointWidth = datetime.length *50;
+            var dPointWidth = datetime.length * 20;
 
             var chartdata = {
                 labels: datetime,

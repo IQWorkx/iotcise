@@ -189,7 +189,7 @@
                         temperature_low.push(data[i].lower_tolerance);
                         datetime.push(data[i].dTime);
                     }
-                    var dPointWidth = datetime.length * 50;
+                    var dPointWidth = datetime.length * 20;
                     var chartdata = {
                         labels: datetime,
                         datasets: [
