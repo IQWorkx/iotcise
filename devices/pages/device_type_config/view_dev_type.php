@@ -33,7 +33,7 @@ $_SESSION['LAST_ACTIVITY'] = $time;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IOT Devices</title>
+    <title>Device Type</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -57,7 +57,7 @@ $_SESSION['LAST_ACTIVITY'] = $time;
     <?php include('./../../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "View Devices";
+        $title = "View Device Type";
         include('./../../partials/navbar.html') ?>
         <div class="container add-btn-cont">
             <div class="add-btn-row">
@@ -70,6 +70,22 @@ $_SESSION['LAST_ACTIVITY'] = $time;
                 <div class="mdc-layout-grid">
                     <form action="" id="up-iot-device" method="post" class="form-horizontal"
                           enctype="multipart/form-data">
+                        <?php
+
+                        if (!empty($_SESSION['import_status_message']) && ($_SESSION['message_stauts_class'] == 'alert-success')) {
+                            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--success">'.$_SESSION['import_status_message'].'</p>
+                      </div>';
+                        }else if(!empty($import_status_message) && ($import_status_message == 'alert-danger')){
+                            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--secondary">' . $_SESSION['import_status_message'] . '</p>
+                      </div>';
+                        }else{
+                            echo '<div class='.$_SESSION['message_stauts_class'].'>' . $_SESSION['import_status_message'] . '</div>';
+                        }
+                        unset($_SESSION['message_stauts_class']);
+                        unset($_SESSION['import_status_message']);
+                        ?>
 
                         <div class="panel">
                             <div class="panel-heading">

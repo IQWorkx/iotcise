@@ -56,7 +56,7 @@ if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['dev_type_name']))){
     }
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
-    $import_status_message = 'Iot Device Updated Successfully.';
+    $import_status_message = 'Device Type Created Successfully.';
     $_SESSION['import_status_message'] =  $import_status_message;
     $_SESSION['message_stauts_class'] = $message_stauts_class;
     exit;
@@ -88,7 +88,7 @@ $assign_by = $_SESSION["id"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IOT Add Device</title>
+    <title>Add Device Type</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -113,25 +113,10 @@ $assign_by = $_SESSION["id"];
     <?php include('./../../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "Add an IOT Device";
+        $title = "Add Device Type";
         include('./../../partials/navbar.html') ?>
 
 
-        <?php
-        if (!empty($_SESSION['import_status_message']) && ($_SESSION['message_stauts_class'] == 'alert-success')) {
-            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
-                        <p class="mdc-typography mdc-theme--success">'.$_SESSION['import_status_message'].'</p>
-                      </div>';
-        }else if(!empty($import_status_message) && ($import_status_message == 'alert-danger')){
-            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
-                        <p class="mdc-typography mdc-theme--secondary">' . $_SESSION['import_status_message'] . '</p>
-                      </div>';
-        }else{
-            echo '<div class='.$_SESSION['message_stauts_class'].'>' . $_SESSION['import_status_message'] . '</div>';
-        }
-        unset($_SESSION['message_stauts_class']);
-        unset($_SESSION['import_status_message']);
-        ?>
 
         <div class="mdc-layout-grid">
             <form action="" method="" id="device_settings">
@@ -166,204 +151,6 @@ $assign_by = $_SESSION["id"];
     </div>
 </div>
 
-                    <form action="" id="up-iot-device" method="post" class="form-horizontal"
-                          enctype="multipart/form-data">
-                        <!--                        <div class="col-md-offset-1 col-md-12">-->
-                        <?php
-
-                        if (!empty($_SESSION['import_status_message']) && ($_SESSION['message_stauts_class'] == 'alert-success')) {
-                            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
-                        <p class="mdc-typography mdc-theme--success">'.$_SESSION['import_status_message'].'</p>
-                      </div>';
-                        }else if(!empty($import_status_message) && ($import_status_message == 'alert-danger')){
-                            echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
-                        <p class="mdc-typography mdc-theme--secondary">' . $_SESSION['import_status_message'] . '</p>
-                      </div>';
-                        }else{
-                            echo '<div class='.$_SESSION['message_stauts_class'].'>' . $_SESSION['import_status_message'] . '</div>';
-                        }
-                        unset($_SESSION['message_stauts_class']);
-                        unset($_SESSION['import_status_message']);
-                        ?>
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <div class="mdc-layout-grid__inner form_bg">
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-1-desktop">
-                                        <button onclick="deleteDevices('delete_device.php')" type="button"
-                                                class="pull-left mdc-button mdc-button--raised icon-button filled-button--secondary mdc-ripple-upgraded"
-                                                style="--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 3.58203125px, 7.8125px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
-                                            <i class="material-icons mdc-button__icon">delete</i>
-                                        </button>
-                                    </div>
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-5-desktop">
-                                        <input type="text" class="ptab_search" id="ptab_search"
-                                               placeholder="Type to search">
-                                    </div>
-                                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-                                            <span class="form-horizontal pull-right">
-                                                <div class="form-group">
-                                                    <label>Show : </label>
-                                                    <?php
-                                                    $tab_num_rec = (empty($_POST['tab_rec_num']) ? 10 : $_POST['tab_rec_num']);
-                                                    $pg = (empty($_POST['pg_num']) ? 0 : ($_POST['pg_num'] - 1));
-                                                    $start_index = $pg * $tab_num_rec;
-                                                    ?>
-                                                    <input type="hidden" id='tab_rec_num'
-                                                           value="<?php echo $tab_num_rec ?>">
-                                                    <input type="hidden" id='curr_pg' value="<?php echo $pg ?>">
-                                                    <select id="num_tab_rec" class="ptab_search">
-                                                        <option value="10" <?php echo ($tab_num_rec == 10) ? 'selected' : '' ?>>10</option>
-                                                        <option value="25" <?php echo ($tab_num_rec == 25) ? 'selected' : '' ?>>25</option>
-                                                        <option value="50" <?php echo ($tab_num_rec == 50) ? 'selected' : '' ?>>50</option>
-                                                    </select>
-                                                </div>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-body table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <!--                                        <tr>-->
-                                    <th>
-                                        <label class="ckbox"> <input type="checkbox"
-                                                                     id="checkAll"><span></span></label>
-                                    </th>
-                                    <th>Action</th>
-                                    <!--                                            <th>Customer</th>-->
-                                    <th>Device ID</th>
-                                    <th>Device Name</th>
-                                    <th>Active</th>
-                                    <!--                                            <th>User</th>-->
-                                    <!--                                            <th>Date</th>-->
-                                    <!--                                        </tr>-->
-                                    </thead>
-                                    <tbody id="tbody">
-                                    <tr>
-                                        <?php
-                                        $index_left = 1;
-                                        $index_right = 2;
-                                        $c_query = "SELECT count(*) as tot_count FROM  iot_devices where is_deleted != 1";
-                                        $c_qur = mysqli_query($iot_db, $c_query);
-                                        $c_rowc = mysqli_fetch_array($c_qur);
-                                        $tot_devices = $c_rowc['tot_count'];
-                                        $query = "SELECT * FROM  iot_devices where is_deleted != 1  LIMIT " . $start_index . ',' . $tab_num_rec;
-                                        $qur = mysqli_query($iot_db, $query);
-                                        while ($rowc = mysqli_fetch_array($qur)) {
-                                        ?>
-                                        <td><label class="ckbox"><input type="checkbox" id="delete_check[]"
-                                                                        name="delete_check[]"
-                                                                        value="<?php echo $rowc["device_id"]; ?>"><span></span></label>
-                                        </td>
-                                        <!--                                            <td class="text-center">-->
-                                        <?php //echo ++$counter; ?><!--</td>-->
-                                        <td class="">
-                                            <a href="edit_device.php?device_id=<?php echo $rowc["device_id"]; ?>"
-                                               class="edit-btn">
-                                                <!--                                                <i class="fa fa-pencil-alt"></i>-->
-                                                <i class="material-icons mdc-button__icon" style="font-size: large">edit</i>
-                                            </a>
-                                        </td>
-                                        <!--                                                <td>--><?php //$c_id =  $rowc["c_id"];
-                                        //														$qurtemp = mysqli_query($db, "SELECT c_name FROM  cus_account where c_id  = '$c_id'");
-                                        //														while ($rowctemp = mysqli_fetch_array($qurtemp)) {
-                                        //															$c_name = $rowctemp["c_name"];
-                                        //														}
-                                        //													?>
-                                        <!--													--><?php //echo  $c_name; ?>
-                                        <!--                                                </td>-->
-                                        <td><?php echo $rowc["device_id"]; ?></td>
-                                        <td><?php echo $rowc["device_name"]; ?></td>
-                                        <td>
-                                            <?php
-                                            if ($rowc["is_active"] == 1) {
-                                                echo 'Yes';
-                                            } else {
-                                                echo 'No';
-                                            }
-                                            ?>
-                                        </td>
-                                        <!--                                            <td>-->
-                                        <!--												--><?php
-                                        //													$created_by =  $rowc["created_by"];
-                                        //													$qurtmp = mysqli_query($db, "SELECT firstname,lastname FROM cam_users where users_id = '$created_by'");
-                                        //													while ($rowctmp = mysqli_fetch_array($qurtmp)) {
-                                        //														$firstname = $rowctmp["firstname"];
-                                        //														$lastname = $rowctmp["lastname"];
-                                        //														$fullname = $firstname . ' ' . $lastname;
-                                        //													}
-                                        //												?>
-                                        <!--												--><?php //echo  $fullname; ?>
-                                        <!--                                            </td>-->
-                                        <!---->
-                                        <!--                                            <td>-->
-                                        <?php //echo  dateReadFormat($rowc["created_on"]); ?><!--</td>-->
-                                    </tr>
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="panel-footer">
-                                <div class="mdc-layout-grid__inner form_bg">
-                                    <?php
-                                    $remainder = $tot_devices % $tab_num_rec;
-                                    $quotient = ($tot_devices - $remainder) / $tab_num_rec;
-                                    $tot_pg = (($remainder == 0) ? $quotient : ($quotient + 1));
-                                    $curr_page = ($pg + 1);
-                                    ?>
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">Page <b><?php echo $curr_page ?></b> of
-                                        <b><?php echo $tot_pg ?></b></div>
-                                    <!--                                        <div class="col-sm-4 col-xs-6" style="text-align: center">Page - -->
-                                    <?php //echo $curr_page; ?><!--</div>-->
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">Go To Page -
-                                        <input id="num_tab_pg" class="ptab_goto_num" type="number" min="1"
-                                               value='<?php echo $curr_page ?>'/>
-                                    </div>
-                                    <!--                                        <div class="col-sm-4 col-xs-6" style="text-align: center">Go To Page --->
-                                    <!--                                            <select id="num_tab_pg" class="ptab_search">-->
-                                    <!--												--><?php
-                                    //													for ($y = 1; $y <= $tot_pg; $y++) {
-                                    //														if($y == $curr_page){
-                                    //															echo "<option value='$y' selected>$y</option>";
-                                    ////															echo "<li" . " class='active'" . "><a class='tab_pg' id='tab_pg_$x' val='$x' >$x</a></li>";
-                                    //														}else{
-                                    //															echo "<option value='$y'>$y</option>";
-                                    //														}
-                                    //													}
-                                    //												?>
-                                    <!--                                            </select>-->
-                                    <!--                                        </div>-->
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                                    </div>
-                                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                                        <ul class="pagination hidden-xs pull-right">
-                                            <?php
-
-                                            $xx = (($curr_page - 2) > 0) ? ($curr_page - 2) : 1;
-                                            $zz = (($curr_page + 2) < $tot_pg) ? ($curr_page + 2) : $tot_pg;
-                                            if ($curr_page > 1) {
-                                                $pPg = $xx - 1;
-                                                echo "<li><a <a id='prev_pg' val='$pPg'>«</a></li>";
-                                            }
-                                            for ($x = $xx; $x <= $zz; $x++) {
-                                                if ($x == $curr_page) {
-                                                    echo "<li" . " class='active'" . "><a class='tab_pg' id='tab_pg_$x' val='$x' >$x</a></li>";
-                                                } else {
-                                                    echo "<li><a class='tab_pg'  id='tab_pg_$x' val='$x' >$x</a></li>";
-                                                }
-                                            }
-                                            if ($curr_page < $tot_pg) {
-                                                $nPg = $zz + 1;
-                                                echo "<li><a id='next_pg' val='$nPg'>»</a></li>";
-                                            }
-                                            ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        </div>-->
-                    </form>
 
 <!-- plugins:js -->
 <script src="<?php echo $iotURL ?>/assets/vendors/js/vendor.bundle.base.js"></script>

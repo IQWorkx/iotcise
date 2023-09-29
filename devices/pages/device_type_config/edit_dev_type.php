@@ -1,14 +1,14 @@
-<?php require "../../../assets/vendors/autoload.php";
+<?php
+require "../../../assets/vendors/autoload.php";
 use Firebase\JWT\JWT;
 $status = '0';
 $message = "";
 include("../../config.php");
-//include("../sup_config.php");
 
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
+if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_type_name']))) {
 
-if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_type_name']))){
     $type_id = $_POST['edit_type_id'];
     $edit_type_name  = $_POST['edit_type_name'];
 
@@ -44,7 +44,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_type_name']))){
     }
     curl_close($curl);
     $decoded = json_decode($curl_response);
-
     if (isset($decoded->status) && $decoded->status == 'ERROR') {
         die('error occured: ' . $decoded->errormessage);
         $errors[] = "Iot Device Not Updated.";
@@ -54,7 +53,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_type_name']))){
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
     $import_status_message = 'Iot Device Updated Successfully.';
-    header('Location: view_dev_type.php');
+    $_SESSION['import_status_message'] =  $import_status_message;
+    $_SESSION['message_stauts_class'] = $message_stauts_class;
     exit;
 }
 ?>
@@ -64,7 +64,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_type_name']))){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Edit IOT Device</title>
+        <title>Edit Device Type</title>
         <!-- plugins:css -->
         <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -85,13 +85,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_type_name']))){
 <?php include('./../../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
 <?php
-$title = "Edit an IOT Device";
+$title = "Edit Device Type";
 include('./../../partials/navbar.html') ?>
     <div class="mdc-layout-grid">
-        <form action="" method="" id="device_settings">
+        <form action="" method="" id="EditDeviceForm">
             <?php
             $type_id = $_GET['type_id'];
-
             $sql = "select * from iot_device_type where type_id = '$type_id' and is_deleted != 1";
             $res = mysqli_query($iot_db, $sql);
             $row = mysqli_fetch_array($res);
@@ -102,44 +101,47 @@ include('./../../partials/navbar.html') ?>
                 <form action="" method="" id="device_settings">
 
                     <div class="mdc-layout-grid__inner form_bg">
-                        <!--     Device type and Customer           -->
 
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                             <div class="mdc-text-field mdc-text-field--outlined">
-                                <input type="hidden" name="edit_type_id" id="edit_type_id" value="<?php echo $type_id;?>">
+                                <input type="hidden" name="edit_type_id" id="edit_type_id" value="<?php echo $type_id; ?>">
 
-                                <input class="mdc-text-field__input" name="edit_type_name" id="edit_type_name" value="<?php echo $dev_type_name;?>" >
+                      <input class="mdc-text-field__input" name="edit_type_name" id="edit_type_name" value="<?php echo $dev_type_name;?>" >
                                 <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                     <div class="mdc-notched-outline__leading"></div>
                                     <div class="mdc-notched-outline__notch" style="">
-                                        <label for="text-field-hero-input" class="mdc-floating-label" style="">Device Type</label>
+                                        <label for="text-field-hero-input" class="mdc-floating-label" style=""></label>
                                     </div>
                                     <div class="mdc-notched-outline__trailing"></div>
                                 </div>
                             </div>
                         </div>
-
-
                         <!-- Submit                -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
                             <button type="submit" id="submit_btn" class="mdc-button mdc-button--raised">Update</button>
-
-
                         </div>
-
                     </div>
-        </form>
-    </div>
-    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
-
+    <!-- plugins:js -->
+    <script src="<?php echo $iotURL ?>/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="<?php echo $iotURL ?>/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="<?php echo $iotURL ?>/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="<?php echo $iotURL ?>/assets/js/material.js"></script>
+    <script src="<?php echo $iotURL ?>/assets/js/misc.js"></script>
     <script>
         $( "#submit_btn" ).click(function (e){
             e.preventDefault();
             $(':input[type="button"]').prop('disabled', true);
-            var data = $("#device_settings").serialize();
+            var data = $("#EditDeviceForm").serialize();
             $.ajax({
                 type: 'POST',
                 url: 'edit_dev_type.php',
@@ -151,8 +153,6 @@ include('./../../partials/navbar.html') ?>
             });
         });
     </script>
-
-
 </body>
 
 
