@@ -33,7 +33,7 @@ $_SESSION['LAST_ACTIVITY'] = $time;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Device Type</title>
+    <title>IOT Devices</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -57,11 +57,11 @@ $_SESSION['LAST_ACTIVITY'] = $time;
     <?php include('./../../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "View Device Type";
+        $title = "View Devices";
         include('./../../partials/navbar.html') ?>
         <div class="container add-btn-cont" style="margin-left: 45px;">
             <div class="add-btn-row">
-                <button class="mdc-button mdc-button--raised" id="myButton">Add Device Type &emsp;<i class="fa fa-plus-circle"></i></button>
+                <button class="mdc-button mdc-button--raised" id="myButton">Add Device Parameter &emsp;<i class="fa fa-plus-circle"></i></button>
             </div>
         </div>
 
@@ -91,7 +91,7 @@ $_SESSION['LAST_ACTIVITY'] = $time;
                             <div class="panel-heading">
                                 <div class="mdc-layout-grid__inner form_bg">
                                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-1-desktop">
-                                        <button onclick="deleteDevices('delete_dev_type.php')" type="button"
+                                        <button onclick="deleteDevices('delete_dev_parameter.php')" type="button"
                                                 class="pull-left mdc-button mdc-button--raised icon-button filled-button--secondary mdc-ripple-upgraded"
                                                 style="--mdc-ripple-fg-size: 21px; --mdc-ripple-fg-scale: 2.900556583115782; --mdc-ripple-fg-translate-start: 3.58203125px, 7.8125px; --mdc-ripple-fg-translate-end: 7.5px, 7.5px;">
                                             <i class="material-icons mdc-button__icon">delete</i>
@@ -130,9 +130,10 @@ $_SESSION['LAST_ACTIVITY'] = $time;
                                         <label class="ckbox"> <input type="checkbox" id="checkAll"><span></span></label>
                                     </th>
                                     <th>Action</th>
-                                    <th>Sl No</th>
+                                    <th>ID</th>
+                                    <th>Parameter Name</th>
 
-                                    <th>Device Type</th>
+
                                     </thead>
                                     <tbody id="tbody">
                                     <tr>
@@ -143,20 +144,20 @@ $_SESSION['LAST_ACTIVITY'] = $time;
                                         $c_qur = mysqli_query($iot_db, $c_query);
                                         $c_rowc = mysqli_fetch_array($c_qur);
                                         $tot_devices = $c_rowc['tot_count'];
-                                        $query = "SELECT * FROM  iot_device_type where is_deleted != 1  LIMIT " . $start_index . ',' . $tab_num_rec;
+                                        $query = "SELECT * FROM  iot_parameter where is_deleted != 1  LIMIT " . $start_index . ',' . $tab_num_rec;
                                         $qur = mysqli_query($iot_db, $query);
                                         while ($rowc = mysqli_fetch_array($qur)) {
                                         ?>
                                         <td><label class="ckbox"><input type="checkbox" id="delete_check[]" name="delete_check[]"
-                                                                        value="<?php echo $rowc["type_id"]; ?>"><span></span></label></td>
+                                                                        value="<?php echo $rowc["p_id"]; ?>"><span></span></label></td>
                                         <!--                                            <td class="text-center">--><?php //echo ++$counter; ?><!--</td>-->
                                         <td class="">
-                                            <a href="edit_dev_type.php?type_id=<?php echo  $rowc["type_id"]; ?>" class="edit-btn">
+                                            <a href="edit_dev_parameter.php?p_id=<?php echo  $rowc["p_id"]; ?>" class="edit-btn">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                         </td>
-                                        <td><?php echo  $rowc["type_id"]; ?></td>
-                                        <td><?php echo  $rowc["dev_type_name"]; ?></td>
+                                        <td><?php echo  $rowc["p_id"]; ?></td>
+                                        <td><?php echo  $rowc["p_name"]; ?></td>
 
                                     </tr>
                                     <?php } ?>
@@ -243,8 +244,8 @@ $_SESSION['LAST_ACTIVITY'] = $time;
 <!-- endinject -->
 <script>
 
-        document.getElementById("myButton").onclick = function () {
-        location.href = "create_dev_type.php";
+    document.getElementById("myButton").onclick = function () {
+        location.href = "create_dev_parameter.php";
     };
 
 
