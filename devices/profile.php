@@ -135,7 +135,7 @@ if (count($_POST) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Device Type</title>
+    <title>Profile</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -156,7 +156,7 @@ if (count($_POST) > 0) {
     <?php include('partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "Edit Device Type";
+        $title = "Profile";
         include('partials/navbar.html') ?>
         <div class="mdc-layout-grid">
             <form action="" method="" id="DeviceForm">
