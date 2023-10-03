@@ -51,12 +51,19 @@ $assign_by = $_SESSION["id"];
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/demo/style.css">
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/pag_table.css"/>
+
+    <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/select2.min.css"/>
+
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/common.css"/>
 
+    <!-- INTERNAL Select2 css -->
+    <link href="<?php echo $iotURL; ?>/assets/plugins/select2.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/customForm.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
+    <!-- STYLES CSS -->
+    <link href="<?php echo $iotURL; ?>/assets/css/style.css" rel="stylesheet">
+
+    <link href="<?php echo $iotURL; ?>/assets/css/style-dark.css" rel="stylesheet">
+    <link href="<?php echo $iotURL; ?>/assets/css/style-transparent.css" rel="stylesheet">
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -67,215 +74,215 @@ $assign_by = $_SESSION["id"];
         $title = "Email Configuration";
         include('../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
-            <?php
-            $query = sprintf("SELECT * FROM email_config where p_id = '1'");
-            $qur = mysqli_query($iot_db, $query);
-            while ($rowc = mysqli_fetch_array($qur)) {
-            ?>
-            <form action="" method="" id="device_settings">
-                <div class="mdc-layout-grid__inner form_bg">
-                    <div class="w100 mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
-                        <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
-                            <div class="w100 template-demo">
-                                <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
-                                    <input type="hidden" name="users" id="users" multiple="multiple">
-                                    <i class="mdc-select__dropdown-icon"></i>
-                                    <div class="mdc-select__selected-text"></div>
-                                    <div class="mdc-select__menu mdc-menu-surface demo-width-class">
-                                        <ul class="mdc-list">
-                                            <?php
-                                            $sql1 = "SELECT * FROM `iot_users` where is_deleted != 1";
-                                            $result1 = mysqli_query($iot_db,$sql1);
-                                            while ($row1 = $result1->fetch_assoc()) {
+            <form action="" method="" id="">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="">
+                                <div class="card-header">
+                                    <span class="main-content-title mg-b-0 mg-b-lg-1">Temperature</span>
+                                </div>
+                                <div class="pd-30 pd-sm-20">
+                                    <div class="row row-xs">
+                                        <div class="col-md-1">
+                                            <label class="form-label mg-b-0">Users</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-10 mg-md-t-0">
+                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                                <option value="" > Select Users </option>
+                                                <?php
+                                                $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
+                                                $result1 = $mysqli->query($sql1);
+                                                while ($row1 = $result1->fetch_assoc()) {
+
+                                                    echo "<option value='" . $row1['users_id'] . "' $selected>" . $row1['firstname'] . "&nbsp;" . $row1['lastname'] . "</option>";
+                                                }
                                                 ?>
-                                                <li class="mdc-list-item" data-value="<?php  echo $row1['cust_id']; ?>">
-                                                    <?php  echo $row1['cust_fistname'] . '.' . $row1['cust_lastname']; ?>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
+                                            </select>
+                                        </div>
+
                                     </div>
-                                    <span class="mdc-floating-label"></span>
-                                    <div class="mdc-line-ripple"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
-                        <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="subject" id="subject" placeholder="Enter Subject" value="<?php echo $rowc["subject"]; ?>" required>
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch" style="">
-                                    <label for="text-field-hero-input" class="mdc-floating-label" style="">Subject</label>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="">
+                                <div class="card-header">
+                                    <span class="main-content-title mg-b-0 mg-b-lg-1">Humidity</span>
                                 </div>
-                                <div class="mdc-notched-outline__trailing"></div>
+                                <div class="pd-30 pd-sm-20">
+                                    <div class="row row-xs">
+                                        <div class="col-md-1">
+                                            <label class="form-label mg-b-0">Users</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-10 mg-md-t-0">
+                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                                <option value="" > Select Users </option>
+                                                <?php
+                                                $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
+                                                $result1 = $mysqli->query($sql1);
+                                                while ($row1 = $result1->fetch_assoc()) {
+
+                                                    echo "<option value='" . $row1['users_id'] . "' $selected>" . $row1['firstname'] . "&nbsp;" . $row1['lastname'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
-                        <div class="mdc-text-field mdc-text-field--outlined">
-                            <textarea id="message" name="message" rows="4" placeholder="Enter Message..." class="mdc-text-field__input"><?php echo $rowc["message"]; ?></textarea>
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch" style="">
-                                    <label for="text-field-hero-input" class="mdc-floating-label" style="">Message</label>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="">
+                                <div class="card-header">
+                                    <span class="main-content-title mg-b-0 mg-b-lg-1">Pressure</span>
                                 </div>
-                                <div class="mdc-notched-outline__trailing"></div>
+                                <div class="pd-30 pd-sm-20">
+                                    <div class="row row-xs">
+                                        <div class="col-md-1">
+                                            <label class="form-label mg-b-0">Users</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-10 mg-md-t-0">
+                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                                <option value="" > Select Users </option>
+                                                <?php
+                                                $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
+                                                $result1 = $mysqli->query($sql1);
+                                                while ($row1 = $result1->fetch_assoc()) {
+
+                                                    echo "<option value='" . $row1['users_id'] . "' $selected>" . $row1['firstname'] . "&nbsp;" . $row1['lastname'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
-                        <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="signature" id="signature" value="<?php echo $rowc["signature"]; ?>" placeholder="Enter Signature..." required>
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch" style="">
-                                    <label for="text-field-hero-input" class="mdc-floating-label" style="">Signature</label>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="">
+                                <div class="card-header">
+                                    <span class="main-content-title mg-b-0 mg-b-lg-1">IAQ</span>
                                 </div>
-                                <div class="mdc-notched-outline__trailing"></div>
+                                <div class="pd-30 pd-sm-20">
+                                    <div class="row row-xs">
+                                        <div class="col-md-1">
+                                            <label class="form-label mg-b-0">Users</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-10 mg-md-t-0">
+                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                                <option value="" > Select Users </option>
+                                                <?php
+                                                $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
+                                                $result1 = $mysqli->query($sql1);
+                                                while ($row1 = $result1->fetch_assoc()) {
+
+                                                    echo "<option value='" . $row1['users_id'] . "' $selected>" . $row1['firstname'] . "&nbsp;" . $row1['lastname'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop"></div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <input type="checkbox"
-                                       id="temp_email"
-                                       name="temp_email" value="1"
-                                       class="mdc-checkbox__native-control"
-                                       checked />
-                                <div class="mdc-checkbox__background">
-                                    <svg class="mdc-checkbox__checkmark"
-                                         viewBox="0 0 24 24">
-                                        <path class="mdc-checkbox__checkmark-path"
-                                              fill="none"
-                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="">
+                                <div class="card-header">
+                                    <span class="main-content-title mg-b-0 mg-b-lg-1">VOC</span>
+                                </div>
+                                <div class="pd-30 pd-sm-20">
+                                    <div class="row row-xs">
+                                        <div class="col-md-1">
+                                            <label class="form-label mg-b-0">Users</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-10 mg-md-t-0">
+                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                                <option value="" > Select Users </option>
+                                                <?php
+                                                $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
+                                                $result1 = $mysqli->query($sql1);
+                                                while ($row1 = $result1->fetch_assoc()) {
+
+                                                    echo "<option value='" . $row1['users_id'] . "' $selected>" . $row1['firstname'] . "&nbsp;" . $row1['lastname'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Temperature Email</label>
                         </div>
                     </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-9-desktop"></div>
-                   <!-- <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <input type="checkbox"
-                                       id="hum_email"
-                                       name="hum_email" value="1"
-                                       class="mdc-checkbox__native-control"
-                                       checked />
-                                <div class="mdc-checkbox__background">
-                                    <svg class="mdc-checkbox__checkmark"
-                                         viewBox="0 0 24 24">
-                                        <path class="mdc-checkbox__checkmark-path"
-                                              fill="none"
-                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="">
+                                <div class="card-header">
+                                    <span class="main-content-title mg-b-0 mg-b-lg-1">Co2</span>
+                                </div>
+                                <div class="pd-30 pd-sm-20">
+                                    <div class="row row-xs">
+                                        <div class="col-md-1">
+                                            <label class="form-label mg-b-0">Users</label>
+                                        </div>
+                                        <div class="col-md-8 mg-t-10 mg-md-t-0">
+                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                                <option value="" > Select Users </option>
+                                                <?php
+                                                $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
+                                                $result1 = $mysqli->query($sql1);
+                                                while ($row1 = $result1->fetch_assoc()) {
+
+                                                    echo "<option value='" . $row1['users_id'] . "' $selected>" . $row1['firstname'] . "&nbsp;" . $row1['lastname'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Humidity Email</label>
                         </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <input type="checkbox"
-                                       id="pres_email"
-                                       name="pres_email" value="1"
-                                       class="mdc-checkbox__native-control"
-                                       checked />
-                                <div class="mdc-checkbox__background">
-                                    <svg class="mdc-checkbox__checkmark"
-                                         viewBox="0 0 24 24">
-                                        <path class="mdc-checkbox__checkmark-path"
-                                              fill="none"
-                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                            </div>
-                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Pressure Email</label>
-                        </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop"></div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <input type="checkbox"
-                                       id="iaq_email"
-                                       name="iaq_email" value="1"
-                                       class="mdc-checkbox__native-control"
-                                       checked />
-                                <div class="mdc-checkbox__background">
-                                    <svg class="mdc-checkbox__checkmark"
-                                         viewBox="0 0 24 24">
-                                        <path class="mdc-checkbox__checkmark-path"
-                                              fill="none"
-                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                            </div>
-                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">IAQ Email</label>
-                        </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <input type="checkbox"
-                                       id="voc_email"
-                                       name="voc_email" value="1"
-                                       class="mdc-checkbox__native-control"
-                                       checked />
-                                <div class="mdc-checkbox__background">
-                                    <svg class="mdc-checkbox__checkmark"
-                                         viewBox="0 0 24 24">
-                                        <path class="mdc-checkbox__checkmark-path"
-                                              fill="none"
-                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                            </div>
-                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">VOC Email</label>
-                        </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <input type="checkbox"
-                                       id="co2_email"
-                                       name="co2_email" value="1"
-                                       class="mdc-checkbox__native-control"
-                                       checked />
-                                <div class="mdc-checkbox__background">
-                                    <svg class="mdc-checkbox__checkmark"
-                                         viewBox="0 0 24 24">
-                                        <path class="mdc-checkbox__checkmark-path"
-                                              fill="none"
-                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                            </div>
-                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">CO2 Email</label>
-                        </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop"></div>-->
-                    <!-- Submit -->
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                        <button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Submit</button>
                     </div>
                 </div>
+                <div class="card">
+                <div class="pd-30 pd-sm-20">
+                    <div class="row row-xs">
+                        <button type="submit" class="btn btn-primary pd-x-30 mg-r-5 mg-t-5 submit_btn">Submit</button>
+                    </div>
+                </div>
+                </div>
+
             </form>
-            <?php } ?>
+
+
+
         </div>
     </div>
 </div>
+
+</body>
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 
 <!-- plugins:js -->
@@ -289,6 +296,12 @@ $assign_by = $_SESSION["id"];
 <script src="<?php echo $iotURL ?>/assets/js/material.js"></script>
 <script src="<?php echo $iotURL ?>/assets/js/misc.js"></script>
 <!-- endinject -->
+
+
+<script src="<?php echo $iotURL; ?>/assets/js/select2.js"></script>
+<script src="<?php echo $iotURL; ?>/assets/js/select2.full.min.js"></script>
+
+
 
 </body>
 </html>
