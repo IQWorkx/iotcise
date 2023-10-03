@@ -39,7 +39,7 @@ $assign_by = $_SESSION["id"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add Device Parameter</title>
+    <title>Email Configuration</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -64,38 +64,45 @@ $assign_by = $_SESSION["id"];
     <?php include('../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "Add Device Parameter";
+        $title = "Email Configuration";
         include('../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
+            <?php
+            $query = sprintf("SELECT * FROM email_config where p_id = '1'");
+            $qur = mysqli_query($iot_db, $query);
+            while ($rowc = mysqli_fetch_array($qur)) {
+            ?>
             <form action="" method="" id="device_settings">
                 <div class="mdc-layout-grid__inner form_bg">
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
-                        <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="p_name" id="p_name" required>
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch" style="">
-                                    <label for="text-field-hero-input" class="mdc-floating-label" style="">Parameter</label>
+                    <div class="w100 mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
+                        <div class="w100 mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-6-desktop stretch-card">
+                            <div class="w100 template-demo">
+                                <div class="w100 mdc-select demo-width-class" data-mdc-auto-init="MDCSelect">
+                                    <input type="hidden" name="users" id="users" multiple="multiple">
+                                    <i class="mdc-select__dropdown-icon"></i>
+                                    <div class="mdc-select__selected-text"></div>
+                                    <div class="mdc-select__menu mdc-menu-surface demo-width-class">
+                                        <ul class="mdc-list">
+                                            <?php
+                                            $sql1 = "SELECT * FROM `iot_users` where is_deleted != 1";
+                                            $result1 = mysqli_query($iot_db,$sql1);
+                                            while ($row1 = $result1->fetch_assoc()) {
+                                                ?>
+                                                <li class="mdc-list-item" data-value="<?php  echo $row1['cust_id']; ?>">
+                                                    <?php  echo $row1['cust_fistname'] . '.' . $row1['cust_lastname']; ?>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                    <span class="mdc-floating-label"></span>
+                                    <div class="mdc-line-ripple"></div>
                                 </div>
-                                <div class="mdc-notched-outline__trailing"></div>
                             </div>
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="firstname">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch" style="">
-                                    <label for="text-field-hero-input" class="mdc-floating-label" style=""> To Users</label>
-                                </div>
-                                <div class="mdc-notched-outline__trailing"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
-                        <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="firstname"  >
+                            <input class="mdc-text-field__input" name="subject" id="subject" placeholder="Enter Subject" value="<?php echo $rowc["subject"]; ?>" required>
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -107,7 +114,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="firstname" >
+                            <textarea id="message" name="message" rows="4" placeholder="Enter Message..." class="mdc-text-field__input"><?php echo $rowc["message"]; ?></textarea>
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -119,7 +126,7 @@ $assign_by = $_SESSION["id"];
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" name="firstname">
+                            <input class="mdc-text-field__input" name="signature" id="signature" value="<?php echo $rowc["signature"]; ?>" placeholder="Enter Signature..." required>
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -129,13 +136,143 @@ $assign_by = $_SESSION["id"];
                             </div>
                         </div>
                     </div>
-
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop"></div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
+                        <div class="mdc-form-field">
+                            <div class="mdc-checkbox">
+                                <input type="checkbox"
+                                       id="temp_email"
+                                       name="temp_email" value="1"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark"
+                                         viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path"
+                                              fill="none"
+                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                            </div>
+                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Temperature Email</label>
+                        </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-9-desktop"></div>
+                   <!-- <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
+                        <div class="mdc-form-field">
+                            <div class="mdc-checkbox">
+                                <input type="checkbox"
+                                       id="hum_email"
+                                       name="hum_email" value="1"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark"
+                                         viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path"
+                                              fill="none"
+                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                            </div>
+                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Humidity Email</label>
+                        </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
+                        <div class="mdc-form-field">
+                            <div class="mdc-checkbox">
+                                <input type="checkbox"
+                                       id="pres_email"
+                                       name="pres_email" value="1"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark"
+                                         viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path"
+                                              fill="none"
+                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                            </div>
+                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Pressure Email</label>
+                        </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop"></div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
+                        <div class="mdc-form-field">
+                            <div class="mdc-checkbox">
+                                <input type="checkbox"
+                                       id="iaq_email"
+                                       name="iaq_email" value="1"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark"
+                                         viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path"
+                                              fill="none"
+                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                            </div>
+                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">IAQ Email</label>
+                        </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
+                        <div class="mdc-form-field">
+                            <div class="mdc-checkbox">
+                                <input type="checkbox"
+                                       id="voc_email"
+                                       name="voc_email" value="1"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark"
+                                         viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path"
+                                              fill="none"
+                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                            </div>
+                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">VOC Email</label>
+                        </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop">
+                        <div class="mdc-form-field">
+                            <div class="mdc-checkbox">
+                                <input type="checkbox"
+                                       id="co2_email"
+                                       name="co2_email" value="1"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark"
+                                         viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path"
+                                              fill="none"
+                                              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                            </div>
+                            <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">CO2 Email</label>
+                        </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop"></div>-->
                     <!-- Submit -->
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                         <button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Submit</button>
                     </div>
                 </div>
             </form>
+            <?php } ?>
         </div>
     </div>
 </div>
