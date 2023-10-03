@@ -125,7 +125,7 @@
                                     </th>
                                     <th>Action</th>
                                     <!--                                            <th>Customer</th>-->
-                                    <th>Device ID</th>
+<!--                                    <th>Device ID</th>-->
                                     <th>Device Name</th>
                                     <th>Active</th>
                                     <!--                                            <th>User</th>-->
@@ -166,7 +166,7 @@
 											//													?>
                                         <!--													--><?php //echo  $c_name; ?>
                                         <!--                                                </td>-->
-                                        <td><?php echo $rowc["device_id"]; ?></td>
+<!--                                        <td>--><?php //echo $rowc["device_id"]; ?><!--</td>-->
                                         <td><?php echo $rowc["device_name"]; ?></td>
                                         <td>
 											<?php
