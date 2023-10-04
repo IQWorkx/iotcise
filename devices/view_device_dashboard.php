@@ -5,7 +5,7 @@ $status = '0';
 $message = "";
 include("config.php");
 //include("../sup_config.php");
-$chicagotime = date("Y-m-d H:i:s");
+//$chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 $device_id = $_GET['device_id'];
 $temperature_data = '';
@@ -15,8 +15,6 @@ $iaq_data = '';
 $voc_data = '';
 $co2_data = '';
 $datetime = '';
-$tab_line = $_SESSION['tab_station'];
-$is_tab_login = $_SESSION['is_tab_user'];
 //Set the session duration for 10800 seconds - 3 hours
 $duration = auto_logout_duration;
 //Read the request time of the user
@@ -56,7 +54,10 @@ if (!empty($device_id)) {
         $iaq_data = $decoded->IAQ;
         $voc_data = $decoded->VOC;
         $co2_data = $decoded->CO2;
-        $datetime = $chicagotime;
+		$createdAt = $decoded->Date_Time;
+		$dateFrom = new DateTime($createdAt, new DateTimeZone('UTC'));
+		$dateFrom->setTimezone(new DateTimeZone('America/Chicago'));
+		$datetime = $dateFrom->format('Y-m-d H:i:s');
     }
 
 }

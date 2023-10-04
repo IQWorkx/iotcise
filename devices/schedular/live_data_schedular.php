@@ -6,7 +6,7 @@ use Firebase\JWT\JWT;
 $status = '0';
 $message = "";
 include("./../config.php");
-$chicagotime = date("Y-m-d H:i:s");
+//$chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 
 
@@ -37,7 +37,11 @@ if (!empty($decoded ->Temperature)) {
     $iaq = $decoded ->IAQ;
     $voc = $decoded ->VOC;
     $co2 = $decoded ->CO2;
-    $datetime = $chicagotime;
+//    $dtime = new DateTime($decoded->Date_Time);
+	$createdAt = $decoded->Date_Time;
+	$dateFrom = new DateTime($createdAt, new DateTimeZone('UTC'));
+	$dateFrom->setTimezone(new DateTimeZone('America/Chicago'));
+	$datetime = $dateFrom->format('Y-m-d H:i:s');
 }
 
 //TODO POST api

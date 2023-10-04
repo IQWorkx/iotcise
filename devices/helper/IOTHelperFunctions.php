@@ -51,5 +51,5 @@ function dPMessage()
 }
 
 function getFarenheit($temp){
-	return $temp*(9/5) + 32;
+	return round($temp*(9/5) + 32, 2);
 }
