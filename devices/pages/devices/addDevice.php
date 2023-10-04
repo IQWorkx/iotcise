@@ -68,6 +68,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     }else{
         $co = '0';
     }
+
     $is_active = 1;
     $service_url = $rest_api_uri . "devices/iot_device.php";
     $curl = curl_init($service_url);
@@ -90,12 +91,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         'voc_low_tolerance' => $voc_low_tolerance,
         'co2_upp_tolerance' => $co2_upp_tolerance,
         'co2_low_tolerance' => $co2_low_tolerance,
-        'temperature' => 1,
-        'humidity' => 1,
-        'pressure' => 1,
-        'iaq' => 1,
-        'voc' => 1,
-        'co2' => 1,
+        'temperature' => $temp,
+        'humidity' => $hum,
+        'pressure' => $pres,
+        'iaq' => $iaq1,
+        'voc' => $voc1,
+        'co2' => $co,
         'is_active' => $is_active,
         'created_by' => $user_id,
         'created_on' => $chicagotime
