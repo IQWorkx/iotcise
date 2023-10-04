@@ -31,6 +31,43 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
 
     $co2_upp_tolerance = $_POST["co2_upper_tolerance"];
     $co2_low_tolerance = $_POST["co2_lower_tolerance"];
+
+    $temperature = $_POST['temperature'];
+    if($temperature == '1'){
+        $temp = '1';
+    }else{
+        $temp = '0';
+    }
+    $humidity = $_POST['humidity'];
+    if($humidity == '1'){
+        $hum = '1';
+    }else{
+        $hum = '0';
+    }
+    $pressure = $_POST['pressure'];
+    if($pressure == '1'){
+        $pres = '1';
+    }else{
+        $pres = '0';
+    }
+    $voc = $_POST['voc'];
+    if($voc == '1'){
+        $voc1 = '1';
+    }else{
+        $voc1 = '0';
+    }
+    $iaq = $_POST['iaq'];
+    if($iaq == '1'){
+        $iaq1 = '1';
+    }else{
+        $iaq1 = '0';
+    }
+    $co2 = $_POST['co2'];
+    if($co2 == '1'){
+        $co = '1';
+    }else{
+        $co = '0';
+    }
     $is_active = 1;
     $service_url = $rest_api_uri . "devices/iot_device.php";
     $curl = curl_init($service_url);
@@ -53,6 +90,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         'voc_low_tolerance' => $voc_low_tolerance,
         'co2_upp_tolerance' => $co2_upp_tolerance,
         'co2_low_tolerance' => $co2_low_tolerance,
+        'temperature' => 1,
+        'humidity' => 1,
+        'pressure' => 1,
+        'iaq' => 1,
+        'voc' => 1,
+        'co2' => 1,
         'is_active' => $is_active,
         'created_by' => $user_id,
         'created_on' => $chicagotime
@@ -279,10 +322,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_temp_enabled"
-                                       name="check_temp_enabled"
+                                       id="temperature"
+                                       name="temperature"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -303,7 +347,7 @@ $assign_by = $_SESSION["id"];
                                        id="check_temp_email_alert"
                                        name="check_temp_email_alert"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -367,10 +411,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_humidity_enabled"
-                                       name="check_humidity_enabled"
+                                       id="humidity"
+                                       name="humidity"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -391,7 +436,7 @@ $assign_by = $_SESSION["id"];
                                        id="check_hum_email_alert"
                                        name="check_hum_email_alert"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -455,10 +500,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="checkbox_pressure_enabled"
-                                       name="checkbox_pressure_enabled"
+                                       id="pressure"
+                                       name="pressure"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -479,7 +525,7 @@ $assign_by = $_SESSION["id"];
                                        id="pressure_email_tolerance_alert"
                                        name="pressure_email_tolerance_alert"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -543,10 +589,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_IAQ_enabled"
-                                       name="check_IAQ_enabled"
+                                       id="iaq"
+                                       name="iaq"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -567,7 +614,7 @@ $assign_by = $_SESSION["id"];
                                        id="iaq_email_tolerance_alert"
                                        name="iaq_email_tolerance_alert"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -631,10 +678,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_voc_enabled"
-                                       name="check_voc_enabled"
+                                       id="voc"
+                                       name="voc"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -655,7 +703,7 @@ $assign_by = $_SESSION["id"];
                                        id="voc_email_tolerance_alert"
                                        name="voc_email_tolerance_alert"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -719,10 +767,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_co2_enabled"
-                                       name="check_co2_enabled"
+                                       id="co2"
+                                       name="co2"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -743,7 +792,7 @@ $assign_by = $_SESSION["id"];
                                        id="co2_email_tolerance_alert"
                                        name="co2_email_tolerance_alert"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
