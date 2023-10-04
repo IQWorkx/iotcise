@@ -5,7 +5,10 @@ $status = '0';
 $message = "";
 include("config.php");
 //include("../sup_config.php");
-//$chicagotime = date("Y-m-d H:i:s");
+$ctime = date("Y-m-d H:i:s");
+$time = strtotime($ctime);
+$time = $time - (2 * 60);
+$cdate = date("Y-m-d H:i:s", $time);
 $temp = "";
 $device_id = $_GET['device_id'];
 $temperature_data = '';
@@ -67,6 +70,13 @@ $pressure[] = $pressure_data;
 $iaq[] = $iaq_data;
 $voc[] = $voc_data;
 $co2[] = $co2_data;
+
+$d1 = new DateTime($datetime);
+$d2 = new DateTime($cdate);
+$isOnline = false;
+if($d1>$d2){
+    $isOnline = true;
+}
 
 ?>
 <!DOCTYPE html>
@@ -149,6 +159,16 @@ $co2[] = $co2_data;
                                     </div>
 
                                 </div>
+                                <?php if($isOnline == false){?>
+                                <div class="row" id="off_disp">
+                                    <p>This Device is Offline<br>
+                                        Current Time : <?php echo dateReadFormat($cdate) ?></p>
+                                </div>
+								<?php }else{?>
+                                <div class="row" id="on_disp">
+                                    <p>This Device is Online</p>
+                                </div>
+								<?php }?>
                                 <div class="time_det"><p><?php echo 'Time : ' . dateReadFormat($datetime) ?></p></div>
                             </div>
                         </div>

@@ -324,3 +324,17 @@ div.d-flex.flex-row.mb-3 {
     bottom: 0px;
     text-align: center;
 }
+
+#off_disp{
+    padding: 20px;
+    background: #fff;
+    margin: 20px;
+    color: red;
+}
+
+#on_disp{
+    padding: 20px;
+    background: #fff;
+    margin: 20px;
+    color: darkgreen;
+}
