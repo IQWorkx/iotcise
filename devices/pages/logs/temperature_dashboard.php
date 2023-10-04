@@ -59,9 +59,35 @@
             pointer-events: none;
         }
 
+        .height100{
+            height: 100%;
+        }
         .chartAreaWrapper {
             width: 98%;
             overflow-x: scroll;
+        }
+        li {
+            list-style-type: none;
+        }
+
+        .label {
+            margin-left: 15px;
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #666666;
+            font-size: 14px;
+        }
+        
+        #legend{
+            width: 100%;
+        }
+        .legendValue {
+            float: left;
+            height: 25px;
+            padding: 0px 20px 20px 0px;
+        }
+
+        .clear {
+            /*clear: both*/
         }
     </style>
     <!-- End layout styles -->
@@ -83,7 +109,7 @@
             <!--            <main class="content-wrapper">-->
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
-                    <div class="mdc-card">
+                    <div class="mdc-card" style="padding: 10px 10px 10px 35px;">
                         <form action="" method="post" id="device_settings">
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
@@ -118,14 +144,16 @@
             <!--            </main>-->
         </div>
         <div class="mdc-toolbar-fixed-adjust">
-            <main class="content-wrapper">
-                <div class="mdc-layout-grid">
+            <main class="content-wrapper height100">
+                <div class="mdc-layout-grid height100">
                     <div class="chartWrapper mdc-layout-grid__cell mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
-                        <div class="mdc-card chartAreaWrapper">
+                        <div class="mdc-card chartAreaWrapper height100">
                             <div class="d-flex d-lg-block d-xl-flex justify-content-between">
-                                    <h4 class="card-title">Temperature Graph</h4>
+<!--                                    <h4 class="card-title">Temperature Graph</h4>-->
+                                    <div id="legend"></div>
                             </div>
                             <div class="chart-container mt-4">
+<!--                                -->
                                 <canvas id="mycanvas" height="500" ></canvas>
                             </div>
                         </div>
@@ -229,7 +257,7 @@
                         ]
                     };
 
-                    var ctx = $("#mycanvas");
+                    var ctx = document.getElementById("mycanvas");
                     var rectangleSet = false;
                     var LineGraph = new Chart(ctx, {
                         type: 'line',
@@ -238,9 +266,25 @@
                         responsive: true,
                         options: {
                             legend: {
-                                display: true,
-                                position: 'bottom',
-                                align: 'center',
+                                display: false,
+                                position: 'top',
+                            },
+                            legendCallback: function(chart) {
+                                var text = [];
+                                text.push('<ul class="' + chart.id + '-legend">');
+                                for (var i = 0; i < chart.data.datasets.length; i++) {
+                                    text.push('<li><div class="legendValue"><span style="background-color:' + chart.data.datasets[i].backgroundColor + '">&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+
+                                    if (chart.data.datasets[i].label) {
+                                        text.push('<span class="label">' + chart.data.datasets[i].label + '</span>');
+                                    }
+
+                                    text.push('</div></li><div class="clear"></div>');
+                                }
+
+                                text.push('</ul>');
+
+                                return text.join('');
                             },
                             scales: {
                                 xAxes: [{
@@ -255,20 +299,23 @@
                                 yAxes: [{
                                     ticks: {
                                         fontSize: 12,
-                                        beginAtZero: true
+                                        stepSize:2,
+                                        beginAtZero: false
                                     }
                                 }]
                             }, maintainAspectRatio: false,
 
                         }
                     });
-                    // LineGraph.canvas.parentNode.style.height = '480px';
+                    LineGraph.canvas.parentNode.style.height = '480px';
                     LineGraph.canvas.parentNode.style.width = dPointWidth + 'px';
+                    $('#legend').prepend(LineGraph.generateLegend());
                 },
                 error: function (data) {
 
                 }
             });
+    
 </script>
 </body>
 </html>
