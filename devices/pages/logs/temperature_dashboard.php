@@ -109,7 +109,7 @@
             <!--            <main class="content-wrapper">-->
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
-                    <div class="mdc-card">
+                    <div class="mdc-card" style="padding: 10px 10px 10px 35px;">
                         <form action="" method="post" id="device_settings">
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
