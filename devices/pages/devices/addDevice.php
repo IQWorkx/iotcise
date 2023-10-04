@@ -7,6 +7,9 @@ include("../../config.php");
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 $user_id = $_SESSION["id"];
+
+$device_id = $_GET['device_id'];
+
 if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     $c_id = $_POST["select_customer"];
     $device_id = $_POST["add_dev_id"];
@@ -32,38 +35,38 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     $co2_upp_tolerance = $_POST["co2_upper_tolerance"];
     $co2_low_tolerance = $_POST["co2_lower_tolerance"];
 
-    $temperature = $_POST['temperature'];
-    if($temperature == '1'){
+    $temperature_enabled = $_POST['temperature_enabled'];
+    if($temperature_enabled == '1'){
         $temp = '1';
     }else{
         $temp = '0';
     }
-    $humidity = $_POST['humidity'];
-    if($humidity == '1'){
+    $humidity_enabled = $_POST['humidity_enabled'];
+    if($humidity_enabled == '1'){
         $hum = '1';
     }else{
         $hum = '0';
     }
-    $pressure = $_POST['pressure'];
-    if($pressure == '1'){
+    $pressure_enabled = $_POST['pressure_enabled'];
+    if($pressure_enabled == '1'){
         $pres = '1';
     }else{
         $pres = '0';
     }
-    $voc = $_POST['voc'];
-    if($voc == '1'){
+    $voc_enabled = $_POST['voc_enabled'];
+    if($voc_enabled == '1'){
         $voc1 = '1';
     }else{
         $voc1 = '0';
     }
-    $iaq = $_POST['iaq'];
+    $iaq_enabled = $_POST['iaq_enabled'];
     if($iaq == '1'){
         $iaq1 = '1';
     }else{
         $iaq1 = '0';
     }
-    $co2 = $_POST['co2'];
-    if($co2 == '1'){
+    $co2_enabled = $_POST['co2_enabled'];
+    if($co2_enabled == '1'){
         $co = '1';
     }else{
         $co = '0';
@@ -91,12 +94,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         'voc_low_tolerance' => $voc_low_tolerance,
         'co2_upp_tolerance' => $co2_upp_tolerance,
         'co2_low_tolerance' => $co2_low_tolerance,
-        'temperature' => $temp,
-        'humidity' => $hum,
-        'pressure' => $pres,
-        'iaq' => $iaq1,
-        'voc' => $voc1,
-        'co2' => $co,
+        'temperature_enabled' => $temp,
+        'humidity_enabled' => $hum,
+        'pressure_enabled' => $pres,
+        'iaq_enabled' => $iaq1,
+        'voc_enabled' => $voc1,
+        'co2_enabled' => $co,
         'is_active' => $is_active,
         'created_by' => $user_id,
         'created_on' => $chicagotime
@@ -323,8 +326,8 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="temperature"
-                                       name="temperature"
+                                       id="temperature_enabled"
+                                       name="temperature_enabled"
                                        value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
@@ -412,8 +415,8 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="humidity"
-                                       name="humidity"
+                                       id="humidity_enabled"
+                                       name="humidity_enabled"
                                        value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
@@ -501,8 +504,8 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="pressure"
-                                       name="pressure"
+                                       id="pressure_enabled"
+                                       name="pressure_enabled"
                                        value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
@@ -590,8 +593,8 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="iaq"
-                                       name="iaq"
+                                       id="iaq_enabled"
+                                       name="iaq_enabled"
                                        value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
@@ -679,8 +682,8 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="voc"
-                                       name="voc"
+                                       id="voc_enabled"
+                                       name="voc_enabled"
                                        value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
@@ -768,8 +771,8 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="co2"
-                                       name="co2"
+                                       id="co2_enabled"
+                                       name="co2_enabled"
                                        value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
@@ -858,7 +861,9 @@ $assign_by = $_SESSION["id"];
                         <hr style="width: 100%"/>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
-                        <button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Submit</button>
+                        <button type="submit"
+                                onclick="deviceDB('<?php echo $device_id; ?>')"
+                                name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Save & Proceed </button>
                        <!-- <button class="mdc-button mdc-button--raised" id="submit_btn">
                             Submit
                         </button>-->
@@ -909,6 +914,12 @@ $assign_by = $_SESSION["id"];
             }
         });
     });
+</script>
+<script>
+    function deviceDB(device_id) {
+        window.open("<?php echo $iotURL . "devices/notification/email_notification.php?device_id=" ; ?>" + device_id , "_self")
+    }
+
 </script>
 </body>
 </html>
