@@ -13,10 +13,9 @@ $user_id = $_SESSION["id"];
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 
-$device_id = 'Opppo';
 
-
-if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['temperature_users']))){
+if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['edit_device_id']))){
+    $dd_id = $_POST['edit_device_id'];
     $temperature_users = $_POST["temperature_users"];
     $humidity_users = $_POST["humidity_users"];
     $pressure_users = $_POST["pressure_users"];
@@ -24,10 +23,10 @@ if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['temperature_users']))){
     $voc_users = $_POST["voc_users"];
     $co2_users = $_POST["co2_users"];
 
-
-    $service_url = $rest_api_uri . "devices/iot_device.php";
+    $service_url = $rest_api_uri . "alert_config/create_alert_config.php";
     $curl = curl_init($service_url);
     $curl_post_data = array(
+        'device_id' => $dd_id,
         'temperature_users' => $temperature_users,
         'humidity_users' => $humidity_users,
         'pressure_users' => $pressure_users,
@@ -90,11 +89,11 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
     header('location:index.php');
     exit;
 }
-//Set the time of the user's last activity
-$_SESSION['LAST_ACTIVITY'] = $time;
-$i = $_SESSION["role_id"];
-
-$assign_by = $_SESSION["id"];
+////Set the time of the user's last activity
+//$_SESSION['LAST_ACTIVITY'] = $time;
+//$i = $_SESSION["role_id"];
+//
+//$assign_by = $_SESSION["id"];
 
 ?>
 <!DOCTYPE html>
@@ -139,13 +138,13 @@ $assign_by = $_SESSION["id"];
         include('../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
             <form action="" method="" id="device_settings">
-<!--                --><?php
-//                $device_id = $_GET['device_id'];
-//                $sql = "select * from iot_devices where device_id = '$device_id' and is_deleted != 1";
-//                $res = mysqli_query($iot_db, $sql);
-
-//
-//                ?>
+                <?php
+                $device_id = $_GET['device_id'];
+                $sql = "select * from iot_devices where device_id = '$device_id' and is_deleted != 1";
+                $res = mysqli_query($iot_db, $sql);
+                $row = mysqli_fetch_array($res);
+                $dev_id = $row['device_id'];
+                ?>
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="card">
@@ -159,7 +158,9 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="temperature_users[]" id="temperature_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $dev_id; ?>">
+
+                                            <select name="temperature_users[]" id="temperature_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -189,8 +190,8 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="humidity_users[]" id="humidity_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
-                                                <option value="" > Select Users </option>
+                                            <select name="humidity_users[]" id="humidity_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                         x       <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
                                                 $result1 = $mysqli->query($sql1);
@@ -221,7 +222,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="pressure_users[]" id="pressure_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="pressure_users[]" id="pressure_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -251,7 +252,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="iaq_users[]" id="iaq_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="iaq_users[]" id="iaq_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -283,7 +284,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="voc_users[]" id="voc_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="voc_users[]" id="voc_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -312,7 +313,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="co2_users[]" id="co2_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="co2_users[]" id="co2_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
