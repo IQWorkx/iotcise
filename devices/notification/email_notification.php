@@ -22,18 +22,47 @@ if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['edit_device_id']))){
     $iaq_users = $_POST["iaq_users"];
     $voc_users = $_POST["voc_users"];
     $co2_users = $_POST["co2_users"];
+    $t_users= NULL;
+foreach ($temperature_users as $tUser) {
+    $t_users .= $tUser . ',';
+}
+    $h_users= NULL;
+    foreach ($humidity_users as $hUser) {
+        $h_users .= $hUser . ',';
+    }
+    $p_users= NULL;
+    foreach ($pressure_users as $pUser) {
+        $p_users .= $pUser . ',';
+    }
+
+    $i_users= NULL;
+    foreach ($iaq_users as $iUser) {
+        $i_users .= $iUser . ',';
+    }
+
+    $v_users= NULL;
+    foreach ($voc_users as $vUser) {
+        $v_users .= $vUser . ',';
+    }
+
+    $c_users= NULL;
+    foreach ($co2_users as $cUser) {
+        $c_users .= $cUser . ',';
+    }
+
 
     $service_url = $rest_api_uri . "alert_config/create_alert_config.php";
     $curl = curl_init($service_url);
     $curl_post_data = array(
         'device_id' => $dd_id,
-        'temperature_users' => $temperature_users,
-        'humidity_users' => $humidity_users,
-        'pressure_users' => $pressure_users,
-        'iaq_users' => $iaq_users,
-        'voc_users' => $voc_users,
-        'co2_users' => $co2_users,
+        'temperature_users' => $t_users,
+        'humidity_users' => $h_users,
+        'pressure_users' => $p_users,
+        'iaq_users' => $i_users,
+        'voc_users' => $v_users,
+        'co2_users' => $c_users,
         'created_at' => $chicagotime,
+
     );
     $secretkey = "SupportPassHTSSgmmi";
     $payload = array(
