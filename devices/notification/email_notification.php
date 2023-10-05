@@ -13,6 +13,70 @@ $user_id = $_SESSION["id"];
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 
+$device_id = 'Opppo';
+
+
+if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['temperature_users']))){
+    $temperature_users = $_POST["temperature_users"];
+    $humidity_users = $_POST["humidity_users"];
+    $pressure_users = $_POST["pressure_users"];
+    $iaq_users = $_POST["iaq_users"];
+    $voc_users = $_POST["voc_users"];
+    $co2_users = $_POST["co2_users"];
+
+
+    $service_url = $rest_api_uri . "devices/iot_device.php";
+    $curl = curl_init($service_url);
+    $curl_post_data = array(
+        'temperature_users' => $temperature_users,
+        'humidity_users' => $humidity_users,
+        'pressure_users' => $pressure_users,
+        'iaq_users' => $iaq_users,
+        'voc_users' => $voc_users,
+        'co2_users' => $co2_users,
+        'created_at' => $chicagotime,
+    );
+    $secretkey = "SupportPassHTSSgmmi";
+    $payload = array(
+        "author" => "Saargummi to HTS",
+        "exp" => time()+1000
+    );
+    try {
+        $jwt = JWT::encode($payload, $secretkey, 'HS256');
+    } catch (UnexpectedValueException $e) {
+        echo $e->getMessage();
+    }
+    $headers = array(
+        "Accept: application/json",
+        "access-token: " . $jwt . '"',
+    );
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
+    $curl_response = curl_exec($curl);
+    if ($curl_response === false) {
+        $info = curl_getinfo($curl);
+        curl_close($curl);
+        die('error occured during curl exec. Additioanl info: ' . var_export($info));
+    }
+    curl_close($curl);
+    $decoded = json_decode($curl_response);
+    if (isset($decoded->status) && $decoded->status == 'ERROR') {
+        die('error occured: ' . $decoded->errormessage);
+        $errors[] = "Iot Device Not Updated.";
+        $message_stauts_class = 'alert-danger';
+        $import_status_message = 'Iot Device Not Updated.';
+    }
+    $errors[] = "Iot Device Updated Successfully.";
+    $message_stauts_class = 'alert-success';
+    $import_status_message = 'Device Type Created Successfully.';
+    $_SESSION['import_status_message'] =  $import_status_message;
+    $_SESSION['message_stauts_class'] = $message_stauts_class;
+    exit;
+}
+
+
 //Set the session duration for 10800 seconds - 3 hours
 $duration = auto_logout_duration;
 //Read the request time of the user
@@ -74,7 +138,14 @@ $assign_by = $_SESSION["id"];
         $title = "Email Configuration";
         include('../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
-            <form action="" method="" id="">
+            <form action="" method="" id="device_settings">
+<!--                --><?php
+//                $device_id = $_GET['device_id'];
+//                $sql = "select * from iot_devices where device_id = '$device_id' and is_deleted != 1";
+//                $res = mysqli_query($iot_db, $sql);
+
+//
+//                ?>
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="card">
@@ -88,7 +159,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="temperature_users[]" id="temperature_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -118,7 +189,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="humidity_users[]" id="humidity_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -150,7 +221,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="pressure_users[]" id="pressure_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -180,7 +251,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="iaq_users[]" id="iaq_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -212,7 +283,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="voc_users[]" id="voc_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -224,7 +295,6 @@ $assign_by = $_SESSION["id"];
                                                 ?>
                                             </select>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -242,7 +312,7 @@ $assign_by = $_SESSION["id"];
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <select name="users" id="users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
+                                            <select name="co2_users[]" id="co2_users[]" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
                                                 $sql1 = "SELECT * FROM `cam_users` WHERE `users_id` != '1' order BY `firstname` ";
@@ -263,7 +333,7 @@ $assign_by = $_SESSION["id"];
                 <div class="card">
                 <div class="pd-30 pd-sm-20">
                     <div class="row row-xs">
-                        <button type="submit" class="btn btn-primary pd-x-30 mg-r-5 mg-t-5 submit_btn">Submit</button>
+                        <button type="submit" id="submit_btn" class="btn btn-primary pd-x-30 mg-r-5 mg-t-5 submit_btn">Submit</button>
                     </div>
                 </div>
                 </div>
@@ -300,6 +370,24 @@ $assign_by = $_SESSION["id"];
 
 <script src="<?php echo $iotURL; ?>/assets/js/select2.js"></script>
 <script src="<?php echo $iotURL; ?>/assets/js/select2.full.min.js"></script>
+<script>
+    $( "#submit_btn" ).click(function (e){
+        e.preventDefault();
+        $(':input[type="button"]').prop('disabled', true);
+        var data = $("#device_settings").serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'email_notification.php',
+            data: "fSubmit=1&" + data,
+            success: function (data) {
+                // window.location.href = window.location.href + "?aa=Line 1";
+                window.location.replace("<?php echo $iotName; ?>devices/pages/devices/view_devices.php");
+            }
+        });
+    });
+
+</script>
+
 
 
 
