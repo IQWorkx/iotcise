@@ -60,7 +60,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         $voc1 = '0';
     }
     $iaq_enabled = $_POST['iaq_enabled'];
-    if($iaq == '1'){
+    if($iaq_enabled == '1'){
         $iaq1 = '1';
     }else{
         $iaq1 = '0';
@@ -142,7 +142,9 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         $_SESSION["error_2"] = 'Device created Successfully';
         $message_stauts_class = $_SESSION["alert_success_class"];
         $import_status_message = $_SESSION["error_2"];
-        header("Location:view_devices.php");
+//        header("Location:view_devices.php");
+		http_response_code(200);
+		echo json_encode(array("status" => "success", "device_id" => $device_id));
         exit();
     }
 }
@@ -861,12 +863,7 @@ $assign_by = $_SESSION["id"];
                         <hr style="width: 100%"/>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
-                        <button type="submit"
-                                onclick="deviceDB('<?php echo $device_id; ?>')"
-                                name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Save & Proceed </button>
-                       <!-- <button class="mdc-button mdc-button--raised" id="submit_btn">
-                            Submit
-                        </button>-->
+                        <button type="submit" name="submit_btn" id="submit_btn" class="mdc-button mdc-button--raised">Save & Proceed </button>
                     </div>
                 </div>
             </form>
@@ -905,21 +902,18 @@ $assign_by = $_SESSION["id"];
                     document.getElementById('aSucc').style.display = 'none';
                     window.scrollTo(0, 0);
                 }else if(st == 'success'){
-                    document.getElementById('dp_suc_msg').innerText = message_text;
-                    document.getElementById('aSucc').style.display = 'block';
-                    document.getElementById('addDevice').style.display = 'none';
-                    document.getElementById('aFail').style.display = 'none';
-                    window.scrollTo(0, 0);
+                    var dTa = JSON.parse(data);
+                    var device_id = dTa['device_id'];
+                    // document.getElementById('dp_suc_msg').innerText = message_text;
+                    // document.getElementById('aSucc').style.display = 'block';
+                    // document.getElementById('addDevice').style.display = 'none';
+                    // document.getElementById('aFail').style.display = 'none';
+                    // window.scrollTo(0, 0);
+                    window.open("<?php echo $iotURL . "devices/notification/email_notification.php?device_id=" ; ?>" + device_id , "_self")
                 }
             }
         });
     });
-</script>
-<script>
-    function deviceDB(device_id) {
-        window.open("<?php echo $iotURL . "devices/notification/email_notification.php?device_id=" ; ?>" + device_id , "_self")
-    }
-
 </script>
 </body>
 </html>
