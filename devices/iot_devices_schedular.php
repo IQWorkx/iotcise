@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 include("config.php");
 $chicagotime = date("Y-m-d H:i:s");
-$users_id = 1;
 //select number of device
 $sqlv = "select * from iot_devices where is_deleted != 1";
 $resultv = mysqli_query($iot_db, $sqlv);
@@ -64,6 +63,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "Temperature High";
                 $message1 = "The Temperature Cross the Upper Tolerance";
                 $message2 = "Upper Tolerance Value : " . $temp_upper_tolerance;
@@ -85,14 +90,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -120,6 +129,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "Temperature Low";
                 $message1 = "The Temperature has reached below than lower tolerance";
                 $message2 = "Lower Tolerance Value : " . $temp_lower_tolerance;
@@ -141,14 +156,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -184,6 +203,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "Humidity High";
                 $message1 = "The Humidity Cross the Upper Tolerance";
                 $message2 = "Upper Tolerance Value : " . $hum_upper_tolerance;
@@ -205,14 +230,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -240,6 +269,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "Humidity Low";
                 $message1 = "The Humidity has reached below than lower tolerance";
                 $message2 = "Lower Tolerance Value : " . $hum_lower_tolerance;
@@ -261,14 +296,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -304,6 +343,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "Pressure High";
                 $message1 = "The Pressure Cross the Upper Tolerance";
                 $message2 = "Upper Tolerance Value : " . $pre_upper_tolerance;
@@ -325,14 +370,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -360,6 +409,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "Pressure Low";
                 $message1 = "The Pressure has reached below than lower tolerance";
                 $message2 = "Lower Tolerance Value : " . $pre_lower_tolerance;
@@ -381,14 +436,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -423,6 +482,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "IAQ High";
                 $message1 = "The IAQ Cross the Upper Tolerance";
                 $message2 = "Upper Tolerance Value : " . $iaq_upper_tolerance;
@@ -444,14 +509,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -479,6 +548,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "IAQ Low";
                 $message1 = "The IAQ has reached below than lower tolerance";
                 $message2 = "Lower Tolerance Value : " . $iaq_lower_tolerance;
@@ -500,14 +575,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -543,6 +622,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "VOC High";
                 $message1 = "The VOC Cross the Upper Tolerance";
                 $message2 = "Upper Tolerance Value : " . $voc_upper_tolerance;
@@ -564,14 +649,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -599,6 +688,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "VOC Low";
                 $message1 = "The VOC has reached below than lower tolerance";
                 $message2 = "Lower Tolerance Value : " . $voc_lower_tolerance;
@@ -620,14 +715,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -663,6 +762,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "CO2 High";
                 $message1 = "The CO2 Cross the Upper Tolerance";
                 $message2 = "Upper Tolerance Value : " . $co2_upper_tolerance;
@@ -684,14 +789,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
@@ -719,6 +828,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->Username = EMAIL_USER;
                 $mail->Password = EMAIL_PASSWORD;
                 $mail->setFrom('admin@plantnavigator.com', 'admin@plantnavigator.com');
+                $query = sprintf("SELECT * FROM alert_config where device_id = '$d_id'");
+                $qur = mysqli_query($iot_db, $query);
+                while ($rowc = mysqli_fetch_array($qur)) {
+                    $arrusrs = explode(',', $rowc["users"]);
+                }
+                $cnt = count($arrusrs);
                 $subject = "CO2 Low";
                 $message1 = "The CO2 has reached below than lower tolerance";
                 $message2 = "Lower Tolerance Value : " . $co2_lower_tolerance;
@@ -740,14 +855,18 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $structure .= "<br/><br/>";
                 $structure .= $signature;
                 $structure .= "</body></html>";
-                if(!empty($users_id)) {
-                    $query0003 = sprintf("SELECT * FROM cam_users where users_id = '$users_id'");
-                    $qur0003 = mysqli_query($db, $query0003);
-                    $rowc0003 = mysqli_fetch_array($qur0003);
-                    $email = $rowc0003["email"];
-                    $lasname = $rowc0003["lastname"];
-                    $firstname = $rowc0003["firstname"];
-                    $mail->addAddress($email, $firstname);
+                for ($i = 0; $i < $cnt;) {
+                    $u_name = $arrusrs[$i];
+                    if(!empty($u_name)) {
+                        $query0003 = sprintf("SELECT * FROM  cam_users where users_id = '$u_name' ");
+                        $qur0003 = mysqli_query($db, $query0003);
+                        $rowc0003 = mysqli_fetch_array($qur0003);
+                        $email = $rowc0003["email"];
+                        $lasname = $rowc0003["lastname"];
+                        $firstname = $rowc0003["firstname"];
+                        $mail->addAddress($email, $firstname);
+                    }
+                    $i++;
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
