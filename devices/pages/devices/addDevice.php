@@ -19,19 +19,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     $device_loc = $_POST["add_dev_location"];
     $temperature_upp_tolerance = $_POST["temp_upper_tolerance"];
     $temperature_low_tolerance = $_POST["temp_lower_tolerance"];
-
     $humidity_upp_tolerance = $_POST["hum_upper_tolerance"];
     $humidity_low_tolerance = $_POST["hum_lower_tolerance"];
-
     $pressure_upp_tolerance = $_POST["pressure_upper_tolerance"];
     $pressure_low_tolerance = $_POST["pressure_lower_tolerance"];
-
     $iaq_upp_tolerance = $_POST["iaq_upper_tolerance"];
     $iaq_low_tolerance = $_POST["iaq_lower_tolerance"];
-
     $voc_upp_tolerance = $_POST["voc_upper_tolerance"];
     $voc_low_tolerance = $_POST["voc_lower_tolerance"];
-
     $co2_upp_tolerance = $_POST["co2_upper_tolerance"];
     $co2_low_tolerance = $_POST["co2_lower_tolerance"];
 
@@ -41,36 +36,42 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
     }else{
         $temp = '0';
     }
+
     $humidity_enabled = $_POST['humidity_enabled'];
-    if($humidity_enabled == '1'){
-        $hum = '1';
-    }else{
-        $hum = '0';
-    }
+        if($humidity_enabled == '1'){
+            $hum = '1';
+        }else{
+            $hum = '0';
+        }
+
     $pressure_enabled = $_POST['pressure_enabled'];
     if($pressure_enabled == '1'){
         $pres = '1';
     }else{
         $pres = '0';
     }
+
     $voc_enabled = $_POST['voc_enabled'];
     if($voc_enabled == '1'){
         $voc1 = '1';
     }else{
         $voc1 = '0';
     }
+
     $iaq_enabled = $_POST['iaq_enabled'];
     if($iaq_enabled == '1'){
         $iaq1 = '1';
     }else{
         $iaq1 = '0';
     }
+
     $co2_enabled = $_POST['co2_enabled'];
     if($co2_enabled == '1'){
         $co = '1';
     }else{
         $co = '0';
     }
+
 
     $is_active = 1;
     $service_url = $rest_api_uri . "devices/iot_device.php";
