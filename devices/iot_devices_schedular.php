@@ -97,10 +97,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set tmp_high_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -151,10 +153,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set tmp_low_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -213,10 +217,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set hum_high_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -267,10 +273,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set hum_low_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -329,10 +337,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set pre_high_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -382,11 +392,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
-                $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set pre_low_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -445,10 +456,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set iaq_high_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -499,10 +512,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set iaq_low_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -561,10 +576,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set voc_high_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -615,10 +632,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set voc_low_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -677,10 +696,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set co2_high_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
@@ -731,10 +752,12 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(!$mail->Send()){
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                }else{
-                    //echo "success";
+                if(email_enabled == 1){
+                    if(!$mail->Send()){
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }else{
+                        //echo "success";
+                    }
                 }
                 $sqlvv = "update `live_data` set co2_low_email = '1' where `dev_id` = '$dev_id'";
                 $resultvv = mysqli_query($iot_db, $sqlvv);
