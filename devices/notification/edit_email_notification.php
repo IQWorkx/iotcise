@@ -175,7 +175,6 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                 $sql = "select * from alert_config where device_id = '$device_id' ";
                 $res = mysqli_query($iot_db, $sql);
                 $row = mysqli_fetch_array($res);
-                $device_id = $row['device_id'];
                 $users_id = $row['users_id'];
                 ?>
                 <div class="row">
