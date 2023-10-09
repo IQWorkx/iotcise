@@ -18,6 +18,7 @@ $iaq_data = '';
 $voc_data = '';
 $co2_data = '';
 $datetime = '';
+$is_online = '';
 //Set the session duration for 10800 seconds - 3 hours
 $duration = auto_logout_duration;
 //Read the request time of the user
@@ -61,6 +62,14 @@ if (!empty($device_id)) {
 		$dateFrom = new DateTime($createdAt, new DateTimeZone('UTC'));
 		$dateFrom->setTimezone(new DateTimeZone('America/Chicago'));
 		$datetime = $dateFrom->format('Y-m-d H:i:s');
+        $date1 = new DateTime($datetime);
+        $date2 = new DateTime($cdate);
+        if($date1>$date2){
+            $is_online=1;
+        }
+        else {
+            $is_online=0;
+        }
     }
 
 }
