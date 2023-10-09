@@ -175,7 +175,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                 $sql = "select * from alert_config where device_id = '$device_id' ";
                 $res = mysqli_query($iot_db, $sql);
                 $row = mysqli_fetch_array($res);
-                $dev_id = $row['device_id'];
+                $device_id = $row['device_id'];
                 $users_id = $row['users_id'];
                 ?>
                 <div class="row">
@@ -191,7 +191,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
-                                            <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $dev_id; ?>">
+                                            <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $device_id; ?>">
 
                                             <select name="edit_temperature_users[]" id="edit_temperature_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
