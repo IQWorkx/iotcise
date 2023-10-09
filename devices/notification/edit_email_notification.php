@@ -172,10 +172,6 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
             <form action="" method="" id="device_settings">
                 <?php
                 $device_id = $_GET['device_id'];
-                $sql = "select * from alert_config where device_id = '$device_id' ";
-                $res = mysqli_query($iot_db, $sql);
-                $row = mysqli_fetch_array($res);
-                $users_id = $row['users_id'];
                 ?>
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
@@ -189,9 +185,14 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                         <div class="col-md-1">
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
+                                        <?php
+											$sql = "select users_id from alert_config where device_id = '$device_id' and p_id = 1";
+											$res = mysqli_query($iot_db, $sql);
+											$row = mysqli_fetch_array($res);
+											$users_id = $row['users_id'];
+                                        ?>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
                                             <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $device_id; ?>">
-
                                             <select name="edit_temperature_users[]" id="edit_temperature_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
                                                 <?php
@@ -228,6 +229,12 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                         <div class="col-md-1">
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
+										<?php
+											$sql = "select users_id from alert_config where device_id = '$device_id' and p_id = 2";
+											$res = mysqli_query($iot_db, $sql);
+											$row = mysqli_fetch_array($res);
+											$users_id = $row['users_id'];
+										?>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
                                             <select name="edit_humidity_users[]" id="edit_humidity_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 x       <option value="" > Select Users </option>
