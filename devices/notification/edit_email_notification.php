@@ -274,6 +274,12 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                         <div class="col-md-1">
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
+                                        <?php
+                                        $sql = "select users_id from alert_config where device_id = '$device_id' and p_id = 3";
+                                        $res = mysqli_query($iot_db, $sql);
+                                        $row = mysqli_fetch_array($res);
+                                        $users_id = $row['users_id'];
+                                        ?>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
                                             <select name="edit_pressure_users[]" id="edit_pressure_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
@@ -311,6 +317,12 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                         <div class="col-md-1">
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
+                                        <?php
+                                        $sql = "select users_id from alert_config where device_id = '$device_id' and p_id = 4";
+                                        $res = mysqli_query($iot_db, $sql);
+                                        $row = mysqli_fetch_array($res);
+                                        $users_id = $row['users_id'];
+                                        ?>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
                                             <select name="edit_iaq_users[]" id="edit_iaq_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
@@ -350,6 +362,12 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                         <div class="col-md-1">
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
+                                        <?php
+                                        $sql = "select users_id from alert_config where device_id = '$device_id' and p_id = 5";
+                                        $res = mysqli_query($iot_db, $sql);
+                                        $row = mysqli_fetch_array($res);
+                                        $users_id = $row['users_id'];
+                                        ?>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
                                             <select name="edit_voc_users[]" id="edit_voc_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value=""> Select Users </option>
@@ -386,6 +404,12 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                                         <div class="col-md-1">
                                             <label class="form-label mg-b-0">Users</label>
                                         </div>
+                                        <?php
+                                        $sql = "select users_id from alert_config where device_id = '$device_id' and p_id = 6";
+                                        $res = mysqli_query($iot_db, $sql);
+                                        $row = mysqli_fetch_array($res);
+                                        $users_id = $row['users_id'];
+                                        ?>
                                         <div class="col-md-8 mg-t-10 mg-md-t-0">
                                             <select name="edit_co2_users[]" id="edit_co2_users" class="form-control select2" multiple="multiple" data-placeholder="Select Users" >
                                                 <option value="" > Select Users </option>
