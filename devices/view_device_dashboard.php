@@ -62,14 +62,7 @@ if (!empty($device_id)) {
 		$dateFrom = new DateTime($createdAt, new DateTimeZone('UTC'));
 		$dateFrom->setTimezone(new DateTimeZone('America/Chicago'));
 		$datetime = $dateFrom->format('Y-m-d H:i:s');
-        $date1 = new DateTime($datetime);
-        $date2 = new DateTime($cdate);
-        if($date1>$date2){
-            $is_online=1;
-        }
-        else {
-            $is_online=0;
-        }
+
     }
 
 }
@@ -131,6 +124,8 @@ if($d1>$d2){
 					$period = get_period_ago($current_date, $created_date);
 					$edit_dev_loc = $iotURL . 'devices/pages/devices/edit_device.php?device_id=' . $row['device_id'];
 					$d_type_id = $row['type_id'];
+                        $is_online = $row['is_online'];
+
 					$d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
 					$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));
 				?>
@@ -168,7 +163,7 @@ if($d1>$d2){
                                     </div>
 
                                 </div>
-                                <?php if($isOnline == false){?>
+                                <?php if($is_online == 0){?>
                                 <div class="row" id="off_disp">
                                     <p>This Device is Offline<br>
                                         Current Time : <?php echo dateReadFormat($cdate) ?></p>

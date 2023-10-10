@@ -72,6 +72,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         $co = '0';
     }
 
+    $is_online = 1;
 
     $is_active = 1;
     $service_url = $rest_api_uri . "devices/iot_device.php";
@@ -102,6 +103,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         'voc_enabled' => $voc1,
         'co2_enabled' => $co,
         'is_active' => $is_active,
+        'is_online' => $is_online,
+
         'created_by' => $user_id,
         'created_on' => $chicagotime
     );

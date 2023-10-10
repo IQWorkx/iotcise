@@ -30,10 +30,20 @@
     <link rel="stylesheet" href="../assets/vendors/jvectormap/jquery-jvectormap.css">
     <!-- End plugin css for this page -->
     <!-- Layout styles -->
+    <style>
+        .online_bg{
+            background-color: #00b67a !important;
+            box-shadow: 0 0 10px 5px rgba(0, 182, 122, 0.35)
+        }
+        .offline_bg{
+            background-color: #f53c3c !important;
+            box-shadow: 0 0 10px 5px rgba(176, 3, 20, 0.34)
+        }
+    </style>
     <link rel="stylesheet" href="<?php echo $iotURL?>/assets/css/demo/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="<?php echo $iotURL?>/assets/images/favicon.png"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<!--    <link rel="shortcut icon" href="--><?php //echo $iotURL?><!--/assets/images/favicon.png"/>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">-->
 </head>
 <body>
 <script src="../assets/js/preloader.js"></script>
@@ -61,7 +71,7 @@
 							$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));
 						?>
                                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-4-tablet">
-                            <div class="mdc-card info-card info-card--success">
+                            <div class="mdc-card info-card">
                                 <div class="card-inner">
                                     <h5 class="card-title"><?php echo $row['device_name']?></h5>
                                     <h6 class="font-weight-light pb-2 mb-1"><b>Type : </b><?php echo $d_type_res['dev_type_name']?></h6>
@@ -80,9 +90,16 @@
                                             </a>
                                         </span>
                                     </div>
-                                    <div class="card-icon-wrapper">
+                                    <?php
+                                    if ($row['is_online'] == 1){?>
+                                    <div class="card-icon-wrapper online_bg">
                                         <i class="material-icons">settings_remote</i>
                                     </div>
+                                    <?php } else{ ?>
+                                        <div class="card-icon-wrapper offline_bg">
+                                            <i class="material-icons">settings_remote</i>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
