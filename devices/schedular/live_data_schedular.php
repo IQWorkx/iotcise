@@ -8,6 +8,10 @@ $message = "";
 include("./../config.php");
 //$chicagotime = date("Y-m-d H:i:s");
 $temp = "";
+$ctime = date("Y-m-d H:i:s");
+$time = strtotime($ctime);
+$time = $time - (2 * 60);
+$cdate = date("Y-m-d H:i:s", $time);
 
 
 // TODO GET API
@@ -42,6 +46,14 @@ if (!empty($decoded ->Temperature)) {
 	$dateFrom = new DateTime($createdAt, new DateTimeZone('UTC'));
 	$dateFrom->setTimezone(new DateTimeZone('America/Chicago'));
 	$datetime = $dateFrom->format('Y-m-d H:i:s');
+    $date1 = new DateTime($datetime);
+    $date2 = new DateTime($cdate);
+    if($date1>$date2){
+        $is_online=1;
+    }
+    else {
+        $is_online=0;
+    }
 }
 
 //TODO POST api
@@ -55,7 +67,8 @@ $curl_post_data = array(
     'iaq' => $iaq,
     'voc' => $voc,
     'co2' => $co2,
-    'datetime' => $datetime
+    'datetime' => $datetime,
+    'is_online' => $is_online
 );
 
 

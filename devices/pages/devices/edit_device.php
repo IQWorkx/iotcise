@@ -133,7 +133,9 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     }
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
-    $import_status_message = 'Iot Device Updated Successfully.';
+    $import_status_message = 'IOT Device Updated Successfully.';
+    $_SESSION['import_status_message'] =  $import_status_message;
+    $_SESSION['message_stauts_class'] = $message_stauts_class;
     http_response_code(200);
     echo json_encode(array("status" => "success", "device_id" => $dd_id));
     exit();

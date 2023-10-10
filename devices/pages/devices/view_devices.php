@@ -149,24 +149,16 @@
                                                                         name="delete_check[]"
                                                                         value="<?php echo $rowc["device_id"]; ?>"><span></span></label>
                                         </td>
-                                        <!--                                            <td class="text-center">-->
-										<?php //echo ++$counter; ?><!--</td>-->
                                         <td class="">
                                             <a href="edit_device.php?device_id=<?php echo $rowc["device_id"]; ?>"
-                                               class="edit-btn">
+                                               class="edit-btn">EDIT DEVICE
 <!--                                                <i class="fa fa-pencil-alt"></i>-->
-                                                <i class="material-icons mdc-button__icon" style="font-size: large">edit</i>
+<!--                                                <i class="material-icons mdc-button__icon" style="font-size: large">edit</i>-->
+                                            </a> &emsp;
+                                            <a href="../../notification/edit_email_notification.php?device_id=<?php echo $rowc["device_id"]; ?>"
+                                               class="edit-btn">EDIT EMAIL
                                             </a>
                                         </td>
-                                        <!--                                                <td>--><?php //$c_id =  $rowc["c_id"];
-											//														$qurtemp = mysqli_query($db, "SELECT c_name FROM  cus_account where c_id  = '$c_id'");
-											//														while ($rowctemp = mysqli_fetch_array($qurtemp)) {
-											//															$c_name = $rowctemp["c_name"];
-											//														}
-											//													?>
-                                        <!--													--><?php //echo  $c_name; ?>
-                                        <!--                                                </td>-->
-<!--                                        <td>--><?php //echo $rowc["device_id"]; ?><!--</td>-->
                                         <td><?php echo $rowc["device_name"]; ?></td>
                                         <td>
 											<?php
@@ -177,21 +169,6 @@
 												}
 											?>
                                         </td>
-                                        <!--                                            <td>-->
-                                        <!--												--><?php
-											//													$created_by =  $rowc["created_by"];
-											//													$qurtmp = mysqli_query($db, "SELECT firstname,lastname FROM cam_users where users_id = '$created_by'");
-											//													while ($rowctmp = mysqli_fetch_array($qurtmp)) {
-											//														$firstname = $rowctmp["firstname"];
-											//														$lastname = $rowctmp["lastname"];
-											//														$fullname = $firstname . ' ' . $lastname;
-											//													}
-											//												?>
-                                        <!--												--><?php //echo  $fullname; ?>
-                                        <!--                                            </td>-->
-                                        <!---->
-                                        <!--                                            <td>-->
-										<?php //echo  dateReadFormat($rowc["created_on"]); ?><!--</td>-->
                                     </tr>
 									<?php } ?>
                                     </tbody>

@@ -101,7 +101,7 @@ if (($_POST['fSubmit'] == 1 ) && (!empty($_POST['edit_device_id']))){
     }
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
-    $import_status_message = 'Device Type Created Successfully.';
+    $import_status_message = 'Email Config Updated Successfully.';
     $_SESSION['import_status_message'] =  $import_status_message;
     $_SESSION['message_stauts_class'] = $message_stauts_class;
     exit;
@@ -134,7 +134,7 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Email Configuration</title>
+    <title>Edit Email Configuration</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/vendors/css/vendor.bundle.base.css">
@@ -159,6 +159,15 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
 
     <link href="<?php echo $iotURL; ?>/assets/css/style-dark.css" rel="stylesheet">
     <link href="<?php echo $iotURL; ?>/assets/css/style-transparent.css" rel="stylesheet">
+    <style>
+        .btn-primary {
+            background-color: #7a00ff;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #7a00ff!important;
+        :root {
+            --primary-bg-color: #7a00ff;
+        </style>
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -166,10 +175,26 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
     <?php include('../partials/sidebar.html') ?>
     <div class="main-wrapper mdc-drawer-app-content">
         <?php
-        $title = "Email Configuration";
+        $title = "Edit Email Configuration";
         include('../partials/navbar.html') ?>
         <div class="mdc-layout-grid">
             <form action="" method="" id="device_settings">
+                <?php
+
+                if (!empty($_SESSION['import_status_message']) && ($_SESSION['message_stauts_class'] == 'alert-success')) {
+                    echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--success">'.$_SESSION['import_status_message'].'</p>
+                      </div>';
+                }else if(!empty($import_status_message) && ($import_status_message == 'alert-danger')){
+                    echo '<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+                        <p class="mdc-typography mdc-theme--secondary">' . $_SESSION['import_status_message'] . '</p>
+                      </div>';
+                }else{
+                    echo '<div class='.$_SESSION['message_stauts_class'].'>' . $_SESSION['import_status_message'] . '</div>';
+                }
+                unset($_SESSION['message_stauts_class']);
+                unset($_SESSION['import_status_message']);
+                ?>
                 <?php
                 $device_id = $_GET['device_id'];
                 ?>
@@ -440,6 +465,8 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
                     <div class="pd-30 pd-sm-20">
                         <div class="row row-xs">
                             <button type="submit" id="submit_btn" class="btn btn-primary pd-x-30 mg-r-5 mg-t-5 submit_btn">Submit</button>
+                            <button type="submit" id="submit_btn1" class="btn btn-danger pd-x-30 mg-r-5 mg-t-5 submit_btn">Cancel</button>
+
                         </div>
                     </div>
                 </div>
@@ -465,6 +492,23 @@ if (isset($_SESSION['LAST_ACTIVITY']) && ($time - $_SESSION['LAST_ACTIVITY']) > 
 <script src="<?php echo $iotURL; ?>/assets/js/select2.full.min.js"></script>
 <script>
     $( "#submit_btn" ).click(function (e){
+        e.preventDefault();
+        $(':input[type="button"]').prop('disabled', true);
+        var data = $("#device_settings").serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'edit_email_notification.php',
+            data: "fSubmit=1&" + data,
+            success: function (data) {
+                location.reload();
+                //location.reload("<?php //echo $iotName; ?>//devices/notification/edit_email_notification.php" + device_id , "_self");
+            }
+        });
+    });
+
+</script>
+<script>
+    $( "#submit_btn1" ).click(function (e){
         e.preventDefault();
         $(':input[type="button"]').prop('disabled', true);
         var data = $("#device_settings").serialize();
