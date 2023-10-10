@@ -130,7 +130,6 @@ $_SESSION['LAST_ACTIVITY'] = $time;
                                         <label class="ckbox"> <input type="checkbox" id="checkAll"><span></span></label>
                                     </th>
                                     <th>Action</th>
-<!--                                    <th>Sl No</th>-->
 
                                     <th>Device Type</th>
                                     </thead>
@@ -154,6 +153,7 @@ $_SESSION['LAST_ACTIVITY'] = $time;
                                             <a href="edit_dev_type.php?type_id=<?php echo  $rowc["type_id"]; ?>" class="edit-btn">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
+
                                         </td>
 <!--                                        <td>--><?php //echo  $rowc["type_id"]; ?><!--</td>-->
                                         <td><?php echo  $rowc["dev_type_name"]; ?></td>

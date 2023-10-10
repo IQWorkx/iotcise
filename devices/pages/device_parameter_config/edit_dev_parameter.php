@@ -52,7 +52,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_p_name']))) {
     }
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
-    $import_status_message = 'Parameter Updated Successfully.';
+    $import_status_message = 'Device Parameter Updated Successfully.';
     $_SESSION['import_status_message'] =  $import_status_message;
     $_SESSION['message_stauts_class'] = $message_stauts_class;
     exit;
