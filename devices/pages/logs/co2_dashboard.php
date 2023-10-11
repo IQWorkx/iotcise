@@ -46,7 +46,7 @@ if (count($_POST) > 0) {
     <!-- End plugin css for this page -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/demo/style.css">
-     <style>
+    <style>
         .chartWrapper {
             position: relative;
             background-color: #ffffff;
@@ -110,6 +110,7 @@ if (count($_POST) > 0) {
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
                                     <div class="mdc-layout-grid__inner">
+                                        <input type="hidden" name="device_id" value="<?php echo $_GET['id'];?>">
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                             <span style="padding: 10px 20px 0px 0px;">Date From</span>
                                             <span><input type="date" class="form-control mdc-text-field__input"
@@ -125,20 +126,30 @@ if (count($_POST) > 0) {
                                                          required></span>
 
                                         </div>
-                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-1-desktop mdc-layout-grid__cell--span-2-tablet">
                                             <button type="submit" name="submit_btn" id="submit_btn"
                                                     class="mdc-button mdc-button--raised">Submit
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-2-tablet">
                         </form>
+                        <form action="export_co2.php" method="post" id="export_excel">
+                            <input type="hidden" value="<?php echo  $_GET['id']; ?>" name="device_id" id="device_id">
+                            <input type="hidden" value="<?php echo $dateto; ?>" name="dateto" id="dateto">
+                            <input type="hidden" value="<?php echo $datefrom; ?>" name="datefrom" id="datefrom">
+                            <button type="submit" name="export" id="export"
+                                    class="mdc-button mdc-button--raised">
+                                Export
+                            </button>
                     </div>
+                    </form>
                 </div>
             </div>
-            <!--            </main>-->
         </div>
+    </div>
+</div>
+</div>
+</div>
         <div class="mdc-toolbar-fixed-adjust">
             <main class="content-wrapper height100">
                 <div class="mdc-layout-grid height100">
@@ -157,6 +168,14 @@ if (count($_POST) > 0) {
         </div>
     </div>
 </div>
+<script>
+    var a = document.createElement('download_pdf');
+    a.href = document.getElementById("mycanvas");
+    a.download = 'my_file_name.png';
+
+    // Trigger the download
+    a.click();
+</script>
 <script>
     $(function () {
         $('input:radio').change(function () {
@@ -298,8 +317,9 @@ if (count($_POST) > 0) {
                         }]
                     }, maintainAspectRatio: false,
 
-                }
+                },
             });
+            LineGraph.canvas.parentNode.style.backgroundColor = 'white';
             LineGraph.canvas.parentNode.style.height = '480px';
             LineGraph.canvas.parentNode.style.width = dPointWidth + 'px';
             $('#legend').prepend(LineGraph.generateLegend());
