@@ -13,7 +13,7 @@ $temp = "";
 // TODO GET API
 $cURLConnection = curl_init();
 
-curl_setopt($cURLConnection, CURLOPT_URL, 'http://13.214.116.35:3001/environment');
+curl_setopt($cURLConnection, CURLOPT_URL, IOT_SENSOR_API_URL);
 curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
 
 $curl_response = curl_exec($cURLConnection);
