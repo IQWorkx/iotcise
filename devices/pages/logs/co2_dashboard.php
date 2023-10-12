@@ -28,6 +28,17 @@ if (count($_POST) > 0) {
     $datefrom = $_POST['date_from'];
     $timezone = $_POST['timezone'];
 }
+$device_id = $_GET['id'];
+$sqlv = "select * from iot_devices where device_id = '$device_id'";
+$resultv = mysqli_query($iot_db,$sqlv);
+$rowv = mysqli_fetch_array($resultv);
+$device_name = $rowv['device_name'];
+//retrieve the data from device parameter config table
+$sqlvv = "select * from device_parameter_config where device_id = '$device_id' and p_id = '6'";
+$resultvv = mysqli_query($iot_db,$sqlvv);
+$rowvv = mysqli_fetch_array($resultvv);
+$upper_tolerance = $rowvv['upper_tolerance'];
+$lower_tolerance = $rowvv['lower_tolerance'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +57,16 @@ if (count($_POST) > 0) {
     <!-- End plugin css for this page -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?php echo $iotURL ?>/assets/css/demo/style.css">
+   <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js" integrity="sha512-t2JWqzirxOmR9MZKu+BMz0TNHe55G5BZ/tfTmXMlxpUY8tsTo3QMD27QGoYKZKFAraIPDhFv56HLdN11ctmiTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+ <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <style>
+        #chart-container {
+            background: white;
+        }
         .chartWrapper {
             position: relative;
             background-color: #ffffff;
@@ -131,7 +151,7 @@ if (count($_POST) > 0) {
                                                     class="mdc-button mdc-button--raised">Submit
                                             </button>
                                         </div>
-                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-2-tablet">
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-1-desktop mdc-layout-grid__cell--span-2-tablet">
                         </form>
                         <form action="export_co2.php" method="post" id="export_excel">
                             <input type="hidden" value="<?php echo  $_GET['id']; ?>" name="device_id" id="device_id">
@@ -143,6 +163,9 @@ if (count($_POST) > 0) {
                             </button>
                     </div>
                     </form>
+                    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-2-tablet">
+                            <button onclick="saveAsPDF();" class="mdc-button mdc-button--raised"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Download PDF</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,10 +179,20 @@ if (count($_POST) > 0) {
                     <div class="chartWrapper mdc-layout-grid__cell mdc-layout-grid__cell--span-4 mdc-layout-grid__cell--span-8-tablet">
                         <div class="mdc-card chartAreaWrapper height100">
                             <div class="d-flex d-lg-block d-xl-flex justify-content-between">
+                                <!--<button onclick="saveAsPDF();" class="mdc-button mdc-button--raised"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Download PDF</button>-->
                                 <div id="legend"></div>
                             </div>
-                            <div class="chart-container mt-4">
-                                <canvas id="mycanvas" height="500" ></canvas>
+                                    <div class="d-flex d-lg-block d-xl-flex justify-content-between">
+
+                                    </div>
+                            <div id="chart-container">
+                                    <div class="chart-container mt-4">
+                                        <!--<button type="submit" name="download_pdf" id="download_pdf"
+                                                class="mdc-button mdc-button--raised" onclick="downloadPDF()">
+                                            Download PDF
+                                        </button>-->
+                                        <canvas id="mycanvas" height="500" ></canvas>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -169,12 +202,28 @@ if (count($_POST) > 0) {
     </div>
 </div>
 <script>
-    var a = document.createElement('download_pdf');
-    a.href = document.getElementById("mycanvas");
-    a.download = 'my_file_name.png';
-
-    // Trigger the download
-    a.click();
+    function saveAsPDF() {
+        html2canvas(document.getElementById("chart-container"), {
+            onrendered: function(canvas) {
+                var img = canvas.toDataURL(); //image data of canvas
+                var doc = new jsPDF('landscape');
+                doc.addImage(img, 15,20,280,150);
+                doc.text(5,5,"Device Name : <?php echo $device_name; ?>" + "\n" + "Upper Tolerance : <?php echo $upper_tolerance; ?>" + "\n" + "Lower Tolerance : <?php echo $lower_tolerance; ?>"+ "\n" + "Device Data From : <?php echo onlydateReadFormat($datefrom); ?>" + " To : <?php echo onlydateReadFormat($dateto); ?>");
+                doc.save('<?php echo $device_name; ?>_co2.pdf');
+            }
+        });
+    }
+    function downloadPDF(){
+        const canvas = document.getElementById('mycanvas');
+        //create image
+        const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
+        console.log(canvasImage);
+        //image must go to pdf
+        let pdf = new jsPDF('landscape');
+        pdf.setFontSize(20);
+        pdf.addImage(canvasImage, 'JPEG' ,15,15,280,150);
+        pdf.save('temerature_graph.pdf');
+    }
 </script>
 <script>
     $(function () {
@@ -207,7 +256,7 @@ if (count($_POST) > 0) {
     var data = $("#device_settings").serialize();
     $.ajax({
         type: "POST",
-        url: "../../../devices/schedular/livedata.php?p_id=6",
+        url: "../../../devices/schedular/livedata.php?p_id=6&&device_id=<?php echo $_GET['id']; ?>",
         data: data,
         success : function(data){
             console.log(data);
