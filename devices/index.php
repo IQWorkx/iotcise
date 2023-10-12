@@ -1,48 +1,49 @@
 <?php
-include("./config.php");
+$message = "";
+include("config.php");
 $chicagotime = date("Y-m-d H:i:s");
 if (count($_POST) > 0) {
-    $is_error = 0;
-    $result = "SELECT * FROM sup_account_users WHERE user_name='" . $_POST["user"] . "' and u_password = '" . (md5($_POST["pass"])) . "'";
-    $q = mysqli_query($sup_db,$result);
-    $row = mysqli_fetch_array($q);
-    if (is_array($row)) {
-        $_SESSION["id"] = $row['sup_id'];
-        $_SESSION["user"] = $row['user_name'];
-        $_SESSION["name"] = $row['user_name'];
-        $_SESSION["email"] = $row['u_email'];
-        $_SESSION["uu_img"] = $row['u_profile_pic'];
-        $_SESSION["role_id"] = $row['role'];
-        $logid = $row['sup_id'];
-        $_SESSION["fullname"] = $row['u_firstname'] . "&nbsp;" . $row['u_lastname'];
-        $_SESSION["pin"] = $row['pin'];
-        $_SESSION["pin_flag"] = $row['pin_flag'];
-        $pin = $row['pin'];
-        $pin_flag = $row['pin_flag'];
-        // mysqli_query($sup_db, "INSERT INTO `sup_session_log`(`u_id`,`created_at`) VALUES ('$logid','$chicagotime')");
-    } else {
-        $result = mysqli_query($sup_db, "SELECT * FROM sup_account_users WHERE u_status = '0' AND user_name='" . $_POST["user"] . "' and u_password = '" . (md5($_POST["pass"])) . "'");
-        $row = mysqli_fetch_array($result);
-        if (is_array($row)) {
-            $message_stauts_class = $_SESSION["alert_danger_class"];
-            $import_status_message = $_SESSION["error_6"];
-            $is_error = 1;
-        } else {
-            $message_stauts_class = $_SESSION["alert_danger_class"];
-            $import_status_message = $_SESSION["error_1"];
-            $is_error = 1;
-        }
-    }
-    if ($is_error == 0) {
-        header("Location:home.php");
-    }
+$is_error = 0;
+$result = "SELECT * FROM iot_users WHERE cust_name='" . $_POST["user"] . "' and cust_password = '" . (md5($_POST["pass"])) . "'";
+$q = mysqli_query($iot_db,$result);
+$row = mysqli_fetch_array($q);
+if (is_array($row)) {
+$_SESSION["id"] = $row['cust_id'];
+$_SESSION["user"] = $row['cust_name'];
+$_SESSION["name"] = $row['cust_name'];
+$_SESSION["email"] = $row['cust_email'];
+$_SESSION["uu_img"] = $row['cust_profile_pic'];
+$_SESSION["role_id"] = $row['role'];
+$logid = $row['cust_id'];
+$_SESSION["fullname"] = $row['cust_fistname'] . "&nbsp;" . $row['cust_lastname'];
+$_SESSION["pin"] = $row['pin'];
+$_SESSION["pin_flag"] = $row['pin_flag'];
+$pin = $row['pin'];
+$pin_flag = $row['pin_flag'];
+// mysqli_query($sup_db, "INSERT INTO `sup_session_log`(`u_id`,`created_at`) VALUES ('$logid','$chicagotime')");
+} else {
+$result = mysqli_query($iot_db, "SELECT * FROM iot_users WHERE status = '0' AND cust_name='" . $_POST["user"] . "' and cust_password = '" . (md5($_POST["pass"])) . "'");
+$row = mysqli_fetch_array($result);
+if(is_array($row)) {
+$message_stauts_class = $_SESSION["alert_danger_class"];
+$import_status_message = $_SESSION["error_6"];
+$is_error = 1;
+} else {
+$message_stauts_class = $_SESSION["alert_danger_class"];
+$import_status_message = $_SESSION["error_1"];
+$is_error = 1;
+}
+}
+if ($is_error == 0) {
+header("Location:home.php");
+}
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Design by foolishdeveloper.com -->
-    <title>SUPPLIER</title>
+    <title>IOT</title>
     <!--Stylesheet-->
     <style media="screen">
         *,
@@ -208,7 +209,7 @@ if (count($_POST) > 0) {
 </div>
 <form method="post">
     <div class="logo">
-        <img class="user" src="assets/images/site_logo.png"  width="120px">
+        <img class="user" src="../assets/images/site_logo.png"  width="120px">
     </div>
     <?php
     if (!empty($import_status_message)) {
