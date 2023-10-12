@@ -67,6 +67,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
         $co = '0';
     }
 
+
+
     //REST API URL
     $service_url = $rest_api_uri . "devices/edit_iot_device.php";
     $curl = curl_init($service_url);
@@ -182,47 +184,49 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $dev_type = $row['type_id'];
                 $dev_loc = $row['device_location'];
                 $is_active = $row['is_active'];
+
                 $sqlv1 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '1' and is_deleted != 1";
                 $resv1 = mysqli_query($iot_db, $sqlv1);
                 $rowv1 = mysqli_fetch_array($resv1);
+                $temperature_enabled = $rowv1["is_enabled"];
                 $temperature_upp_tolerance = $rowv1["upper_tolerance"];
                 $temperature_low_tolerance = $rowv1["lower_tolerance"];
+
                 $sqlv2 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '2' and is_deleted != 1";
                 $resv2 = mysqli_query($iot_db, $sqlv2);
                 $rowv2 = mysqli_fetch_array($resv2);
+                $humidity_enabled = $rowv2["is_enabled"];
                 $humidity_upp_tolerance = $rowv2["upper_tolerance"];
                 $humidity_low_tolerance = $rowv2["lower_tolerance"];
+
                 $sqlv3 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '3' and is_deleted != 1";
                 $resv3 = mysqli_query($iot_db, $sqlv3);
                 $rowv3 = mysqli_fetch_array($resv3);
+                $pressure_enabled = $rowv3["is_enabled"];
                 $pressure_upp_tolerance = $rowv3["upper_tolerance"];
                 $pressure_low_tolerance = $rowv3["lower_tolerance"];
+
                 $sqlv4 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '4' and is_deleted != 1";
                 $resv4 = mysqli_query($iot_db, $sqlv4);
                 $rowv4 = mysqli_fetch_array($resv4);
+                $iaq_enabled = $rowv4["is_enabled"];
                 $iaq_upp_tolerance = $rowv4["upper_tolerance"];
                 $iaq_low_tolerance = $rowv4["lower_tolerance"];
+
                 $sqlv5 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '5' and is_deleted != 1";
                 $resv5 = mysqli_query($iot_db, $sqlv5);
                 $rowv5 = mysqli_fetch_array($resv5);
+                $voc_enabled = $rowv5["is_enabled"];
                 $voc_upp_tolerance = $rowv5["upper_tolerance"];
                 $voc_low_tolerance = $rowv5["lower_tolerance"];
+
                 $sqlv6 = "select * from device_parameter_config where device_id = '$dev_id' and p_id = '6' and is_deleted != 1";
                 $resv6 = mysqli_query($iot_db, $sqlv6);
                 $rowv6 = mysqli_fetch_array($resv6);
+                $co2_enabled = $rowv6["is_enabled"];
                 $co2_upp_tolerance = $rowv6["upper_tolerance"];
                 $co2_low_tolerance = $rowv6["lower_tolerance"];
 
-                $sqlv9 = "select * from device_config where device_id = '$dev_id'";
-                $resv9 = mysqli_query($iot_db, $sqlv9);
-                $rowv9 = mysqli_fetch_array($resv9);
-
-                $temperature_enabled = $rowv9['temperature_enabled'];
-                $humidity_enabled = $rowv9['humidity_enabled'];
-                $pressure_enabled = $rowv9['pressure_enabled'];
-                $voc_enabled = $rowv9['voc_enabled'];
-                $iaq_enabled = $rowv9['iaq_enabled'];
-                $co_enabled = $rowv9['co2_enabled'];
                 ?>
                 <div class="mdc-layout-grid__inner form_bg">
                     <!--     Device type and Customer           -->
@@ -801,7 +805,7 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                                        id="edit_co2"
                                        name="edit_co2"
                                        class="mdc-checkbox__native-control"
-                                    <?php if($co_enabled == '1'){ echo 'checked'; } ?>
+                                    <?php if($co2_enabled == '1'){ echo 'checked'; } ?>
                                        value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
