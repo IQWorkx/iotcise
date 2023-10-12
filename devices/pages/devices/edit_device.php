@@ -7,9 +7,6 @@ include("../../config.php");
 $chicagotime = date("Y-m-d H:i:s");
 $temp = "";
 $modified_by = $_SESSION["id"];
-
-$dd_id = $_GET['device_id'];
-
 if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $edit_cust_id = $_POST['edit_cust_id'];
     $dd_id = $_POST['edit_device_id'];
@@ -30,50 +27,13 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $edit_co2_upp_tolerance = $_POST["edit_co2_upp_tolerance"];
     $edit_co2_low_tolerance = $_POST["edit_co2_low_tolerance"];
 
-    $edit_temperature = $_POST['edit_temperature'];
-    if($edit_temperature == '1'){
-        $temp = '1';
-    }else{
-        $temp = '0';
-    }
-
-    $edit_humidity = $_POST['edit_humidity'];
-    if($edit_humidity == '1'){
-        $hum = '1';
-    }else{
-        $hum = '0';
-    }
-
-    $edit_pressure = $_POST['edit_pressure'];
-    if($edit_pressure == '1'){
-        $pres = '1';
-    }else{
-        $pres = '0';
-    }
-    $edit_voc = $_POST['edit_voc'];
-    if($edit_voc == '1'){
-        $voc1 = '1';
-    }else{
-        $voc1 = '0';
-    }
-    $edit_iaq = $_POST['edit_iaq'];
-    if($edit_iaq == '1'){
-        $iaq1 = '1';
-    }else{
-        $iaq1 = '0';
-    }
-    $edit_co2 = $_POST['edit_co2'];
-    if($edit_co2 == '1'){
-        $co = '1';
-    }else{
-        $co = '0';
-    }
+    //REST API URL
     $service_url = $rest_api_uri . "devices/edit_iot_device.php";
     $curl = curl_init($service_url);
     $curl_post_data = array(
         'device_id' => $dd_id,
-        'device_description' => $edit_dev_desc,
         'device_name' => $edit_dev_name,
+        'device_description' => $edit_dev_desc,
         'device_location' => $edit_dev_loc,
         'temperature_upp_tolerance' => $edit_temperature_upp_tolerance,
         'temperature_low_tolerance' => $edit_temperature_low_tolerance,
@@ -87,14 +47,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
         'voc_low_tolerance' => $edit_voc_low_tolerance,
         'co2_upp_tolerance' => $edit_co2_upp_tolerance,
         'co2_low_tolerance' => $edit_co2_low_tolerance,
-
-        'temperature_enabled' => $temp,
-        'humidity_enabled' => $hum,
-        'pressure_enabled' => $pres,
-        'iaq_enabled' => $iaq1,
-        'voc_enabled' => $voc1,
-        'co2_enabled' => $co,
-
         'modified_by' => $modified_by,
         'modified_on' => $chicagotime,
         'updated_at' => $chicagotime
@@ -133,12 +85,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     }
     $errors[] = "Iot Device Updated Successfully.";
     $message_stauts_class = 'alert-success';
-    $import_status_message = 'IOT Device Updated Successfully.';
+    $import_status_message = 'Iot Device Updated Successfully.';
     $_SESSION['import_status_message'] =  $import_status_message;
     $_SESSION['message_stauts_class'] = $message_stauts_class;
-    http_response_code(200);
-    echo json_encode(array("status" => "success", "device_id" => $dd_id));
-    exit();
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -214,24 +164,13 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $rowv6 = mysqli_fetch_array($resv6);
                 $co2_upp_tolerance = $rowv6["upper_tolerance"];
                 $co2_low_tolerance = $rowv6["lower_tolerance"];
-
-                $sqlv9 = "select * from device_config where device_id = '$dev_id'";
-                $resv9 = mysqli_query($iot_db, $sqlv9);
-                $rowv9 = mysqli_fetch_array($resv9);
-
-                $temperature_enabled = $rowv9['temperature_enabled'];
-                $humidity_enabled = $rowv9['humidity_enabled'];
-                $pressure_enabled = $rowv9['pressure_enabled'];
-                $voc_enabled = $rowv9['voc_enabled'];
-                $iaq_enabled = $rowv9['iaq_enabled'];
-                $co_enabled = $rowv9['co2_enabled'];
                 ?>
                 <div class="mdc-layout-grid__inner form_bg">
                     <!--     Device type and Customer           -->
                     <div style="margin-top: 10px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
                             <input type="hidden" name="edit_device_id" id="edit_device_id" value="<?php echo $dev_id; ?>">
-                            <input class="mdc-text-field__input" value="<?php echo $dev_id; ?>" id="edit_dev_id" name="edit_dev_id" disabled>
+                            <input class="mdc-text-field__input" value="<?php echo $dev_id; ?>" id="edit_dev_id" name="edit_dev_id">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                 <div class="mdc-notched-outline__leading"></div>
                                 <div class="mdc-notched-outline__notch" style="">
@@ -263,15 +202,15 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                                                 {
                                                     $entry = '';
                                                 }
-                                            ?>
-                                            <li class="mdc-list-item" data-value="<?php echo $row1['type_id'];?>">
-                                                <?php echo $row1['dev_type_name']; ?>
-                                                <input type="hidden" value="  <?php echo $_SESSION['device_type_name'] = "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";?>">
-                                            </li>
+                                                ?>
+                                                <li class="mdc-list-item" data-value="<?php echo $row1['type_id'];?>">
+                                                    <?php echo $row1['dev_type_name']; ?>
+                                                    <input type="hidden" value="  <?php echo $_SESSION['device_type_namee'] = "<option value='" . $row1['type_id'] . "' $entry>" . $row1['dev_type_name'];"</option>";?>">
+                                                </li>
                                             <?php } ?>
-                                            </ul>
-                                           </div>
-                                    <span class="mdc-floating-label"><?php echo $display = $_SESSION['device_type_name']; ?></span>
+                                        </ul>
+                                    </div>
+                                    <span class="mdc-floating-label"><?php echo $display = $_SESSION['device_type_namee']; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -353,12 +292,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_temperature"
-                                       name="edit_temperature"
+                                       id="check_temp_enabled"
+                                       name="check_temp_enabled"
                                        class="mdc-checkbox__native-control"
-                                   <?php if($temperature_enabled == 1){echo 'checked';} ?>
-                                       value="<?php echo $temperature_enabled ;?>"
-                                        />
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -443,13 +380,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_humidity"
-                                       name="edit_humidity"
+                                       id="check_humidity_enabled"
+                                       name="check_humidity_enabled"
                                        class="mdc-checkbox__native-control"
-                                    <?php if($humidity_enabled == 1){echo 'checked';} ?>
-                                       value="<?php echo $humidity_enabled ;?>"
-
-                                />
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -534,13 +468,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_pressure"
-                                       name="edit_pressure"
+                                       id="checkbox_pressure_enabled"
+                                       name="checkbox_pressure_enabled"
                                        class="mdc-checkbox__native-control"
-                                       <?php if($pressure_enabled == 1){echo 'checked';} ?>
-                                       value="<?php echo $pressure_enabled ;?>"
-
-                                />
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -558,9 +489,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_pressure"
-                                       name="edit_pressure"
-                                       class="mdc-checkbox__native-control" checked/>
+                                       id="pressure_email_tolerance_alert"
+                                       name="pressure_email_tolerance_alert"
+                                       class="mdc-checkbox__native-control"
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -624,13 +556,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_iaq"
-                                       name="edit_iaq"
+                                       id="check_IAQ_enabled"
+                                       name="check_IAQ_enabled"
                                        class="mdc-checkbox__native-control"
-                                       <?php if($iaq_enabled == 1){echo 'checked';} ?>
-                                       value="<?php echo $iaq_enabled ;?>"
-
-                                />
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -648,11 +577,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="iaq1"
-                                       name="iaq1"
+                                       id="iaq_email_tolerance_alert"
+                                       name="iaq_email_tolerance_alert"
                                        class="mdc-checkbox__native-control"
-
-                                 checked      />
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -716,13 +644,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_voc"
-                                       name="edit_voc"
+                                       id="check_voc_enabled"
+                                       name="check_voc_enabled"
                                        class="mdc-checkbox__native-control"
-                                    <?php if($voc_enabled == 1){echo 'checked';} ?>
-                                       value="<?php echo $voc_enabled ;?>"
-
-                                    />
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -807,11 +732,10 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="edit_co2"
-                                       name="edit_co2"
+                                       id="check_co2_enabled"
+                                       name="check_co2_enabled"
                                        class="mdc-checkbox__native-control"
-                                    <?php if($co_enabled == '1'){ echo 'checked'; } ?>
-                                       value="<?php echo $co_enabled ;?>"/>
+                                       checked />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -899,9 +823,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12-desktop">
                         <button class="mdc-button mdc-button--raised" id="submit_btn">
                             Update
-                        </button> &emsp;
-                        <button class="mdc-button mdc-button--raised" id="submit_btn1">
-                            Edit Email Config
                         </button>
                     </div>
                 </div>
@@ -939,41 +860,6 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
             success: function (data) {
                 // window.location.href = window.location.href + "?aa=Line 1";
                 window.location.replace("view_devices.php");
-            }
-        });
-    });
-</script>
-
-<script>
-    $( "#submit_btn1" ).click(function (e){
-        e.preventDefault();
-        $(':input[type="button"]').prop('disabled', true);
-        var data = $("#EditDeviceForm").serialize();
-        $.ajax({
-            type: 'POST',
-            url: 'edit_device.php',
-            data: "fSubmit=1&" + data,
-            success: function (data) {
-                // window.location.href = window.location.href + "?aa=Line 1";
-                $(':input[type="button"]').prop('disabled', false);
-                var st_val =  data.split("}",2);
-                var st = JSON.parse(st_val[0]+'}')['status'];
-                var message_text = JSON.parse(st_val[0]+'}')['message'];
-                if(st == 'error'){
-                    document.getElementById('dp_fail_msg').innerText = message_text;
-                    document.getElementById('aFail').style.display = 'block';
-                    document.getElementById('aSucc').style.display = 'none';
-                    window.scrollTo(0, 0);
-                }else if(st == 'success'){
-                    var dTa = JSON.parse(data);
-                    var device_id = dTa['device_id'];
-                    // document.getElementById('dp_suc_msg').innerText = message_text;
-                    // document.getElementById('aSucc').style.display = 'block';
-                    // document.getElementById('addDevice').style.display = 'none';
-                    // document.getElementById('aFail').style.display = 'none';
-                    // window.scrollTo(0, 0);
-                    window.open("<?php echo $iotURL . "devices/notification/edit_email_notification.php?device_id=" ; ?>" + device_id , "_self")
-                }
             }
         });
     });
