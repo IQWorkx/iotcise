@@ -27,6 +27,46 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
     $edit_co2_upp_tolerance = $_POST["edit_co2_upp_tolerance"];
     $edit_co2_low_tolerance = $_POST["edit_co2_low_tolerance"];
 
+    $edit_temperature = $_POST['edit_temperature'];
+    if($edit_temperature == '1'){
+        $temp = '1';
+    }else{
+        $temp = '0';
+    }
+
+    $edit_humidity = $_POST['edit_humidity'];
+    if($edit_humidity == '1'){
+        $hum = '1';
+    }else{
+        $hum = '0';
+    }
+
+    $edit_pressure = $_POST['edit_pressure'];
+    if($edit_pressure == '1'){
+        $pres = '1';
+    }else{
+        $pres = '0';
+    }
+
+    $edit_voc = $_POST['edit_voc'];
+    if($edit_voc == '1'){
+        $voc1 = '1';
+    }else{
+        $voc1 = '0';
+    }
+    $edit_iaq = $_POST['edit_iaq'];
+    if($edit_iaq == '1'){
+        $iaq1 = '1';
+    }else{
+        $iaq1 = '0';
+    }
+    $edit_co2 = $_POST['edit_co2'];
+    if($edit_co2 == '1'){
+        $co = '1';
+    }else{
+        $co = '0';
+    }
+
     //REST API URL
     $service_url = $rest_api_uri . "devices/edit_iot_device.php";
     $curl = curl_init($service_url);
@@ -47,6 +87,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
         'voc_low_tolerance' => $edit_voc_low_tolerance,
         'co2_upp_tolerance' => $edit_co2_upp_tolerance,
         'co2_low_tolerance' => $edit_co2_low_tolerance,
+
+        'temperature_enabled' => $temp,
+        'humidity_enabled' => $hum,
+        'pressure_enabled' => $pres,
+        'iaq_enabled' => $iaq1,
+        'voc_enabled' => $voc1,
+        'co2_enabled' => $co,
+
         'modified_by' => $modified_by,
         'modified_on' => $chicagotime,
         'updated_at' => $chicagotime
@@ -164,6 +212,17 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $rowv6 = mysqli_fetch_array($resv6);
                 $co2_upp_tolerance = $rowv6["upper_tolerance"];
                 $co2_low_tolerance = $rowv6["lower_tolerance"];
+
+                $sqlv9 = "select * from device_config where device_id = '$dev_id'";
+                $resv9 = mysqli_query($iot_db, $sqlv9);
+                $rowv9 = mysqli_fetch_array($resv9);
+
+                $temperature_enabled = $rowv9['temperature_enabled'];
+                $humidity_enabled = $rowv9['humidity_enabled'];
+                $pressure_enabled = $rowv9['pressure_enabled'];
+                $voc_enabled = $rowv9['voc_enabled'];
+                $iaq_enabled = $rowv9['iaq_enabled'];
+                $co_enabled = $rowv9['co2_enabled'];
                 ?>
                 <div class="mdc-layout-grid__inner form_bg">
                     <!--     Device type and Customer           -->
@@ -292,10 +351,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_temp_enabled"
-                                       name="check_temp_enabled"
+                                       id="edit_temperature"
+                                       name="edit_temperature"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($temperature_enabled == 1){echo 'checked';} ?>
+                                       value="1"
+                                />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -380,10 +441,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_humidity_enabled"
-                                       name="check_humidity_enabled"
+                                       id="edit_humidity"
+                                       name="edit_humidity"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($humidity_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -468,10 +530,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="checkbox_pressure_enabled"
-                                       name="checkbox_pressure_enabled"
+                                       id="edit_pressure"
+                                       name="edit_pressure"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($pressure_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -556,10 +619,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_IAQ_enabled"
-                                       name="check_IAQ_enabled"
+                                       id="edit_iaq"
+                                       name="edit_iaq"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($iaq_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -644,10 +708,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_voc_enabled"
-                                       name="check_voc_enabled"
+                                       id="edit_voc"
+                                       name="edit_voc"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($voc_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
+
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -732,10 +798,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_co2_enabled"
-                                       name="check_co2_enabled"
+                                       id="edit_co2"
+                                       name="edit_co2"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($co_enabled == '1'){ echo 'checked'; } ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
