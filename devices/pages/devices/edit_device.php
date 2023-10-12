@@ -67,6 +67,90 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
         $co = '0';
     }
 
+    //email edit enable
+
+    $edit_email_temperature = $_POST['edit_email_temperature'];
+    if($edit_email_temperature == '1'){
+        $temp_email = '1';
+    }else{
+        $temp_email = '0';
+    }
+
+    $edit_email_humidity = $_POST['edit_email_humidity'];
+    if($edit_email_humidity == '1'){
+        $hum_email = '1';
+    }else{
+        $hum_email = '0';
+    }
+
+    $edit_email_pressure = $_POST['edit_email_pressure'];
+    if($edit_email_pressure == '1'){
+        $pres_email = '1';
+    }else{
+        $pres_email = '0';
+    }
+
+    $edit_email_voc = $_POST['edit_email_voc'];
+    if($edit_email_voc == '1'){
+        $voc1_email = '1';
+    }else{
+        $voc1_email = '0';
+    }
+    $edit_email_iaq = $_POST['edit_email_iaq'];
+    if($edit_email_iaq == '1'){
+        $iaq1_email = '1';
+    }else{
+        $iaq1_email = '0';
+    }
+    $edit_email_co2 = $_POST['edit_email_co2'];
+    if($edit_email_co2 == '1'){
+        $co_email = '1';
+    }else{
+        $co_email = '0';
+    }
+
+    //sms edit enable
+
+    $edit_sms_temperature = $_POST['edit_sms_temperature'];
+    if($edit_sms_temperature == '1'){
+        $temp_sms = '1';
+    }else{
+        $temp_sms = '0';
+    }
+
+    $edit_sms_humidity = $_POST['edit_sms_humidity'];
+    if($edit_sms_humidity == '1'){
+        $hum_sms = '1';
+    }else{
+        $hum_sms = '0';
+    }
+
+    $edit_sms_pressure = $_POST['edit_sms_pressure'];
+    if($edit_sms_pressure == '1'){
+        $pres_sms = '1';
+    }else{
+        $pres_sms = '0';
+    }
+
+    $edit_sms_voc = $_POST['edit_sms_voc'];
+    if($edit_sms_voc == '1'){
+        $voc1_sms = '1';
+    }else{
+        $voc1_sms = '0';
+    }
+    $edit_sms_iaq = $_POST['edit_sms_iaq'];
+    if($edit_sms_iaq == '1'){
+        $iaq1_sms = '1';
+    }else{
+        $iaq1_sms = '0';
+    }
+    $edit_sms_co2 = $_POST['edit_sms_co2'];
+    if($edit_sms_co2 == '1'){
+        $co_sms = '1';
+    }else{
+        $co_sms = '0';
+    }
+
 
 
     //REST API URL
@@ -96,6 +180,20 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
         'iaq_enabled' => $iaq1,
         'voc_enabled' => $voc1,
         'co2_enabled' => $co,
+
+        'temperature_email_enabled' => $temp_email,
+        'humidity_email_enabled' => $hum_email,
+        'pressure_email_enabled' => $pres_email,
+        'iaq_email_enabled' => $iaq1_email,
+        'voc_email_enabled' => $voc1_email,
+        'co2_email_enabled' => $co_email,
+
+        'temperature_sms_enabled' => $temp_sms,
+        'humidity_sms_enabled' => $hum_sms,
+        'pressure_sms_enabled' => $pres_sms,
+        'iaq_sms_enabled' => $iaq1_sms,
+        'voc_sms_enabled' => $voc1_sms,
+        'co2_sms_enabled' => $co_sms,
 
         'modified_by' => $modified_by,
         'modified_on' => $chicagotime,
@@ -189,6 +287,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $resv1 = mysqli_query($iot_db, $sqlv1);
                 $rowv1 = mysqli_fetch_array($resv1);
                 $temperature_enabled = $rowv1["is_enabled"];
+                $temperature_email_enabled = $rowv1["is_email_enabled"];
+                $temperature_sms_enabled = $rowv1["is_sms_enabled"];
                 $temperature_upp_tolerance = $rowv1["upper_tolerance"];
                 $temperature_low_tolerance = $rowv1["lower_tolerance"];
 
@@ -196,6 +296,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $resv2 = mysqli_query($iot_db, $sqlv2);
                 $rowv2 = mysqli_fetch_array($resv2);
                 $humidity_enabled = $rowv2["is_enabled"];
+                $humidity_email_enabled = $rowv2["is_email_enabled"];
+                $humidity_sms_enabled = $rowv2["is_sms_enabled"];
                 $humidity_upp_tolerance = $rowv2["upper_tolerance"];
                 $humidity_low_tolerance = $rowv2["lower_tolerance"];
 
@@ -203,6 +305,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $resv3 = mysqli_query($iot_db, $sqlv3);
                 $rowv3 = mysqli_fetch_array($resv3);
                 $pressure_enabled = $rowv3["is_enabled"];
+                $pressure_email_enabled = $rowv3["is_email_enabled"];
+                $pressure_sms_enabled = $rowv3["is_sms_enabled"];
                 $pressure_upp_tolerance = $rowv3["upper_tolerance"];
                 $pressure_low_tolerance = $rowv3["lower_tolerance"];
 
@@ -210,6 +314,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $resv4 = mysqli_query($iot_db, $sqlv4);
                 $rowv4 = mysqli_fetch_array($resv4);
                 $iaq_enabled = $rowv4["is_enabled"];
+                $iaq_email_enabled = $rowv4["is_email_enabled"];
+                $iaq_sms_enabled = $rowv4["is_sms_enabled"];
                 $iaq_upp_tolerance = $rowv4["upper_tolerance"];
                 $iaq_low_tolerance = $rowv4["lower_tolerance"];
 
@@ -217,6 +323,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $resv5 = mysqli_query($iot_db, $sqlv5);
                 $rowv5 = mysqli_fetch_array($resv5);
                 $voc_enabled = $rowv5["is_enabled"];
+                $voc_email_enabled = $rowv5["is_email_enabled"];
+                $voc_sms_enabled = $rowv5["is_sms_enabled"];
                 $voc_upp_tolerance = $rowv5["upper_tolerance"];
                 $voc_low_tolerance = $rowv5["lower_tolerance"];
 
@@ -224,6 +332,8 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                 $resv6 = mysqli_query($iot_db, $sqlv6);
                 $rowv6 = mysqli_fetch_array($resv6);
                 $co2_enabled = $rowv6["is_enabled"];
+                $co2_email_enabled = $rowv6["is_email_enabled"];
+                $co2_sms_enabled = $rowv6["is_sms_enabled"];
                 $co2_upp_tolerance = $rowv6["upper_tolerance"];
                 $co2_low_tolerance = $rowv6["lower_tolerance"];
 
@@ -378,10 +488,12 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_temp_email_alert"
-                                       name="check_temp_email_alert"
+                                       id="edit_email_temperature"
+                                       name="edit_email_temperature"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($temperature_email_enabled == 1){echo 'checked';} ?>
+                                       value="1"
+                                />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -396,13 +508,15 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                        <div class="mdc-form-field fm-item-disabled">
+                        <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_temp_sms_alert"
-                                       name="check_temp_sms_alert"
+                                       id="edit_sms_temperature"
+                                       name="edit_sms_temperature"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                    <?php if($temperature_sms_enabled == 1){echo 'checked';} ?>
+                                       value="1"
+                                />
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -467,10 +581,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_hum_email_alert"
-                                       name="check_hum_email_alert"
+                                       id="edit_email_humidity"
+                                       name="edit_email_humidity"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($humidity_email_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -485,13 +600,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                        <div class="mdc-form-field fm-item-disabled">
+                        <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_hum_sms_alert"
-                                       name="check_hum_sms_alert"
+                                       id="edit_sms_humidity"
+                                       name="edit_sms_humidity"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                    <?php if($humidity_sms_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -556,10 +672,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="pressure_email_tolerance_alert"
-                                       name="pressure_email_tolerance_alert"
+                                       id="edit_email_pressure"
+                                       name="edit_email_pressure"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($pressure_email_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -574,13 +691,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                        <div class="mdc-form-field fm-item-disabled">
+                        <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="pressure_sms_tolerance_alert"
-                                       name="pressure_sms_tolerance_alert"
+                                       id="edit_sms_pressure"
+                                       name="edit_sms_pressure"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                    <?php if($pressure_sms_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -645,10 +763,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="iaq_email_tolerance_alert"
-                                       name="iaq_email_tolerance_alert"
+                                       id="edit_email_iaq"
+                                       name="edit_email_iaq"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($iaq_email_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -663,13 +782,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                        <div class="mdc-form-field fm-item-disabled">
+                        <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="iaq_sms_tolerance_alert"
-                                       name="iaq_sms_tolerance_alert"
+                                       id="edit_sms_iaq"
+                                       name="edit_sms_iaq"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                    <?php if($iaq_sms_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -735,10 +855,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="voc_email_tolerance_alert"
-                                       name="voc_email_tolerance_alert"
+                                       id="edit_email_voc"
+                                       name="edit_email_voc"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($voc_email_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -753,13 +874,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                        <div class="mdc-form-field fm-item-disabled">
+                        <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="voc_sms_tolerance_alert"
-                                       name="voc_sms_tolerance_alert"
+                                       id="edit_sms_voc"
+                                       name="edit_sms_voc"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                    <?php if($voc_sms_enabled == 1){echo 'checked';} ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -824,10 +946,11 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="co2_email_tolerance_alert"
-                                       name="co2_email_tolerance_alert"
+                                       id="edit_email_co2"
+                                       name="edit_email_co2"
                                        class="mdc-checkbox__native-control"
-                                       checked />
+                                    <?php if($co2_email_enabled == '1'){ echo 'checked'; } ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -842,13 +965,14 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['edit_device_id']))) {
                         </div>
                     </div>
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop">
-                        <div class="mdc-form-field fm-item-disabled">
+                        <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="co2_sms_tolerance_alert"
-                                       name="co2_sms_tolerance_alert"
+                                       id="edit_sms_co2"
+                                       name="edit_sms_co2"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                    <?php if($co2_sms_enabled == '1'){ echo 'checked'; } ?>
+                                       value="1"/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
