@@ -40,7 +40,7 @@
             box-shadow: 0 0 10px 5px rgba(176, 3, 20, 0.34)
         }
     </style>
-    <link rel="stylesheet" href="<?php echo $siteURL?>/assets/css/demo/style.css">
+    <link rel="stylesheet" href="<?php echo $iotURL?>/assets/css/demo/style.css">
     <!-- End layout styles -->
 <!--    <link rel="shortcut icon" href="--><?php //echo $iotURL?><!--/assets/images/favicon.png"/>-->
 <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">-->
@@ -64,8 +64,8 @@
 							$created_date = new DateTime(explode(' ',$row['created_on'])[0]);
 							$current_date = new DateTime(date("Y-m-d"));
 							$period = get_period_ago($current_date,$created_date);
-							$edit_dev_loc = $iotURL .'supplier/pages/supplier/edit_device.php?device_id='.$row['device_id'];
-							$view_dev_loc = $iotURL .'supplier/view_device_dashboard.php?device_id='.$row['device_id'];
+							$edit_dev_loc = $iotURL .'devices/pages/devices/edit_device.php?device_id='.$row['device_id'];
+							$view_dev_loc = $iotURL .'devices/view_device_dashboard.php?device_id='.$row['device_id'];
 							$d_type_id=$row['type_id'];
 							$d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
 							$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));

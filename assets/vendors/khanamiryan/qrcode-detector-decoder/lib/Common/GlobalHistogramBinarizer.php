@@ -22,11 +22,11 @@ use Zxing\NotFoundException;
 
 /**
  * This Binarizer implementation uses the old ZXing global histogram approach. It is suitable
- * for low-end mobile supplier which don't have enough CPU or memory to use a local thresholding
+ * for low-end mobile devices which don't have enough CPU or memory to use a local thresholding
  * algorithm. However, because it picks a global black point, it cannot handle difficult shadows
  * and gradients.
  *
- * Faster mobile supplier and all desktop applications should probably use HybridBinarizer instead.
+ * Faster mobile devices and all desktop applications should probably use HybridBinarizer instead.
  *
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
