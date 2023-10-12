@@ -198,7 +198,7 @@ if (count($_POST) > 0) {
     var data = $("#device_settings").serialize();
     $.ajax({
         type: "POST",
-        url: "../../../devices/schedular/livedata.php?p_id=4",
+        url: "../../../devices/schedular/livedata.php?p_id=4&&device_id=<?php echo $_GET['id']; ?>",
         data: data,
         success : function(data){
             console.log(data);
