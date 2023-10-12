@@ -10,6 +10,8 @@
 	$chicagotime = date("Y-m-d H:i:s");
 	$temp = "";
 	$user_id = $_SESSION["id"];
+
+
 	//Set the session duration for 10800 seconds - 3 hours
 	$duration = auto_logout_duration;
 	//Read the request time of the user
@@ -47,7 +49,12 @@
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/pag_table.css"/>
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/common.css"/>
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
+    <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>\
+    <style>
+        .mdc-button--raised:not(:disabled), .mdc-button--unelevated:not(:disabled) {
+            background-color: #436aab!important;
+        }
+        </style>
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
@@ -118,19 +125,15 @@
                             <div class="panel-body table-responsive">
                                 <table class="table">
                                     <thead>
-                                    <!--                                        <tr>-->
                                     <th>
-                                        <label class="ckbox"> <input type="checkbox"
-                                                                     id="checkAll"><span></span></label>
+                                        <label class="ckbox"> <input type="checkbox" id="checkAll"><span></span></label>
                                     </th>
                                     <th>Action</th>
-                                    <!--                                            <th>Customer</th>-->
-<!--                                    <th>Device ID</th>-->
                                     <th>Device Name</th>
+                                    <th>Device Type</th>
+                                    <th>Device Location</th>
                                     <th>Active</th>
-                                    <!--                                            <th>User</th>-->
-                                    <!--                                            <th>Date</th>-->
-                                    <!--                                        </tr>-->
+
                                     </thead>
                                     <tbody id="tbody">
                                     <tr>
@@ -143,23 +146,31 @@
 											$tot_devices = $c_rowc['tot_count'];
 											$query = "SELECT * FROM  iot_devices where is_deleted != 1  LIMIT " . $start_index . ',' . $tab_num_rec;
 											$qur = mysqli_query($iot_db, $query);
-											while ($rowc = mysqli_fetch_array($qur)) {
-										?>
+
+                                        while ($rowc = mysqli_fetch_array($qur)) {
+                                        $t_id = $rowc["type_id"];
+                                        $query1 ="SELECT `dev_type_name` FROM `iot_device_type` WHERE `type_id` = '$t_id'";
+                                        $res = mysqli_query($iot_db,$query1);
+                                        $rown = mysqli_fetch_array($res);
+                                        $dev_type_name = $rown['dev_type_name'];
+
+                                        ?>
+
                                         <td><label class="ckbox"><input type="checkbox" id="delete_check[]"
                                                                         name="delete_check[]"
                                                                         value="<?php echo $rowc["device_id"]; ?>"><span></span></label>
                                         </td>
                                         <td class="">
                                             <a href="edit_device.php?device_id=<?php echo $rowc["device_id"]; ?>"
-                                               class="edit-btn">EDIT DEVICE
-<!--                                                <i class="fa fa-pencil-alt"></i>-->
-<!--                                                <i class="material-icons mdc-button__icon" style="font-size: large">edit</i>-->
-                                            </a> &emsp;
+                                               class="mdc-button mdc-button--raised">EDIT DEVICE</a> &emsp;
                                             <a href="../../notification/edit_email_notification.php?device_id=<?php echo $rowc["device_id"]; ?>"
-                                               class="edit-btn">EDIT EMAIL
-                                            </a>
+                                               class="mdc-button mdc-button--raised">EDIT EMAIL</a>
                                         </td>
                                         <td><?php echo $rowc["device_name"]; ?></td>
+
+                                        <td><?php echo $dev_type_name; ?></td>
+                                        <td><?php echo $rowc["device_location"]; ?></td>
+
                                         <td>
 											<?php
 												if ($rowc["is_active"] == 1) {
