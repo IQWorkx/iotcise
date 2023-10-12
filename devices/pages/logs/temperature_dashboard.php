@@ -114,13 +114,14 @@
                             <div class="mdc-toolbar-fixed-adjust">
                                 <div class="mdc-layout-grid">
                                     <div class="mdc-layout-grid__inner">
+                                        <input type="hidden" name="device_id" value="<?php echo $_GET['id'];?>">
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                         <span style="padding: 10px 20px 0px 0px;">Date From</span>
                                             <span><input type="date" class="form-control mdc-text-field__input"
                                                    name="date_from" id="date_from" style="float:left;padding: 0px;height: 40px;"
                                                    value="<?php echo $datefrom; ?>" placeholder="Enter Device Name"
                                                    required></span>
-                                    </div>
+                                        </div>
                                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
                                         <span style="padding: 10px 20px 0px 0px;">Date To</span>
                                         <span><input type="date" class="form-control mdc-text-field__input"
@@ -129,20 +130,31 @@
                                                      required></span>
 
                                         </div>
-                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-1-desktop mdc-layout-grid__cell--span-2-tablet">
                                             <button type="submit" name="submit_btn" id="submit_btn"
                                                     class="mdc-button mdc-button--raised">Submit
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
+                                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-2-tablet">
+                        </form>
+                        <form action="export_temperature.php" method="post" id="export_excel">
+                                <input type="hidden" value="<?php echo  $_GET['id']; ?>" name="device_id" id="device_id">
+                                <input type="hidden" value="<?php echo $dateto; ?>" name="dateto" id="dateto">
+                                <input type="hidden" value="<?php echo $datefrom; ?>" name="datefrom" id="datefrom">
+                                <button type="submit" name="export" id="export"
+                                        class="mdc-button mdc-button--raised">
+                                    Export
+                                </button>
                             </div>
                         </form>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--            </main>-->
         </div>
+
         <div class="mdc-toolbar-fixed-adjust">
             <main class="content-wrapper height100">
                 <div class="mdc-layout-grid height100">
@@ -163,10 +175,21 @@
         </div>
     </div>
 </div>
+<!--<script>
+    $( "#export" ).click(function (e){
+        e.preventDefault();
+        $(':input[type="button"]').prop('disabled', true);
+        var data = $("#export_excel").serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'export_temperature.php',
+            data: data,
+            success: function (data) {
+            }
+        });
+    });
 
-
-	<?php include('./../../partials/footer.html') ?>
-
+</script>-->
 <script>
     $(function () {
         $('input:radio').change(function () {
@@ -198,7 +221,7 @@
     var data = $("#device_settings").serialize();
             $.ajax({
                 type: "POST",
-                url: "../../../devices/schedular/livedata.php?p_id=1",
+                url: "../../../devices/schedular/livedata.php?p_id=1&&device_id=<?php echo $_GET['id']; ?>",
                 data: data,
                 success: function (data) {
                     console.log(data);
@@ -317,5 +340,6 @@
             });
     
 </script>
+<?php include('./../../partials/footer.html') ?>
 </body>
 </html>
