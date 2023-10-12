@@ -35,6 +35,9 @@ function get_period_ago($endDate, $startDate) {
 function dateReadFormat($datetime) {
 	return date("d-M-Y H:i:s" , strtotime($datetime));
 }
+function onlydateReadFormat($datetime) {
+    return date("d-M-Y" , strtotime($datetime));
+}
 	
 function dPMessage()
 {
