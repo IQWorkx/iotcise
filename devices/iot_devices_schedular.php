@@ -50,6 +50,7 @@ while($rowv = mysqli_fetch_array($resultv)){
     $rowv1 = mysqli_fetch_array($resultv1);
     $temp_upper_tolerance = $rowv1['upper_tolerance'];
     $temp_lower_tolerance = $rowv1['lower_tolerance'];
+    $is_email_enabled1 = $rowv1['is_email_enabled'];
     if($rowv1 == true){
         if($tmp_high_email != 1)
         {
@@ -106,7 +107,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled1 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -172,7 +173,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled1 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -190,6 +191,7 @@ while($rowv = mysqli_fetch_array($resultv)){
     $rowv3 = mysqli_fetch_array($resultv3);
     $hum_upper_tolerance = $rowv3['upper_tolerance'];
     $hum_lower_tolerance = $rowv3['lower_tolerance'];
+    $is_email_enabled2 = $rowv3['is_email_enabled'];
     if($rowv3 == true){
         if($hum_high_email != 1)
         {
@@ -246,7 +248,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled2 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -312,7 +314,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled2 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -330,6 +332,7 @@ while($rowv = mysqli_fetch_array($resultv)){
     $rowv4 = mysqli_fetch_array($resultv4);
     $pre_upper_tolerance = $rowv4['upper_tolerance'];
     $pre_lower_tolerance = $rowv4['lower_tolerance'];
+    $is_email_enabled4 = $rowv4['is_email_enabled'];
     if($rowv4 == true){
         if($pre_high_email != 1)
         {
@@ -386,7 +389,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled4 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -451,7 +454,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 }
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
-                if(email_enabled == 1){
+                if($is_email_enabled4 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -469,6 +472,7 @@ while($rowv = mysqli_fetch_array($resultv)){
     $rowv5 = mysqli_fetch_array($resultv5);
     $iaq_upper_tolerance = $rowv5['upper_tolerance'];
     $iaq_lower_tolerance = $rowv5['lower_tolerance'];
+    $is_email_enabled5 = $rowv5['is_email_enabled'];
     if($rowv5 == true){
         if($iaq_high_email != 1)
         {
@@ -525,7 +529,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled5 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -591,7 +595,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled5 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -609,6 +613,7 @@ while($rowv = mysqli_fetch_array($resultv)){
     $rowv6 = mysqli_fetch_array($resultv6);
     $voc_upper_tolerance = $rowv6['upper_tolerance'];
     $voc_lower_tolerance = $rowv6['lower_tolerance'];
+    $is_email_enabled6 = $rowv6['is_email_enabled'];
     if($rowv6 == true){
         if($voc_high_email != 1)
         {
@@ -665,7 +670,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled6 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -731,7 +736,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($is_email_enabled6 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -748,7 +753,7 @@ while($rowv = mysqli_fetch_array($resultv)){
     $resultv7 = mysqli_query($iot_db, $sqlv7);
     $rowv7 = mysqli_fetch_array($resultv7);
     $co2_upper_tolerance = $rowv7['upper_tolerance'];
-    $co2_lower_tolerance = $rowv7['lower_tolerance'];
+    $co2_lower_tolerance7 = $rowv7['lower_tolerance'];
     if($rowv7 == true){
         if($co2_high_email != 1)
         {
@@ -805,7 +810,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($co2_lower_tolerance7 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
@@ -871,7 +876,7 @@ while($rowv = mysqli_fetch_array($resultv)){
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body = $structure;
-                if(email_enabled == 1){
+                if($co2_lower_tolerance7 == 1){
                     if(!$mail->Send()){
                         echo "Mailer Error: " . $mail->ErrorInfo;
                     }else{
