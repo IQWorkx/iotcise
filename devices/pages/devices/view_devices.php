@@ -49,7 +49,7 @@
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/pag_table.css"/>
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/common.css"/>
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>\
+    <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
     <style>
         .mdc-button--raised:not(:disabled), .mdc-button--unelevated:not(:disabled) {
             background-color: #436aab!important;
