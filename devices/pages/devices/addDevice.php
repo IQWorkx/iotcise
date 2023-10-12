@@ -72,8 +72,96 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         $co = '0';
     }
 
-    $is_online = 1;
+    //email_enabled
 
+    $temperature_email_enabled = $_POST['temperature_email_enabled'];
+    if($temperature_email_enabled == '1'){
+        $temp_email = '1';
+    }else{
+        $temp_email = '0';
+    }
+
+    $humidity_email_enabled = $_POST['humidity_email_enabled'];
+    if($humidity_email_enabled == '1'){
+        $hum_email = '1';
+    }else{
+        $hum_email = '0';
+    }
+
+    $pressure_email_enabled = $_POST['pressure_email_enabled'];
+    if($pressure_email_enabled == '1'){
+        $pres_email = '1';
+    }else{
+        $pres_email = '0';
+    }
+
+    $voc_email_enabled = $_POST['voc_email_enabled'];
+    if($voc_email_enabled == '1'){
+        $voc1_email = '1';
+    }else{
+        $voc1_email = '0';
+    }
+
+    $iaq_email_enabled = $_POST['iaq_email_enabled'];
+    if($iaq_email_enabled == '1'){
+        $iaq1_email = '1';
+    }else{
+        $iaq1_email = '0';
+    }
+
+    $co2_email_enabled = $_POST['co2_email_enabled'];
+    if($co2_email_enabled == '1'){
+        $co_email = '1';
+    }else{
+        $co_email = '0';
+    }
+
+
+    //sms enabled
+
+    $temperature_sms_enabled = $_POST['temperature_sms_enabled'];
+    if($temperature_sms_enabled == '1'){
+        $temp_sms = '1';
+    }else{
+        $temp_sms = '0';
+    }
+
+    $humidity_sms_enabled = $_POST['humidity_sms_enabled'];
+    if($humidity_sms_enabled == '1'){
+        $hum_sms = '1';
+    }else{
+        $hum_sms = '0';
+    }
+
+    $pressure_sms_enabled = $_POST['pressure_sms_enabled'];
+    if($pressure_sms_enabled == '1'){
+        $pres_sms = '1';
+    }else{
+        $pres_sms = '0';
+    }
+
+    $voc_sms_enabled = $_POST['voc_sms_enabled'];
+    if($voc_sms_enabled == '1'){
+        $voc1_sms = '1';
+    }else{
+        $voc1_sms = '0';
+    }
+
+    $iaq_sms_enabled = $_POST['iaq_sms_enabled'];
+    if($iaq_sms_enabled == '1'){
+        $iaq1_sms = '1';
+    }else{
+        $iaq1_sms = '0';
+    }
+
+    $co2_sms_enabled = $_POST['co2_sms_enabled'];
+    if($co2_sms_enabled == '1'){
+        $co_sms = '1';
+    }else{
+        $co_sms = '0';
+    }
+
+    $is_online = 1;
     $is_active = 1;
     $service_url = $rest_api_uri . "devices/iot_device.php";
     $curl = curl_init($service_url);
@@ -96,12 +184,28 @@ if (($_POST['fSubmit'] == 1) && (!empty($_POST['add_dev_id']))) {
         'voc_low_tolerance' => $voc_low_tolerance,
         'co2_upp_tolerance' => $co2_upp_tolerance,
         'co2_low_tolerance' => $co2_low_tolerance,
+
         'temperature_enabled' => $temp,
         'humidity_enabled' => $hum,
         'pressure_enabled' => $pres,
         'iaq_enabled' => $iaq1,
         'voc_enabled' => $voc1,
         'co2_enabled' => $co,
+
+        'temperature_email_enabled' => $temp_email,
+        'humidity_email_enabled' => $hum_email,
+        'pressure_email_enabled' => $pres_email,
+        'iaq_email_enabled' => $iaq1_email,
+        'voc_email_enabled' => $voc1_email,
+        'co2_email_enabled' => $co_email,
+
+        'temperature_sms_enabled' => $temp_sms,
+        'humidity_sms_enabled' => $hum_sms,
+        'pressure_sms_enabled' => $pres_sms,
+        'iaq_sms_enabled' => $iaq1_sms,
+        'voc_sms_enabled' => $voc1_sms,
+        'co2_sms_enabled' => $co_sms,
+
         'is_active' => $is_active,
         'is_online' => $is_online,
 
@@ -354,8 +458,9 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_temp_email_alert"
-                                       name="check_temp_email_alert"
+                                       id="temperature_email_enabled"
+                                       name="temperature_email_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
                                 <div class="mdc-checkbox__background">
@@ -375,10 +480,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field fm-item-disabled">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_temp_sms_alert"
-                                       name="check_temp_sms_alert"
+                                       id="temperature_sms_enabled"
+                                       name="temperature_sms_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -443,8 +549,9 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_hum_email_alert"
-                                       name="check_hum_email_alert"
+                                       id="humidity_email_enabled"
+                                       name="humidity_email_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
                                 <div class="mdc-checkbox__background">
@@ -464,10 +571,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field fm-item-disabled">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="check_hum_sms_alert"
-                                       name="check_hum_sms_alert"
+                                       id="humidity_sms_enabled"
+                                       name="humidity_sms_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -532,8 +640,9 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="pressure_email_tolerance_alert"
-                                       name="pressure_email_tolerance_alert"
+                                       id="pressure_email_enabled"
+                                       name="pressure_email_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
                                 <div class="mdc-checkbox__background">
@@ -553,10 +662,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field fm-item-disabled">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="pressure_sms_tolerance_alert"
-                                       name="pressure_sms_tolerance_alert"
+                                       id="pressure_sms_enabled"
+                                       name="pressure_sms_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -621,8 +731,9 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="iaq_email_tolerance_alert"
-                                       name="iaq_email_tolerance_alert"
+                                       id="iaq_email_enabled"
+                                       name="iaq_email_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
                                 <div class="mdc-checkbox__background">
@@ -642,10 +753,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field fm-item-disabled">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="iaq_sms_tolerance_alert"
-                                       name="iaq_sms_tolerance_alert"
+                                       id="iaq_sms_enabled"
+                                       name="iaq_sms_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -710,8 +822,9 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="voc_email_tolerance_alert"
-                                       name="voc_email_tolerance_alert"
+                                       id="voc_email_enabled"
+                                       name="voc_email_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
                                 <div class="mdc-checkbox__background">
@@ -731,10 +844,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field fm-item-disabled">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="voc_sms_tolerance_alert"
-                                       name="voc_sms_tolerance_alert"
+                                       id="voc_sms_enabled"
+                                       name="voc_sms_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
@@ -799,8 +913,9 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="co2_email_tolerance_alert"
-                                       name="co2_email_tolerance_alert"
+                                       id="co2_email_enabled"
+                                       name="co2_email_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
                                        checked/>
                                 <div class="mdc-checkbox__background">
@@ -820,10 +935,11 @@ $assign_by = $_SESSION["id"];
                         <div class="mdc-form-field fm-item-disabled">
                             <div class="mdc-checkbox">
                                 <input type="checkbox"
-                                       id="co2_sms_tolerance_alert"
-                                       name="co2_sms_tolerance_alert"
+                                       id="co2_sms_enabled"
+                                       name="co2_sms_enabled"
+                                       value="1"
                                        class="mdc-checkbox__native-control"
-                                       disabled/>
+                                       checked/>
                                 <div class="mdc-checkbox__background">
                                     <svg class="mdc-checkbox__checkmark"
                                          viewBox="0 0 24 24">
