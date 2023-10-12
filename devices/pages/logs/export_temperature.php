@@ -14,7 +14,7 @@ $rowvv = mysqli_fetch_array($resultvv);
 $upper_tolerance = $rowvv['upper_tolerance'];
 $lower_tolerance = $rowvv['lower_tolerance'];
 
-$ssql = "SELECT cast(create_date AS date) as created_d,cast(create_date AS Time) as created_time,temperature FROM `live_data` WHERE `device_id` = '$device_id' and create_date >= '$datefrom' and create_date <= '$dateto' order by create_date desc";
+$ssql = "SELECT cast(create_date AS date) as created_d,cast(create_date AS Time) as created_time,temperature FROM `live_data` WHERE `device_id` = '$device_id' and date(create_date) >= '$datefrom' and date(create_date) <= '$dateto' order by create_date desc";
 $exp = mysqli_query($iot_db,$ssql);
 $header = "Date" . "\t" . "Time" . "\t" . "Temperature Value" . "\t";
 $p1 = "Device Id : " .$device_id;
