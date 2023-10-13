@@ -66,10 +66,13 @@
 							$period = get_period_ago($current_date,$created_date);
 							$edit_dev_loc = $iotURL .'devices/pages/devices/edit_device.php?device_id='.$row['device_id'];
 							$view_dev_loc = $iotURL .'devices/view_device_dashboard.php?device_id='.$row['device_id'];
-							$d_type_id=$row['type_id'];
-							$d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
+							$d_type_id = $row['type_id'];
+                            $is_active = $row['is_active'];
+                            $d_type_sql = "SELECT dev_type_name FROM `iot_device_type` where type_id = '$d_type_id' and  is_deleted != 1";
 							$d_type_res = mysqli_fetch_array(mysqli_query($iot_db, $d_type_sql));
 						?>
+                        <?php
+                        if ($row['is_active'] == 1){?>
                                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-4-tablet">
                             <div class="mdc-card info-card">
                                 <div class="card-inner">
@@ -103,6 +106,7 @@
                                 </div>
                             </div>
                         </div>
+                            <?php } ?>
                             <?php } ?>
                     </div>
                 </div>
