@@ -50,11 +50,7 @@
     <link rel="stylesheet" href="<?php echo $iotURL; ?>assets/css/common.css"/>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo $iotURL ?>/assets/images/favicon.png"/>
-    <style>
-        .mdc-button--raised:not(:disabled), .mdc-button--unelevated:not(:disabled) {
-            background-color: #436aab!important;
-        }
-        </style>
+
 </head>
 <body>
 <script src="<?php echo $iotURL ?>/assets/js/preloader.js"></script>
